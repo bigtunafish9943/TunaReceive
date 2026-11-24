@@ -27,13 +27,15 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Android SDK
-        uses: android-actions/setup-android@v3
-
+      # The runner already has the Android SDK; install only what this app builds against.
+      # (setup-android tried to install the retired "tools" package, which newer SDK tools refuse.)
       - name: SDK packages
         run: |
-          yes | sdkmanager --licenses >/dev/null || true
-          sdkmanager --install "platforms;android-36" "build-tools;35.0.0" "ndk;27.0.12077973"
+          set -euo pipefail
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          yes | "$SDKMANAGER" --licenses > /dev/null || true
+          "$SDKMANAGER" --install "platforms;android-36" "build-tools;35.0.0" "ndk;27.0.12077973" > /dev/null
+          echo "ANDROID_SDK_ROOT=$ANDROID_HOME" >> "$GITHUB_ENV"
 
       - name: Release secrets present
         id: ks
