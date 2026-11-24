@@ -649,6 +649,18 @@ private static int getFramePacingValue(Context context) {
                     .apply();
         }
 
+        // Opening Settings used to save "Prefer lowest latency" by itself, because the settings
+        // screen and this file disagreed about the default. That mode shows each frame the moment
+        // it is decoded, so Wi-Fi jitter turns into doubled and dropped frames. Put those installs
+        // back on Balanced once; choosing lowest latency after this is respected.
+        if (!prefs.getBoolean("tuna_pacing_default_fixed", false)) {
+            SharedPreferences.Editor fix = prefs.edit().putBoolean("tuna_pacing_default_fixed", true);
+            if ("latency".equals(prefs.getString(FRAME_PACING_PREF_STRING, null))) {
+                fix.putString(FRAME_PACING_PREF_STRING, DEFAULT_FRAME_PACING);
+            }
+            fix.apply();
+        }
+
         String str = prefs.getString(FRAME_PACING_PREF_STRING, DEFAULT_FRAME_PACING);
         if (str.equals("latency")) {
             return FRAME_PACING_MIN_LATENCY;
