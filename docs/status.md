@@ -1,6 +1,6 @@
 # Status
 
-Phase 1, not done. Updated 2026-11-24.
+Phase 1, nearly done. Updated 2026-11-24.
 
 ## Base
 
@@ -16,6 +16,11 @@ Fork of Artemis (`ClassicOldSong/moonlight-android`), branch `moonlight-noir`. N
 - Virtual-display error no longer tells the user to install Apollo. The request itself is unchanged.
 - CI workflow builds an APK on push. A GitHub Release is published only from `main` or `moonlight-noir`, and only when the signing secrets exist.
 - Java package names are still `com.limelight`.
+- Colours, theme and wording match TunaStream. Defaults suit a TV: 1080p, the stream's own screen, balanced frame pacing.
+- Updater (`utils/TunaUpdater.java`): checks this repo's latest release on start (at most every six hours) and from Settings. Installs only the exact APK for the device's ABI (or universal), only when its SHA-256 matches GitHub's published digest, and through Android's package installer, which also refuses any APK not signed with the same key.
+- First-run setup (`preferences/SetupActivity.java`), also under Settings > Run setup again. Picks resolution, frame rate, bitrate (from the detected connection), controller and sound.
+- Settings opens on the everyday choices; "Show all settings" reveals the rest.
+- Signing key made and the four Actions secrets set (2026-11-24). The key is not in git; the owner keeps the only copy.
 
 ## Not done
 
@@ -26,11 +31,8 @@ Fork of Artemis (`ClassicOldSong/moonlight-android`), branch `moonlight-noir`. N
 - Other languages still say Artemis in places. English launcher name does not.
 - In-app help links still open the Moonlight wiki. That is upstream documentation, not the app name.
 - `ArtemisStreaming` clipboard identifier is unchanged on purpose. Clipboard sync with the host depends on it.
-- Signing secrets are not created. No keystore is in git.
 
 ## Next
 
-1. Owner creates the keystore and the four Actions secrets (`docs/signing.md`).
-2. Let Actions build `TunaReceive-*-arm64-v8a.apk`.
-3. Install that APK on the Shield beside Moonlight. Pair with TunaStream. Confirm the controller.
-4. Write the Shield result here, with logcat if something fails.
+1. Install the first signed release that APK on the Shield beside Moonlight. Pair with TunaStream. Confirm the controller.
+2. Write the Shield result here, with logcat if something fails.
