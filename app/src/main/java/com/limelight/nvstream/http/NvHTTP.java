@@ -838,6 +838,11 @@ public class NvHTTP {
         return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/bitrate", "kbps=" + kbps);
     }
 
+    /** TunaStream only: how the PC reaches the network. JSON {"known","wifi","mbps","signal","channel"}. */
+    public String getTunaNetwork() throws IOException {
+        return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/network");
+    }
+
     /** TunaStream only: JSON listing the files the PC is sending to this device ("Send to device"). */
     public String getTunaFiles() throws IOException {
         return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/files");

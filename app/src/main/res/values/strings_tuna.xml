@@ -60,6 +60,7 @@
     <string name="tuner_result_title">Measured %1$d Mbps</string>
     <string name="tuner_result_lower">That\'s how fast %1$s can send to this device. A Picture quality of %2$d Mbps (you have %3$d) leaves room for the Wi-Fi to dip without the stream stuttering.</string>
     <string name="tuner_result_higher">That\'s how fast %1$s can send to this device. It has room for a sharper picture: %2$d Mbps instead of %3$d.</string>
+    <string name="tuner_pc_wifi">%1$s is on Wi-Fi itself (signal %2$d%%), so every frame crosses the air twice. A network cable from the PC to the router would help more than any setting here.</string>
     <string name="tuner_result_same">That\'s how fast %1$s can send to this device. Your Picture quality of %2$d Mbps already fits it.</string>
     <string name="tuner_use">Use %1$d Mbps</string>
     <string name="tuner_keep">Keep %1$d Mbps</string>
@@ -83,7 +84,9 @@
     <!-- Reconnecting by itself after a drop -->
     <string name="tuna_reconnecting">The connection dropped. Reconnecting… (%1$d of %2$d)</string>
     <string name="tuna_adaptive_quality">Adjust picture quality to the Wi-Fi</string>
-    <string name="tuna_adaptive_quality_summary">When the Wi-Fi gets busy, soften the picture for a moment instead of stuttering, then go back to full quality.</string>
+    <string name="tuna_adaptive_quality_summary">Watches how each frame arrives. When the Wi-Fi is getting full, it softens the picture a little before anything stutters, then goes back to full quality.</string>
+    <string name="tuna_tv_game_mode">Switch the TV to game mode</string>
+    <string name="tuna_tv_game_mode_summary">While a game is on screen, ask the TV to skip its picture processing, which takes away a lot of delay. The TV goes back to normal afterwards. Needs a TV with auto low latency mode (ALLM).</string>
     <string name="tuna_10bit">10-bit picture (experimental)</string>
     <string name="tuna_10bit_summary">Smoother colour gradients and slightly better use of the Wi-Fi, without HDR. Turn off if games show a black or green picture.</string>
     <string name="tuna_auto_reconnect">Reconnect by itself</string>
@@ -100,6 +103,7 @@
     <string name="perf_verdict_loss">Wi-Fi is losing parts of the picture. Lower Picture quality, or move the router or this device closer.</string>
     <string name="perf_verdict_decode">This device can\'t keep up. Try a smaller Picture size.</string>
     <string name="perf_verdict_host">The PC is sending %1$.0f of %2$d frames a second. Normal on a still screen; in a game, the game is running slow on the PC.</string>
+    <string name="perf_verdict_strain">The connection is nearly full: frames are arriving slowly. Lower Picture quality a little.</string>
     <string name="perf_verdict_jitter">Wi-Fi delay is jumping around. Something else may be using the Wi-Fi.</string>
 
     <!-- Setup -->

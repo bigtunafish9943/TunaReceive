@@ -177,6 +177,10 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
         if (decodeTimeMs > 1000f / target) {
             return context.getString(R.string.perf_verdict_decode);
         }
+        float arriveMs = window.totalFramesReceived > 0 ? (float) window.totalTimeMs / window.totalFramesReceived : 0;
+        if (arriveMs > 600f / target) {
+            return context.getString(R.string.perf_verdict_strain);
+        }
         if (fps.receivedFps < target * 0.9f) {
             return context.getString(R.string.perf_verdict_host, fps.receivedFps, target);
         }
@@ -188,8 +192,18 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
 
     /** Told once a second how much of the picture arrived; drives picture quality that adjusts itself. */
     public interface StreamHealthListener {
-        void onStreamHealth(float lossPct, float receivedFps);
+        /**
+         * @param lossPct share of frames that never arrived
+         * @param receivedFps frames received in the last second
+         * @param slowFramePct share of frames that took most of a frame interval to arrive: the
+         *                     connection is nearly full, though nothing has been lost yet
+         */
+        void onStreamHealth(float lossPct, float receivedFps, float slowFramePct);
     }
+
+    // Frames in the current one-second window, and how many of them trickled in
+    private int healthFrames;
+    private int healthSlowFrames;
 
     private volatile StreamHealthListener streamHealthListener;
 
@@ -1810,8 +1824,11 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
             if (healthListener != null && activeWindowVideoStats.totalFrames > 0) {
                 VideoStatsFps windowFps = activeWindowVideoStats.getFps();
                 float lossPct = (float) activeWindowVideoStats.framesLost / activeWindowVideoStats.totalFrames * 100;
-                healthListener.onStreamHealth(lossPct, windowFps.receivedFps);
+                float slowPct = healthFrames > 0 ? (float) healthSlowFrames / healthFrames * 100 : 0;
+                healthListener.onStreamHealth(lossPct, windowFps.receivedFps, slowPct);
             }
+            healthFrames = 0;
+            healthSlowFrames = 0;
             if (prefs.enablePerfOverlay || prefs.enablePerfLogging) {
                 VideoStats lastTwo = new VideoStats();
                 lastTwo.add(lastWindowVideoStats);
@@ -2157,6 +2174,14 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
 
         activeWindowVideoStats.totalFramesReceived++;
         activeWindowVideoStats.totalFrames++;
+
+        // The PC sends an ordinary frame in about a fifth of a frame interval. One that takes
+        // three quarters of the interval from its first packet to its last was held up on the
+        // way: the connection is carrying nearly all it can.
+        healthFrames++;
+        if (enqueueTimeMs - receiveTimeMs >= Math.max(4, Math.round(750f / Math.max(1, prefs.fps)))) {
+            healthSlowFrames++;
+        }
 
         if (!FRAME_RENDER_TIME_ONLY) {
             // Count time from first packet received to enqueue time as receive time

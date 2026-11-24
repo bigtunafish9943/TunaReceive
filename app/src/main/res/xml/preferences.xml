@@ -41,6 +41,12 @@
             android:summary="@string/tuna_10bit_summary"
             app:iconSpaceReserved="false" />
         <CheckBoxPreference
+            android:key="tuna_tv_game_mode"
+            android:defaultValue="true"
+            android:title="@string/tuna_tv_game_mode"
+            android:summary="@string/tuna_tv_game_mode_summary"
+            app:iconSpaceReserved="false" />
+        <CheckBoxPreference
             android:key="tuna_auto_reconnect"
             android:defaultValue="true"
             android:title="@string/tuna_auto_reconnect"

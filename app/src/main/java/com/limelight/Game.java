@@ -378,6 +378,14 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
 
+        // Ask the TV for its game mode while the stream is on screen (HDMI auto low latency
+        // mode), so its picture processing doesn't add delay. It goes back to its usual mode
+        // when the stream closes. TVs and boxes without the feature ignore this.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+                PreferenceManager.getDefaultSharedPreferences(this).getBoolean("tuna_tv_game_mode", true)) {
+            getWindow().setPreferMinimalPostProcessing(true);
+        }
+
         // Listen for UI visibility events
         getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(this);
 

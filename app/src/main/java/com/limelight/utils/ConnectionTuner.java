@@ -15,6 +15,8 @@ import com.limelight.nvstream.http.NvHTTP;
 import com.limelight.preferences.PreferenceConfiguration;
 import com.limelight.preferences.SetupActivity;
 
+import org.json.JSONObject;
+
 import java.io.FileNotFoundException;
 
 /**
@@ -39,10 +41,12 @@ public final class ConnectionTuner {
         new Thread(() -> {
             int mbps = -1;
             int failure = 0;
+            int pcWifiSignal = -1;
             try {
                 NvHTTP http = new NvHTTP(ServerHelper.getCurrentAddressFromComputer(computer), computer.httpsPort,
                         uniqueId, computer.serverCert, PlatformBinding.getCryptoProvider(activity));
                 mbps = http.measureDownloadMbps();
+                pcWifiSignal = pcWifiSignal(http);
             } catch (FileNotFoundException e) {
                 failure = R.string.tuner_needs_tunastream;
             } catch (HostHttpResponseException e) {
@@ -52,6 +56,7 @@ public final class ConnectionTuner {
                 failure = R.string.tuner_failed;
             }
             final int measured = mbps;
+            final int pcWifi = pcWifiSignal;
             final int error = failure;
             activity.runOnUiThread(() -> {
                 if (progress.isShowing()) {
@@ -75,12 +80,25 @@ public final class ConnectionTuner {
                     }
                     return;
                 }
-                offer(activity, computer, measured, onDone);
+                offer(activity, computer, measured, pcWifi, onDone);
             });
         }, "TunaReceive connection test").start();
     }
 
-    private static void offer(Activity activity, ComputerDetails computer, int measuredMbps, Runnable onDone) {
+    /** The PC's Wi-Fi signal (0 to 100) when it is on Wi-Fi itself, or -1 on a cable or when it can't say. */
+    private static int pcWifiSignal(NvHTTP http) {
+        try {
+            JSONObject link = new JSONObject(http.getTunaNetwork());
+            if (link.optBoolean("known") && link.optBoolean("wifi")) {
+                return Math.max(0, link.optInt("signal", 0));
+            }
+        } catch (Exception e) {
+            // An older TunaStream, or one that can't tell: say nothing about it
+        }
+        return -1;
+    }
+
+    private static void offer(Activity activity, ComputerDetails computer, int measuredMbps, int pcWifiSignal, Runnable onDone) {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
         final int current = PreferenceConfiguration.readPreferences(activity).bitrate / 1000;
         final int suggested = suggestMbps(prefs, measuredMbps);
@@ -88,13 +106,16 @@ public final class ConnectionTuner {
         AlertDialog.Builder dialog = new AlertDialog.Builder(activity)
                 .setTitle(activity.getString(R.string.tuner_result_title, measuredMbps))
                 .setCancelable(false);
+        // A PC on Wi-Fi matters more than any setting here, so it is said with every result
+        final String pcWifi = pcWifiSignal >= 0
+                ? "\n\n" + activity.getString(R.string.tuner_pc_wifi, computer.name, pcWifiSignal) : "";
         if (suggested == current) {
-            dialog.setMessage(activity.getString(R.string.tuner_result_same, computer.name, current))
+            dialog.setMessage(activity.getString(R.string.tuner_result_same, computer.name, current) + pcWifi)
                     .setPositiveButton(android.R.string.ok, (d, w) -> { if (onDone != null) onDone.run(); });
         } else {
             dialog.setMessage(activity.getString(suggested < current
                             ? R.string.tuner_result_lower : R.string.tuner_result_higher,
-                            computer.name, suggested, current))
+                            computer.name, suggested, current) + pcWifi)
                     .setPositiveButton(activity.getString(R.string.tuner_use, suggested), (d, w) -> {
                         prefs.edit().putInt("seekbar_bitrate_kbps", suggested * 1000).apply();
                         if (onDone != null) onDone.run();
