@@ -29,6 +29,12 @@
             android:summary="@string/tuna_open_only_pc_summary"
             app:iconSpaceReserved="false" />
         <CheckBoxPreference
+            android:key="tuna_auto_reconnect"
+            android:defaultValue="true"
+            android:title="@string/tuna_auto_reconnect"
+            android:summary="@string/tuna_auto_reconnect_summary"
+            app:iconSpaceReserved="false" />
+        <CheckBoxPreference
             android:key="tuna_show_expert"
             android:defaultValue="false"
             android:title="@string/tuna_show_expert"

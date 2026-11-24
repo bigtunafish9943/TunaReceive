@@ -80,6 +80,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.os.IBinder;
 import android.os.PersistableBundle;
 import android.os.VibrationEffect;
@@ -262,6 +263,11 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     public static final String EXTRA_APP_UUID = "AppUUID";
     public static final String EXTRA_APP_ID = "AppId";
     public static final String EXTRA_UNIQUEID = "UniqueId";
+    // How many times in a row this stream has reconnected by itself after dropping
+    public static final String EXTRA_TUNA_RECONNECT = "TunaReconnectAttempt";
+    private static final int MAX_AUTO_RECONNECTS = 3;
+    // When the picture first came through, or 0 before that
+    private long connectedAtMs;
     public static final String EXTRA_PC_UUID = "UUID";
     public static final String EXTRA_PC_NAME = "PcName";
     public static final String EXTRA_APP_HDR = "HDR";
@@ -3561,6 +3567,46 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         }
     }
 
+    /**
+     * Starts this stream again after it dropped mid-game, up to a few times in a row. A stream
+     * that then plays for a minute or more counts as a fresh start. Returns false when it
+     * shouldn't reconnect (it never got going, a port is blocked, the setting is off, or it has
+     * already tried enough), so the usual error is shown.
+     */
+    private boolean tryAutoReconnect(int errorCode, int portTestResult) {
+        if (connectedAtMs == 0 || isFinishing()) {
+            return false;
+        }
+        if (portTestResult != MoonBridge.ML_TEST_RESULT_INCONCLUSIVE && portTestResult != 0) {
+            return false;
+        }
+        if (errorCode == MoonBridge.ML_ERROR_PROTECTED_CONTENT || errorCode == MoonBridge.ML_ERROR_FRAME_CONVERSION) {
+            return false;
+        }
+        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean("tuna_auto_reconnect", true)) {
+            return false;
+        }
+        int attempt = getIntent().getIntExtra(EXTRA_TUNA_RECONNECT, 0);
+        if (SystemClock.uptimeMillis() - connectedAtMs > 60_000) {
+            attempt = 0;
+        }
+        if (attempt >= MAX_AUTO_RECONNECTS) {
+            return false;
+        }
+        final int next = attempt + 1;
+        LimeLog.info("Stream dropped (" + errorCode + "); reconnecting, attempt " + next);
+        Toast.makeText(this, getString(R.string.tuna_reconnecting, next, MAX_AUTO_RECONNECTS), Toast.LENGTH_LONG).show();
+
+        final Intent again = new Intent(getIntent())
+                .putExtra(EXTRA_TUNA_RECONNECT, next)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        final Context app = getApplicationContext();
+        // A short wait, a little longer each time, lets the Wi-Fi or the PC settle
+        new Handler(Looper.getMainLooper()).postDelayed(() -> app.startActivity(again), 1500L * next);
+        finish();
+        return true;
+    }
+
     @Override
     public void connectionTerminated(final int errorCode) {
         // Perform a connection test if the failure could be due to a blocked port
@@ -3585,6 +3631,12 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                     displayedFailureDialog = true;
                     LimeLog.severe("Connection terminated: " + errorCode);
                     stopConnection();
+
+                    // A stream that was playing and dropped (Wi-Fi hiccup, the PC busy for a
+                    // moment) reconnects by itself: the game is still running on the PC
+                    if (errorCode != MoonBridge.ML_ERROR_GRACEFUL_TERMINATION && tryAutoReconnect(errorCode, portTestResult)) {
+                        return;
+                    }
 
                     // Display the error dialog if it was an unexpected termination.
                     // Otherwise, just finish the activity immediately.
@@ -3692,6 +3744,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
 
                 connected = true;
                 connecting = false;
+                connectedAtMs = SystemClock.uptimeMillis();
                 updatePipAutoEnter();
 
                 // For the first few streams, say how to reach the quick menu from the couch
