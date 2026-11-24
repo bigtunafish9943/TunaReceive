@@ -186,6 +186,17 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
         return context.getString(R.string.perf_verdict_good);
     }
 
+    /** Told once a second how much of the picture arrived; drives picture quality that adjusts itself. */
+    public interface StreamHealthListener {
+        void onStreamHealth(float lossPct, float receivedFps);
+    }
+
+    private volatile StreamHealthListener streamHealthListener;
+
+    public void setStreamHealthListener(StreamHealthListener listener) {
+        streamHealthListener = listener;
+    }
+
     private boolean needsBaselineSpsHack;
     private SeqParameterSet savedSps;
 
@@ -1795,6 +1806,12 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
 
         // Flip stats windows roughly every second
         if (SystemClock.uptimeMillis() >= activeWindowVideoStats.measurementStartTimestamp + 1000) {
+            StreamHealthListener healthListener = streamHealthListener;
+            if (healthListener != null && activeWindowVideoStats.totalFrames > 0) {
+                VideoStatsFps windowFps = activeWindowVideoStats.getFps();
+                float lossPct = (float) activeWindowVideoStats.framesLost / activeWindowVideoStats.totalFrames * 100;
+                healthListener.onStreamHealth(lossPct, windowFps.receivedFps);
+            }
             if (prefs.enablePerfOverlay || prefs.enablePerfLogging) {
                 VideoStats lastTwo = new VideoStats();
                 lastTwo.add(lastWindowVideoStats);

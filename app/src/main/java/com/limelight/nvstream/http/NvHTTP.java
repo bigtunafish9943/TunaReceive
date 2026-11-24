@@ -833,6 +833,11 @@ public class NvHTTP {
         return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/vdisplay/repair");
     }
 
+    /** TunaStream only: asks for a new bitrate for this device's stream. JSON {"applied","kbps"}. */
+    public String setTunaBitrate(int kbps) throws IOException {
+        return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/bitrate", "kbps=" + kbps);
+    }
+
     /** TunaStream only: JSON listing the files the PC is sending to this device ("Send to device"). */
     public String getTunaFiles() throws IOException {
         return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/files");

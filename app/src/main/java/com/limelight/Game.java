@@ -43,6 +43,7 @@ import com.limelight.profiles.ProfilesManager;
 import com.limelight.ui.ExternalControllerView;
 import com.limelight.ui.GameGestures;
 import com.limelight.ui.StreamContainer;
+import com.limelight.utils.AdaptiveQuality;
 import com.limelight.utils.Dialog;
 import com.limelight.utils.ExternalDisplayControlActivity;
 import com.limelight.utils.MouseModeOption;
@@ -268,6 +269,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     private static final int MAX_AUTO_RECONNECTS = 3;
     // When the picture first came through, or 0 before that
     private long connectedAtMs;
+    private AdaptiveQuality adaptiveQuality;
     public static final String EXTRA_PC_UUID = "UUID";
     public static final String EXTRA_PC_NAME = "PcName";
     public static final String EXTRA_APP_HDR = "HDR";
@@ -677,6 +679,12 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 shouldInvertDecoderResolution,
                 glPrefs.glRenderer,
                 this);
+
+        // Picture quality that adjusts itself to the Wi-Fi (needs a TunaStream that supports it)
+        if (httpConn != null && PreferenceManager.getDefaultSharedPreferences(this).getBoolean("tuna_adaptive_quality", true)) {
+            adaptiveQuality = new AdaptiveQuality(httpConn, prefConfig.bitrate, Math.round(prefConfig.fps));
+            decoderRenderer.setStreamHealthListener(adaptiveQuality);
+        }
 
 // --- Force tight thresholds (prefConfig.forceTightThresholds) ---
         try {
@@ -3460,6 +3468,10 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     }
 
     private void stopConnection() {
+        if (adaptiveQuality != null) {
+            adaptiveQuality.stop();
+            adaptiveQuality = null;
+        }
         if (connecting || connected) {
             connecting = connected = false;
             updatePipAutoEnter();
