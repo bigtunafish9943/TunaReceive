@@ -21,6 +21,7 @@ public class StreamConfiguration {
     private boolean sops;
     private boolean enableAdaptiveResolution;
     private boolean playLocalAudio;
+    private boolean tunaSdr10Bit;
     private int maxPacketSize;
     private int remote;
     private MoonBridge.AudioConfiguration audioConfiguration;
@@ -88,6 +89,12 @@ public class StreamConfiguration {
         
         public StreamConfiguration.Builder enableLocalAudioPlayback(boolean enable) {
             config.playLocalAudio = enable;
+            return this;
+        }
+
+        /** Ask TunaStream for 10-bit video without HDR (smoother gradients, slightly better compression). */
+        public StreamConfiguration.Builder setTunaSdr10Bit(boolean enable) {
+            config.tunaSdr10Bit = enable;
             return this;
         }
         
@@ -219,6 +226,10 @@ public class StreamConfiguration {
         return enableAdaptiveResolution;
     }
     
+    public boolean getTunaSdr10Bit() {
+        return tunaSdr10Bit;
+    }
+
     public boolean getPlayLocalAudio() {
         return playLocalAudio;
     }

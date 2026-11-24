@@ -35,6 +35,12 @@
             android:summary="@string/tuna_adaptive_quality_summary"
             app:iconSpaceReserved="false" />
         <CheckBoxPreference
+            android:key="tuna_10bit"
+            android:defaultValue="true"
+            android:title="@string/tuna_10bit"
+            android:summary="@string/tuna_10bit_summary"
+            app:iconSpaceReserved="false" />
+        <CheckBoxPreference
             android:key="tuna_auto_reconnect"
             android:defaultValue="true"
             android:title="@string/tuna_auto_reconnect"

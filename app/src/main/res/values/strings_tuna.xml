@@ -84,6 +84,8 @@
     <string name="tuna_reconnecting">The connection dropped. Reconnecting… (%1$d of %2$d)</string>
     <string name="tuna_adaptive_quality">Adjust picture quality to the Wi-Fi</string>
     <string name="tuna_adaptive_quality_summary">When the Wi-Fi gets busy, soften the picture for a moment instead of stuttering, then go back to full quality.</string>
+    <string name="tuna_10bit">10-bit picture (experimental)</string>
+    <string name="tuna_10bit_summary">Smoother colour gradients and slightly better use of the Wi-Fi, without HDR. Turn off if games show a black or green picture.</string>
     <string name="tuna_auto_reconnect">Reconnect by itself</string>
     <string name="tuna_auto_reconnect_summary">If a stream drops mid-game, start it again automatically. The game keeps running on the PC meanwhile.</string>
 
