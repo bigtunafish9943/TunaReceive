@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Text for TunaReceive's own screens. Other languages fall back to this English. -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- Settings page -->
+    <string name="tuna_settings_category">TunaReceive</string>
+    <string name="tuna_run_setup">Run setup again</string>
+    <string name="tuna_run_setup_summary">Answer a few questions and TunaReceive picks the right settings for this TV.</string>
+    <string name="tuna_show_expert">Show all settings</string>
+    <string name="tuna_show_expert_summary">For experts. Most people never need these.</string>
+
+    <!-- Setup -->
+    <string name="setup_progress">Step %1$d of %2$d</string>
+    <string name="setup_recommended">Recommended</string>
+    <string name="setup_back_hint">Press Back to change an earlier answer.</string>
+
+    <string name="setup_screen_title">How big is the picture?</string>
+    <string name="setup_screen_body">Let\'s set TunaReceive up for this TV. It takes a minute, and you can change anything later in Settings.\n\nTunaStream gives each stream its own screen on the PC at exactly this size.</string>
+    <string name="setup_res_4k">4K</string>
+    <string name="setup_res_4k_detail">3840 × 2160. The sharpest, and needs a strong connection.</string>
+    <string name="setup_res_1440">1440p</string>
+    <string name="setup_res_1440_detail">2560 × 1440. Sharper than 1080p, lighter than 4K.</string>
+    <string name="setup_res_1080">1080p</string>
+    <string name="setup_res_1080_detail">1920 × 1080. The best fit for most Wi-Fi.</string>
+    <string name="setup_res_720">720p</string>
+    <string name="setup_res_720_detail">1280 × 720. For a weak connection.</string>
+
+    <string name="setup_fps_title">How smooth?</string>
+    <string name="setup_fps_body">This screen can show up to 120 frames a second. 120 feels smoother in fast games, and the PC has to render twice as many frames.</string>
+    <string name="setup_fps_120">120 frames a second</string>
+    <string name="setup_fps_120_detail">Smoothest. Best on a wired connection or strong 5 GHz Wi-Fi.</string>
+    <string name="setup_fps_60">60 frames a second</string>
+    <string name="setup_fps_60_detail">Smooth, and easy on the PC and the connection.</string>
+
+    <string name="setup_picture_title">Smoother or sharper?</string>
+    <string name="setup_picture_body">%1$s\n\nStutter on a clean connection usually means the picture is asking for slightly more than the Wi-Fi can carry, so leave some headroom.</string>
+    <string name="setup_net_ethernet">This device is plugged in with a network cable, the best connection for streaming.</string>
+    <string name="setup_net_wifi5">This device is on 5 GHz Wi-Fi, which is good for streaming.</string>
+    <string name="setup_net_wifi6">This device is on 6 GHz Wi-Fi, which is very good for streaming.</string>
+    <string name="setup_net_wifi24">This device is on 2.4 GHz Wi-Fi, which is slow and busy. Connect to your router\'s 5 GHz network if it has one.</string>
+    <string name="setup_net_wifi">This device is on Wi-Fi.</string>
+    <string name="setup_net_unknown">TunaReceive couldn\'t tell how this device is connected.</string>
+    <string name="setup_pic_smooth">Smoothest</string>
+    <string name="setup_pic_smooth_detail">%1$d Mbps. Fewest hiccups; fine detail is a little softer.</string>
+    <string name="setup_pic_balanced">Balanced</string>
+    <string name="setup_pic_balanced_detail">%1$d Mbps. Sharp, with room to spare.</string>
+    <string name="setup_pic_sharp">Sharpest</string>
+    <string name="setup_pic_sharp_detail">%1$d Mbps. The most detail; can stutter when the Wi-Fi is busy.</string>
+
+    <string name="setup_controller_title">Which controller?</string>
+    <string name="setup_controller_body">Rumble will be turned on for it.</string>
+    <string name="setup_controller_found">Connected now: %1$s.\n\nRumble will be turned on for it.</string>
+    <string name="setup_pad_8bitdo">8BitDo Ultimate 2</string>
+    <string name="setup_pad_8bitdo_detail">Wireless, connected to this device in Bluetooth (D) mode.</string>
+    <string name="setup_pad_xbox">Xbox controller</string>
+    <string name="setup_pad_xbox_detail">Xbox One, Series or 360.</string>
+    <string name="setup_pad_playstation">PlayStation controller</string>
+    <string name="setup_pad_playstation_detail">DualSense or DualShock 4. Motion controls are turned on too.</string>
+    <string name="setup_pad_switch">Nintendo Switch Pro</string>
+    <string name="setup_pad_switch_detail">Buttons stay where the game expects them.</string>
+    <string name="setup_pad_other">Something else</string>
+    <string name="setup_pad_other_detail">Including the Shield controller and the remote.</string>
+
+    <string name="setup_sound_title">What are you listening on?</string>
+    <string name="setup_sound_body">Pick surround only if you have the speakers for it. Otherwise games sound thin.</string>
+    <string name="setup_sound_stereo">TV speakers, a soundbar or headphones</string>
+    <string name="setup_sound_stereo_detail">Stereo.</string>
+    <string name="setup_sound_51">5.1 surround</string>
+    <string name="setup_sound_51_detail">Six speakers, including the subwoofer.</string>
+    <string name="setup_sound_71">7.1 surround</string>
+    <string name="setup_sound_71_detail">Eight speakers, including the subwoofer.</string>
+
+    <string name="setup_done_title">All set</string>
+    <string name="setup_done_body">Picture: %1$s at %2$s frames a second, %3$d Mbps.\nController: %4$s, with rumble.\nSound: %5$s.\n\nYou can change any of this in Settings, or run setup again from there.</string>
+    <string name="setup_done_start">Start playing</string>
+    <string name="setup_done_start_detail">Pick your PC and a game.</string>
+    <string name="setup_done_again">Change my answers</string>
+    <string name="setup_done_again_detail">Go back to the first question.</string>
+    <string name="setup_skipped">Setup skipped. You can run it any time from Settings.</string>
+</resources>

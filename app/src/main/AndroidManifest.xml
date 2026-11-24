@@ -132,6 +132,12 @@
                 <data android:pathPattern=".*\.art" />
             </intent-filter>
         </activity>
+        <!-- First-run setup. Config changes are handled in place so connecting a controller
+             part-way through doesn't restart it and lose the answers. -->
+        <activity
+            android:name=".preferences.SetupActivity"
+            android:theme="@style/AppTheme"
+            android:configChanges="mcc|mnc|touchscreen|keyboard|keyboardHidden|navigation|screenLayout|fontScale|uiMode|orientation|screenSize|smallestScreenSize|layoutDirection" />
         <activity
             android:name=".AppView"
             android:resizeableActivity="true"

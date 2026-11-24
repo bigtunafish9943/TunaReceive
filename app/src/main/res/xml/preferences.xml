@@ -5,6 +5,23 @@
     app:iconSpaceReserved="false">
 
     <PreferenceCategory
+        android:key="category_tuna"
+        android:title="@string/tuna_settings_category"
+        app:iconSpaceReserved="false">
+        <Preference
+            android:key="tuna_run_setup"
+            android:title="@string/tuna_run_setup"
+            android:summary="@string/tuna_run_setup_summary"
+            app:iconSpaceReserved="false" />
+        <CheckBoxPreference
+            android:key="tuna_show_expert"
+            android:defaultValue="false"
+            android:title="@string/tuna_show_expert"
+            android:summary="@string/tuna_show_expert_summary"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="category_video_settings"
         android:title="@string/category_video_settings"
         app:initialExpandedChildrenCount="3"

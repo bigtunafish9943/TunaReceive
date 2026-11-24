@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- An answer in setup. The focused one (the controller's cursor) gets the TunaStream cyan edge. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/ts_deep" />
+            <stroke android:width="3dp" android:color="@color/ts_accent" />
+            <corners android:radius="14dp" />
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/ts_deep" />
+            <stroke android:width="3dp" android:color="@color/ts_accent" />
+            <corners android:radius="14dp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/ts_surface" />
+            <stroke android:width="1dp" android:color="@color/ts_surface_border" />
+            <corners android:radius="14dp" />
+        </shape>
+    </item>
+</selector>

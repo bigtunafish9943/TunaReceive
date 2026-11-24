@@ -20,6 +20,7 @@ import com.limelight.nvstream.wol.WakeOnLanSender;
 import com.limelight.preferences.AddComputerManually;
 import com.limelight.preferences.GlPreferences;
 import com.limelight.preferences.PreferenceConfiguration;
+import com.limelight.preferences.SetupActivity;
 import com.limelight.preferences.StreamSettings;
 import com.limelight.profiles.ProfilesManager;
 import com.limelight.ui.AdapterFragment;
@@ -283,8 +284,13 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
 
         initializeViews();
 
-        // Offer a newer TunaReceive if GitHub has one (quietly, at most every few hours)
-        TunaUpdater.check(this, false);
+        if (!SetupActivity.isSetupComplete(this)) {
+            // First start: a few questions choose the settings
+            startActivity(new Intent(this, SetupActivity.class));
+        } else {
+            // Offer a newer TunaReceive if GitHub has one (quietly, at most every few hours)
+            TunaUpdater.check(this, false);
+        }
     }
 
     private void startComputerUpdates() {

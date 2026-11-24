@@ -25,6 +25,7 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 
@@ -167,6 +168,39 @@ public class StreamSettings extends AppCompatActivity {
         private boolean nativeFramerateShown = false;
 
         private PreferenceConfiguration prevPrefConfig;
+
+        /** The settings most people need; the rest appear with "Show all settings". */
+        private static final java.util.Set<String> EVERYDAY_KEYS = new java.util.HashSet<>(Arrays.asList(
+                "tuna_run_setup", "tuna_show_expert", "tuna_check_updates",
+                "list_resolution", "list_fps", "seekbar_bitrate_kbps", "checkbox_use_virtual_display",
+                "checkbox_enable_hdr",
+                "list_audio_config",
+                "checkbox_enable_rumble", "checkbox_flip_face_buttons",
+                "checkbox_host_audio",
+                "checkbox_enable_perf_overlay",
+                "list_languages"));
+
+        private void showEverydayOrAll(boolean all) {
+            PreferenceScreen screen = getPreferenceScreen();
+            for (int i = 0; i < screen.getPreferenceCount(); i++) {
+                Preference item = screen.getPreference(i);
+                if (item instanceof PreferenceGroup) {
+                    PreferenceGroup group = (PreferenceGroup) item;
+                    int shown = 0;
+                    for (int j = 0; j < group.getPreferenceCount(); j++) {
+                        Preference child = group.getPreference(j);
+                        boolean show = all || EVERYDAY_KEYS.contains(child.getKey());
+                        child.setVisible(show);
+                        if (show) {
+                            shown++;
+                        }
+                    }
+                    group.setVisible(shown > 0);
+                } else {
+                    item.setVisible(all || EVERYDAY_KEYS.contains(item.getKey()));
+                }
+            }
+        }
 
         public SettingsFragment(PreferenceConfiguration prefCfg) {
             prevPrefConfig = prefCfg;
@@ -861,6 +895,24 @@ public class StreamSettings extends AppCompatActivity {
                     }
                 });
             }
+
+            Preference setupPref = findPreference("tuna_run_setup");
+            if (setupPref != null) {
+                setupPref.setOnPreferenceClickListener(preference -> {
+                    // Setup writes the settings itself, so close this page rather than show stale values
+                    SetupActivity.launch(requireActivity());
+                    requireActivity().finish();
+                    return true;
+                });
+            }
+            Preference expertPref = findPreference("tuna_show_expert");
+            if (expertPref != null) {
+                expertPref.setOnPreferenceChangeListener((preference, newValue) -> {
+                    showEverydayOrAll(Boolean.TRUE.equals(newValue));
+                    return true;
+                });
+            }
+            showEverydayOrAll(getPrefs().getBoolean("tuna_show_expert", false));
 
             Preference updatesPref = findPreference("tuna_check_updates");
             if (updatesPref != null) {
