@@ -49,6 +49,7 @@ public class SetupActivity extends AppCompatActivity {
     public static final String SETUP_COMPLETE_PREF = "tuna_setup_complete";
     public static final String CONTROLLER_PREF = "tuna_controller";
     public static final String PICTURE_PREF = "tuna_picture";
+    public static final String OPEN_ONLY_PC_PREF = "tuna_open_only_pc";
 
     private enum Step { SCREEN, FRAME_RATE, PICTURE, CONTROLLER, SOUND, DONE }
 

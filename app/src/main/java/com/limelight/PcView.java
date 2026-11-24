@@ -893,6 +893,42 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
 
         // Notify the view that the data has changed
         pcGridAdapter.notifyDataSetChanged();
+
+        maybeOpenOnlyPc(details);
+    }
+
+    /** Set once per app start, so Back from the games list stays on the PC list. */
+    private static boolean autoOpenDone;
+    private boolean autoWakeSent;
+
+    /**
+     * With one paired PC, skip this list: open its games as soon as it answers, and wake it
+     * first if it's asleep. Settings > "Go straight to my PC's games" turns this off.
+     */
+    private void maybeOpenOnlyPc(ComputerDetails details) {
+        if (autoOpenDone || !inForeground || !SetupActivity.isSetupComplete(this)
+                || details.pairState != PairState.PAIRED) {
+            return;
+        }
+        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(SetupActivity.OPEN_ONLY_PC_PREF, true)) {
+            autoOpenDone = true;
+            return;
+        }
+        for (int i = 0; i < pcGridAdapter.getCount(); i++) {
+            ComputerDetails other = ((ComputerObject) pcGridAdapter.getItem(i)).details;
+            if (!other.uuid.equals(details.uuid) && other.pairState == PairState.PAIRED) {
+                // More than one paired PC: let the user choose
+                autoOpenDone = true;
+                return;
+            }
+        }
+        if (details.state == ComputerDetails.State.ONLINE) {
+            autoOpenDone = true;
+            doAppList(details, false, false);
+        } else if (details.state == ComputerDetails.State.OFFLINE && !autoWakeSent && details.macAddress != null) {
+            autoWakeSent = true;
+            doWakeOnLan(details);
+        }
     }
 
     @Override

@@ -14,6 +14,12 @@
             android:summary="@string/tuna_run_setup_summary"
             app:iconSpaceReserved="false" />
         <CheckBoxPreference
+            android:key="tuna_open_only_pc"
+            android:defaultValue="true"
+            android:title="@string/tuna_open_only_pc"
+            android:summary="@string/tuna_open_only_pc_summary"
+            app:iconSpaceReserved="false" />
+        <CheckBoxPreference
             android:key="tuna_show_expert"
             android:defaultValue="false"
             android:title="@string/tuna_show_expert"

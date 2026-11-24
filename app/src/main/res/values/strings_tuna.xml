@@ -6,6 +6,8 @@
     <string name="tuna_settings_category">TunaReceive</string>
     <string name="tuna_run_setup">Run setup again</string>
     <string name="tuna_run_setup_summary">Answer a few questions and TunaReceive picks the right settings for this TV.</string>
+    <string name="tuna_open_only_pc">Go straight to my PC\'s games</string>
+    <string name="tuna_open_only_pc_summary">With one PC, TunaReceive opens its games as soon as it starts, and wakes the PC first if it\'s asleep.</string>
     <string name="tuna_show_expert">Show all settings</string>
     <string name="tuna_show_expert_summary">For experts. Most people never need these.</string>
 

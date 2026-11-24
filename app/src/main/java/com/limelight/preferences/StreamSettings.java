@@ -171,7 +171,7 @@ public class StreamSettings extends AppCompatActivity {
 
         /** The settings most people need; the rest appear with "Show all settings". */
         private static final java.util.Set<String> EVERYDAY_KEYS = new java.util.HashSet<>(Arrays.asList(
-                "tuna_run_setup", "tuna_show_expert", "tuna_check_updates",
+                "tuna_run_setup", "tuna_open_only_pc", "tuna_show_expert", "tuna_check_updates",
                 "list_resolution", "list_fps", "seekbar_bitrate_kbps", "checkbox_use_virtual_display",
                 "checkbox_enable_hdr",
                 "list_audio_config",
