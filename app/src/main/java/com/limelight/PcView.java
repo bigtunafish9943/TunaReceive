@@ -74,7 +74,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 public class PcView extends AppCompatActivity implements AdapterFragmentCallbacks {
-    private RelativeLayout noPcFoundLayout;
+    private View noPcFoundLayout;
     private PcGridAdapter pcGridAdapter;
     private ShortcutHelper shortcutHelper;
     private ComputerManagerService.ComputerManagerBinder managerBinder;
@@ -176,6 +176,8 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
                 startActivity(i);
             }
         });
+        ImageButton updateButton = findViewById(R.id.updateButton);
+        updateButton.setOnClickListener(v -> TunaUpdater.check(PcView.this, true));
         helpButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

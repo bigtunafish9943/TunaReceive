@@ -9,6 +9,10 @@
         android:title="@string/tuna_settings_category"
         app:iconSpaceReserved="false">
         <Preference
+            android:key="tuna_check_updates"
+            android:title="@string/update_settings_title"
+            app:iconSpaceReserved="false" />
+        <Preference
             android:key="tuna_run_setup"
             android:title="@string/tuna_run_setup"
             android:summary="@string/tuna_run_setup_summary"
@@ -1038,10 +1042,6 @@
             android:title="@string/title_debug_info"
             app:iconSpaceReserved="false" />
 
-        <Preference
-            android:key="tuna_check_updates"
-            android:title="@string/update_settings_title"
-            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 </PreferenceScreen>

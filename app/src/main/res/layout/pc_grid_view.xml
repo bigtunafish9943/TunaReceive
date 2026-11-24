@@ -8,6 +8,7 @@
     android:stretchMode="spacingWidthUniform"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:nextFocusLeft="@id/settingsButton"
     android:clipToPadding="false"
-    android:gravity="center"/>
+    android:gravity="center"
+    android:listSelector="@drawable/ts_grid_selector"
+    android:drawSelectorOnTop="false"/>
