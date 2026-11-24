@@ -149,6 +149,8 @@ public class ServerHelper {
             Toast.makeText(parent, parent.getString(R.string.pair_pc_offline), Toast.LENGTH_SHORT).show();
             return;
         }
+        // The games list puts recently played games first
+        RecentGames.recordPlayed(parent, computer.uuid, app.getAppId());
 
         Intent intent = createStartIntent(parent, app, computer, managerBinder, withVDisplay);
         parent.startActivity(intent);

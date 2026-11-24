@@ -21,6 +21,7 @@ import com.limelight.preferences.PreferenceConfiguration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import com.limelight.utils.RecentGames;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -122,10 +123,19 @@ public class AppGridAdapter extends GenericGridAdapter<AppView.AppObject> {
         loader.freeCacheMemory();
     }
 
-    private static void sortList(List<AppView.AppObject> list) {
+    /** The running game first, then the most recently played, then the PC's own order. */
+    private void sortList(List<AppView.AppObject> list) {
         Collections.sort(list, new Comparator<AppView.AppObject>() {
             @Override
             public int compare(AppView.AppObject lhs, AppView.AppObject rhs) {
+                if (lhs.isRunning != rhs.isRunning) {
+                    return lhs.isRunning ? -1 : 1;
+                }
+                long lPlayed = RecentGames.lastPlayed(context, computer.uuid, lhs.app.getAppId());
+                long rPlayed = RecentGames.lastPlayed(context, computer.uuid, rhs.app.getAppId());
+                if (lPlayed != rPlayed) {
+                    return Long.compare(rPlayed, lPlayed);
+                }
                 int lIndex = lhs.app.getAppIndex();
                 int rIndex = rhs.app.getAppIndex();
                 if (lIndex == rIndex) {
@@ -154,6 +164,13 @@ public class AppGridAdapter extends GenericGridAdapter<AppView.AppObject> {
             itemList.add(app);
             sortList(itemList);
         }
+    }
+
+    /** Re-sorts after the running game or play history changed. */
+    public void resort() {
+        sortList(allApps);
+        sortList(itemList);
+        notifyDataSetChanged();
     }
 
     public void removeApp(AppView.AppObject app) {
