@@ -18,12 +18,6 @@ The app id is `com.tunastream.receive`. It installs next to Moonlight and next t
 - **Couch menu.** Hold the controller's Home button for the quick menu.
 - **Stream stats in plain words**, and TunaStream's look: navy, cyan, the tuna mark.
 
-## What this repo is not
-
-Do not put TunaStream changes here. If the client needs something from the PC, write it in `docs/host-requests.md`. Claude maintains TunaStream.
-
-Do not commit a keystore, a signing password, or a GitHub token.
-
 ## Build
 
 Submodules are required (`moonlight-common-c` and enet).
