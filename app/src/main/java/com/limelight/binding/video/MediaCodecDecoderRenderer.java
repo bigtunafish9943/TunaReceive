@@ -162,6 +162,30 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
     private MediaFormat outputFormat;
     private MediaFormat configuredFormat;
 
+    /**
+     * One line in plain words saying what, if anything, is holding the stream back, in the same
+     * spirit as TunaStream's stream health on the PC. The checks run from the most to the least
+     * likely cause of visible stutter.
+     */
+    private String plainVerdict(VideoStats window, VideoStatsFps fps, float decodeTimeMs, long rttInfo) {
+        int target = Math.max(1, Math.round(prefs.fps));
+        float lossPct = window.totalFrames > 0 ? (float) window.framesLost / window.totalFrames * 100 : 0;
+        int rttVarianceMs = (int) rttInfo;
+        if (lossPct > 2f) {
+            return context.getString(R.string.perf_verdict_loss);
+        }
+        if (decodeTimeMs > 1000f / target) {
+            return context.getString(R.string.perf_verdict_decode);
+        }
+        if (fps.receivedFps < target * 0.9f) {
+            return context.getString(R.string.perf_verdict_host, fps.receivedFps, target);
+        }
+        if (rttVarianceMs > 10) {
+            return context.getString(R.string.perf_verdict_jitter);
+        }
+        return context.getString(R.string.perf_verdict_good);
+    }
+
     private boolean needsBaselineSpsHack;
     private SeqParameterSet savedSps;
 
@@ -1847,6 +1871,7 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
                         sb.append(context.getString(R.string.perf_overlay_streamdetails, initialWidth + "x" + initialHeight, fps.totalFps));
                     }
                     sb.append('\n');
+                    sb.append(plainVerdict(lastTwo, fps, decodeTimeMs, rttInfo)).append('\n');
                     sb.append(context.getString(R.string.perf_overlay_decoder, decoder)).append('\n');
                     sb.append(context.getString(R.string.perf_overlay_incomingfps, fps.receivedFps)).append('\n');
                     sb.append(context.getString(R.string.perf_overlay_renderingfps, fps.renderedFps)).append('\n');

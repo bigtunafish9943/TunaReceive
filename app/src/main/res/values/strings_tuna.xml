@@ -11,6 +11,13 @@
     <string name="tuna_show_expert">Show all settings</string>
     <string name="tuna_show_expert_summary">For experts. Most people never need these.</string>
 
+    <!-- First line of the stream stats, in plain words -->
+    <string name="perf_verdict_good">Running smoothly</string>
+    <string name="perf_verdict_loss">Wi-Fi is losing parts of the picture. Lower Picture quality, or move the router or this device closer.</string>
+    <string name="perf_verdict_decode">This device can\'t keep up. Try a smaller Picture size.</string>
+    <string name="perf_verdict_host">The PC is sending %1$.0f of %2$d frames a second. Normal on a still screen; in a game, the game is running slow on the PC.</string>
+    <string name="perf_verdict_jitter">Wi-Fi delay is jumping around. Something else may be using the Wi-Fi.</string>
+
     <!-- Setup -->
     <string name="setup_progress">Step %1$d of %2$d</string>
     <string name="setup_recommended">Recommended</string>
