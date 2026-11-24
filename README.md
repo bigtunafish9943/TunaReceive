@@ -1,10 +1,10 @@
 # TunaReceive
 
-Android and Android TV client for [TunaStream](https://github.com/bigtunafish9943/TunaStream). The first device is an NVIDIA Shield TV Pro. Phones come second.
+Play your PC's games on an Android TV box, phone or tablet, streamed from [TunaStream](https://github.com/bigtunafish9943/TunaStream). Made first for the NVIDIA Shield TV.
 
-This is a fork of [Artemis](https://github.com/ClassicOldSong/moonlight-android) by ClassicOldSong, which is Moonlight for Android extended for an Apollo-style host. TunaStream grew out of Apollo, so those client features stay as Artemis wrote them. GPL-3.0. See `NOTICE` and `LICENSE.txt`.
+**Install:** download the APK ending in `arm64-v8a` from the [latest release](https://github.com/bigtunafish9943/TunaReceive/releases/latest) and open it on the device. After that, TunaReceive updates itself.
 
-The app id is `com.tunastream.receive`. It installs next to Moonlight and next to Artemis. Java packages stay `com.limelight` so upstream merges stay possible.
+The app id is `com.tunastream.receive`, so it installs next to Moonlight and Artemis.
 
 ## What it adds
 
@@ -30,11 +30,7 @@ cd TunaReceive
 
 The Shield APK is the `arm64-v8a` split. CI renames it to `TunaReceive-<version>-arm64-v8a.apk`.
 
-A release signature comes from GitHub Actions secrets, not from this tree. The one-time command is in `docs/signing.md`. Until those secrets exist, CI can still build an installable test APK. That test signature will not update over the real release. Uninstall the test build first.
-
-## Status
-
-`docs/status.md` is the phase note. It is not a claim that a Shield has already paired.
+Releases are signed in GitHub Actions; how to set up signing for your own copy is in `docs/signing.md`. Without signing secrets, CI builds a test APK with a throwaway key, which can't update over a release.
 
 ## Credits
 
