@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
-        app:cardCornerRadius="12dp"
+        app:cardCornerRadius="14dp"
+        app:cardBackgroundColor="@color/ts_surface"
         app:cardElevation="8dp"
         app:cardMaxElevation="8dp">
 
@@ -40,7 +41,9 @@
                 android:gravity="center|center_vertical"
                 android:background="#00FFFFFF"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textColor="@color/ts_text"
+                android:textStyle="bold"
+                android:textSize="17sp" />
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

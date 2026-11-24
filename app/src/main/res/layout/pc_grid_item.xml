@@ -1,43 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- A PC on the home screen: its icon on a card, its name underneath -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="20dp">
+    android:padding="14dp">
     <RelativeLayout
         android:id="@+id/grid_image_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="150dp"
+        android:layout_height="120dp"
+        android:background="@drawable/ts_tile_bg">
         <ImageView
             android:id="@+id/grid_image"
-            android:layout_centerHorizontal="true"
-            android:layout_width="125dp"
-            android:layout_height="125dp">
+            android:layout_centerInParent="true"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            android:tint="@color/ts_accent_soft">
         </ImageView>
         <ImageView
             android:id="@+id/grid_overlay"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="28dp"
-            android:layout_width="50dp"
-            android:layout_height="50dp">
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="6dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp">
         </ImageView>
         <ProgressBar
             android:id="@+id/grid_spinner"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="28dp"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:indeterminate="true">
         </ProgressBar>
     </RelativeLayout>
     <TextView
         android:id="@+id/grid_text"
-        android:layout_width="125dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/grid_image_layout"
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
         android:gravity="center"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:textColor="@color/ts_text"
-        android:textSize="18sp" >
+        android:textSize="17sp"
+        android:textStyle="bold" >
     </TextView>
 </RelativeLayout>
