@@ -28,6 +28,7 @@ import com.limelight.utils.Dialog;
 import com.limelight.utils.HelpLauncher;
 import com.limelight.utils.ServerHelper;
 import com.limelight.utils.ShortcutHelper;
+import com.limelight.utils.TunaUpdater;
 import com.limelight.utils.UiHelper;
 
 import android.app.ActivityManager;
@@ -281,6 +282,9 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
         pcGridAdapter = new PcGridAdapter(this, PreferenceConfiguration.readPreferences(this));
 
         initializeViews();
+
+        // Offer a newer TunaReceive if GitHub has one (quietly, at most every few hours)
+        TunaUpdater.check(this, false);
     }
 
     private void startComputerUpdates() {
@@ -375,6 +379,9 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
         UiHelper.showDecoderCrashDialog(this);
 
         refreshProfileButton();
+
+        // Carry on an update that was waiting for "install unknown apps" to be allowed
+        TunaUpdater.resumeIfWaiting(this);
 
         inForeground = true;
         startComputerUpdates();

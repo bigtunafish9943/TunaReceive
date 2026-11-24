@@ -1015,18 +1015,10 @@
             android:title="@string/title_debug_info"
             app:iconSpaceReserved="false" />
 
-        <com.limelight.preferences.WebLauncherPreference
-            url="https://github.com/bigtunafish9943/TunaReceive/releases"
-            android:key="option_software_release"
-            android:summary="@string/summary_software_update"
-            android:title="@string/title_software_update"
+        <Preference
+            android:key="tuna_check_updates"
+            android:title="@string/update_settings_title"
             app:iconSpaceReserved="false" />
 
-        <com.limelight.preferences.WebLauncherPreference
-            url="@string/obtainium_app_url"
-            android:key="option_follow_update"
-            android:summary="@string/summary_follow_update"
-            android:title="@string/title_follow_update"
-            app:iconSpaceReserved="false" />
     </PreferenceCategory>
 </PreferenceScreen>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TunaReceive's updater. Other languages fall back to this English. -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="update_checking">Checking for updates…</string>
+    <string name="update_up_to_date">TunaReceive %1$s is the latest version.</string>
+    <string name="update_check_failed">Couldn\'t reach GitHub to check for updates. Check this device\'s internet connection and try again.</string>
+    <string name="update_available_title">TunaReceive %1$s is available</string>
+    <string name="update_available_body">You have %1$s. The update comes from TunaReceive\'s GitHub page and is checked against its published checksum before it installs. Your paired PCs and settings stay as they are.</string>
+    <string name="update_now">Update now</string>
+    <string name="update_later">Later</string>
+    <string name="update_permission_title">Allow TunaReceive to install its updates</string>
+    <string name="update_permission_body">Android asks this once. On the next screen, turn on \"Allow from this source\" for TunaReceive, then press Back and the update carries on.</string>
+    <string name="update_permission_open">Open the setting</string>
+    <string name="update_permission_manual">Open Settings, then Apps, then Security, and allow TunaReceive to install unknown apps.</string>
+    <string name="update_downloading_title">Downloading TunaReceive %1$s</string>
+    <string name="update_downloading">%1$d%% downloaded</string>
+    <string name="update_failed_title">The update didn\'t download</string>
+    <string name="update_checksum_mismatch">The downloaded file didn\'t match its published checksum, so it wasn\'t installed. Try again later.</string>
+    <string name="update_install_failed">The update couldn\'t start installing: %1$s</string>
+    <string name="update_install_cancelled">The update wasn\'t installed.</string>
+    <string name="update_signature_mismatch">This update is signed with a different key from the installed TunaReceive, so Android refused it. Uninstall TunaReceive, then install the latest version from GitHub.</string>
+    <string name="update_settings_title">Check for updates</string>
+    <string name="update_settings_summary">You have TunaReceive %1$s.</string>
+</resources>

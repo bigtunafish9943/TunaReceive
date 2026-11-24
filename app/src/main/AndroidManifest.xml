@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- TunaReceive installs its own updates; Android still asks the user to confirm each one -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="com.android.providers.tv.permission.READ_EPG_DATA"/>
     <uses-permission android:name="com.android.providers.tv.permission.WRITE_EPG_DATA"/>
     <uses-feature android:glEsVersion="0x00030000" android:required="true" />
@@ -65,6 +67,9 @@
             android:exported="true">
         </provider>
         <receiver android:name=".StartExternalDisplayControlReceiver" />
+        <receiver
+            android:name=".utils.TunaUpdater$InstallResultReceiver"
+            android:exported="false" />
         <!-- Samsung multi-window support -->
         <uses-library
             android:name="com.sec.android.app.multiwindow"

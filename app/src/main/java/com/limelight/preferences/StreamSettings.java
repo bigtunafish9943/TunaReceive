@@ -55,6 +55,7 @@ import com.limelight.binding.video.MediaCodecHelper;
 import com.limelight.utils.Dialog;
 import com.limelight.utils.FileUriUtils;
 import com.limelight.utils.PerformanceDataTracker;
+import com.limelight.utils.TunaUpdater;
 import com.limelight.utils.UiHelper;
 import org.json.JSONObject;
 import java.io.File;
@@ -858,6 +859,15 @@ public class StreamSettings extends AppCompatActivity {
                         requireActivity().startActivity(intent);
                         return false;
                     }
+                });
+            }
+
+            Preference updatesPref = findPreference("tuna_check_updates");
+            if (updatesPref != null) {
+                updatesPref.setSummary(getString(R.string.update_settings_summary, BuildConfig.VERSION_NAME));
+                updatesPref.setOnPreferenceClickListener(preference -> {
+                    TunaUpdater.check(requireActivity(), true);
+                    return true;
                 });
             }
 
