@@ -1,11 +1,14 @@
 package com.limelight.utils;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 
 import com.limelight.HelpActivity;
+import com.limelight.R;
 
 public class HelpLauncher {
     public static void launchUrl(Context context, String url) {
@@ -45,12 +48,24 @@ public class HelpLauncher {
         context.startActivity(i);
     }
 
+    // TunaReceive's help is shown here in the app: a TV box has no browser, and the Moonlight wiki
+    // these used to open describes other hosts.
+    private static void showHelp(Context context, int title, int body) {
+        if (context instanceof Activity && !((Activity) context).isFinishing()) {
+            new AlertDialog.Builder(context)
+                    .setTitle(title)
+                    .setMessage(body)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show();
+        }
+    }
+
     public static void launchSetupGuide(Context context) {
-        launchUrl(context, "https://github.com/moonlight-stream/moonlight-docs/wiki/Setup-Guide");
+        showHelp(context, R.string.help_setup_title, R.string.help_setup_body);
     }
 
     public static void launchTroubleshooting(Context context) {
-        launchUrl(context, "https://github.com/moonlight-stream/moonlight-docs/wiki/Troubleshooting");
+        showHelp(context, R.string.help_trouble_title, R.string.help_trouble_body);
     }
 
     public static void launchGameStreamEolFaq(Context context) {

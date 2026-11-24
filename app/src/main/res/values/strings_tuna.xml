@@ -11,6 +11,12 @@
     <string name="tuna_show_expert">Show all settings</string>
     <string name="tuna_show_expert_summary">For experts. Most people never need these.</string>
 
+    <!-- Help, shown in the app -->
+    <string name="help_setup_title">Getting started</string>
+    <string name="help_setup_body">1. On your PC, install TunaStream and keep it running. Its icon sits by the clock.\n\n2. Connect this device to the same network as the PC, by cable or 5 GHz Wi-Fi if you can.\n\n3. Your PC appears here by itself. If it doesn\'t, choose Add PC Manually and type the address shown on TunaStream\'s home page.\n\n4. Choose the PC. A PIN appears: on the PC, open TunaStream, go to the PIN page, enter it and press Send.\n\n5. Choose a game. It opens on its own screen on the PC, sized for this TV.</string>
+    <string name="help_trouble_title">If something isn\'t working</string>
+    <string name="help_trouble_body">The PC doesn\'t show up: check that TunaStream is running and both are on the same network (guest Wi-Fi usually blocks this). Or choose Add PC Manually and type the address from TunaStream\'s home page.\n\nPairing fails: enter the PIN on TunaStream\'s PIN page within a minute or so, then try again.\n\nThe picture stutters: in this PC\'s menu, choose Fit picture quality to this connection. A cable, or 5 GHz Wi-Fi, helps most.\n\nNo rumble: on the PC, open TunaStream\'s Troubleshooting page during a stream and press Rumble now. If the controller buzzes, the game needs its vibration turned on; if not, check Rumble in this app\'s Settings.\n\nThe game opens on the PC\'s monitor: update TunaStream from its home page; it moves the game onto the stream\'s screen.\n\nMore help is on TunaStream\'s Help page on the PC.</string>
+
     <!-- Connection test -->
     <string name="tuner_menu">Fit picture quality to this connection</string>
     <string name="tuner_measuring_title">Testing the connection to %1$s</string>
