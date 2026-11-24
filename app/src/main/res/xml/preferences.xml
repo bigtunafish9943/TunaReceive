@@ -17,6 +17,11 @@
             android:title="@string/tuna_run_setup"
             android:summary="@string/tuna_run_setup_summary"
             app:iconSpaceReserved="false" />
+        <Preference
+            android:key="tuna_controller_check"
+            android:title="@string/controller_check_title"
+            android:summary="@string/controller_check_summary"
+            app:iconSpaceReserved="false" />
         <CheckBoxPreference
             android:key="tuna_open_only_pc"
             android:defaultValue="true"

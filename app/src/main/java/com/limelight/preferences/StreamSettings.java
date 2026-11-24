@@ -56,6 +56,7 @@ import com.limelight.binding.video.MediaCodecHelper;
 import com.limelight.utils.Dialog;
 import com.limelight.utils.FileUriUtils;
 import com.limelight.utils.PerformanceDataTracker;
+import com.limelight.utils.ControllerCheck;
 import com.limelight.utils.TunaUpdater;
 import com.limelight.utils.UiHelper;
 import org.json.JSONObject;
@@ -171,7 +172,7 @@ public class StreamSettings extends AppCompatActivity {
 
         /** The settings most people need; the rest appear with "Show all settings". */
         private static final java.util.Set<String> EVERYDAY_KEYS = new java.util.HashSet<>(Arrays.asList(
-                "tuna_run_setup", "tuna_open_only_pc", "tuna_show_expert", "tuna_check_updates",
+                "tuna_run_setup", "tuna_controller_check", "tuna_open_only_pc", "tuna_show_expert", "tuna_check_updates",
                 "list_resolution", "list_fps", "seekbar_bitrate_kbps", "checkbox_use_virtual_display",
                 "checkbox_enable_hdr",
                 "list_audio_config",
@@ -902,6 +903,13 @@ public class StreamSettings extends AppCompatActivity {
                     // Setup writes the settings itself, so close this page rather than show stale values
                     SetupActivity.launch(requireActivity());
                     requireActivity().finish();
+                    return true;
+                });
+            }
+            Preference controllerPref = findPreference("tuna_controller_check");
+            if (controllerPref != null) {
+                controllerPref.setOnPreferenceClickListener(preference -> {
+                    ControllerCheck.show(requireActivity());
                     return true;
                 });
             }

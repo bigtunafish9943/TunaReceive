@@ -17,6 +17,16 @@
     <string name="tuna_show_expert">Show all settings</string>
     <string name="tuna_show_expert_summary">For experts. Most people never need these.</string>
 
+    <!-- Check my controller -->
+    <string name="controller_check_title">Check my controller</string>
+    <string name="controller_check_summary">See whether this device can rumble your controller, and test it.</string>
+    <string name="controller_check_id">ID %1$s</string>
+    <string name="controller_check_rumble_yes">Rumble: works on this device. Press Test rumble.</string>
+    <string name="controller_check_rumble_no">Rumble: this device doesn\'t offer rumble for it</string>
+    <string name="controller_check_no_rumble_explained">Over Bluetooth, Android only lets apps rumble controllers its own drivers understand. When it doesn\'t, no app can make that controller rumble in that mode. A different connection mode on the controller, or a USB adapter, may show up differently here.</string>
+    <string name="controller_check_none">No controller is connected. Turn it on, wait until it controls the TV, then try again.</string>
+    <string name="controller_check_test">Test rumble</string>
+
     <!-- Help, shown in the app -->
     <string name="help_setup_title">Getting started</string>
     <string name="help_setup_body">1. On your PC, install TunaStream and keep it running. Its icon sits by the clock.\n\n2. Connect this device to the same network as the PC, by cable or 5 GHz Wi-Fi if you can.\n\n3. Your PC appears here by itself. If it doesn\'t, choose Add PC Manually and type the address shown on TunaStream\'s home page.\n\n4. Choose the PC. A PIN appears: on the PC, open TunaStream, go to the PIN page, enter it and press Send.\n\n5. Choose a game. It opens on its own screen on the PC, sized for this TV.</string>
