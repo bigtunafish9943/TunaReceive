@@ -790,7 +790,7 @@ public class StreamSettings extends AppCompatActivity {
 
                         try {
                             File cacheDir = context.getCacheDir();
-                            File logFile = new File(cacheDir, "artemistics_logs.txt");
+                            File logFile = new File(cacheDir, "tunareceive_logs.txt");
                             try (FileOutputStream fos = new FileOutputStream(logFile)) {
                                 fos.write(logs.getBytes(StandardCharsets.UTF_8));
                             }
@@ -801,7 +801,10 @@ public class StreamSettings extends AppCompatActivity {
 
                             Intent emailIntent = new Intent(Intent.ACTION_SEND);
                             emailIntent.setType("text/plain");
-                            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailRecipient});
+                            if (emailRecipient != null && !emailRecipient.trim().isEmpty()
+                                    && !emailRecipient.contains("artemistics.logs")) {
+                                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailRecipient});
+                            }
                             emailIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
                             emailIntent.putExtra(Intent.EXTRA_TEXT, prefixMessage);
                             emailIntent.putExtra(Intent.EXTRA_STREAM, logFileUri);

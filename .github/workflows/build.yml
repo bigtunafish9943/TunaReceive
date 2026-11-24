@@ -1,0 +1,120 @@
+name: TunaReceive
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: SDK packages
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager --install "platforms;android-36" "build-tools;35.0.0" "ndk;27.0.12077973"
+
+      - name: Release secrets present
+        id: ks
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          if [ -n "${KEYSTORE_BASE64}" ] && [ -n "${KEYSTORE_PASSWORD}" ] && [ -n "${KEY_ALIAS}" ] && [ -n "${KEY_PASSWORD}" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "Signing secrets are absent. This APK is a sideload test only. It will not upgrade in place to a real release. No GitHub Release." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Build
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          if [ -n "${KEYSTORE_BASE64}" ] && [ -n "${KEYSTORE_PASSWORD}" ] && [ -n "${KEY_ALIAS}" ] && [ -n "${KEY_PASSWORD}" ]; then
+            echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/tunareceive.keystore"
+            export KEYSTORE_FILE="$RUNNER_TEMP/tunareceive.keystore"
+          else
+            keytool -genkeypair -keystore "$RUNNER_TEMP/tunareceive-ci.keystore" \
+              -storepass android -alias tunareceive -keypass android \
+              -keyalg RSA -keysize 2048 -validity 10000 \
+              -dname "CN=TunaReceive CI, O=TunaReceive, C=US"
+            export KEYSTORE_FILE="$RUNNER_TEMP/tunareceive-ci.keystore"
+            export KEYSTORE_PASSWORD=android
+            export KEY_ALIAS=tunareceive
+            export KEY_PASSWORD=android
+          fi
+          chmod +x ./gradlew
+          ./gradlew :app:assembleNonRoot_gameRelease --stacktrace \
+            -PtunaVersionName=0.1.${{ github.run_number }} \
+            -PtunaVersionCode=${{ github.run_number }}
+
+      - name: Name the APKs
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python3 - << 'PY'
+          import os, shutil
+          from pathlib import Path
+          version = "0.1." + os.environ["GITHUB_RUN_NUMBER"]
+          found = list(Path("app/build/outputs/apk").rglob("*.apk"))
+          if not found:
+              raise SystemExit("no apk")
+          for src in found:
+              name = src.name
+              if "arm64-v8a" in name:
+                  dest = f"TunaReceive-{version}-arm64-v8a.apk"
+              elif "universal" in name:
+                  dest = f"TunaReceive-{version}-universal.apk"
+              elif "armeabi-v7a" in name:
+                  dest = f"TunaReceive-{version}-armeabi-v7a.apk"
+              elif "x86_64" in name:
+                  dest = f"TunaReceive-{version}-x86_64.apk"
+              elif "-x86-" in name:
+                  dest = f"TunaReceive-{version}-x86.apk"
+              else:
+                  dest = f"TunaReceive-{version}-{src.stem}.apk"
+              shutil.copy2(src, Path("out") / dest)
+              print(dest)
+          PY
+
+      - name: Upload APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: TunaReceive-apk
+          path: out/*.apk
+          if-no-files-found: error
+
+      - name: Publish release
+        if: steps.ks.outputs.present == 'true' && github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/moonlight-noir')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v0.1.${{ github.run_number }}
+          name: TunaReceive v0.1.${{ github.run_number }}
+          files: out/*.apk
+          generate_release_notes: true
+          draft: false
+          prerelease: false

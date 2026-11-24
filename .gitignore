@@ -47,3 +47,7 @@ app/.externalNativeBuild/
 
 # agent files
 AGENTS.md
+
+# signing material, never commit
+*.keystore
+*.jks

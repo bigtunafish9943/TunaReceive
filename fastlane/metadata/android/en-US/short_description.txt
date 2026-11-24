@@ -1,1 +1,1 @@
-Play games from your PC on Android
+Client for TunaStream on Android TV and phones
