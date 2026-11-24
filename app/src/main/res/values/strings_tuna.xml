@@ -17,6 +17,15 @@
     <string name="tuna_show_expert">Show all settings</string>
     <string name="tuna_show_expert_summary">For experts. Most people never need these.</string>
 
+    <!-- Repair the PC's virtual screen -->
+    <string name="repair_menu">Repair the PC\'s virtual screen</string>
+    <string name="repair_title">The PC\'s virtual screen</string>
+    <string name="repair_running">TunaStream is reinstalling the PC\'s virtual screen driver. This can take a minute.</string>
+    <string name="repair_done">Fixed: streams get their own screen again.</string>
+    <string name="repair_still_broken">The virtual screen still isn\'t working. Restart the PC, then try again.</string>
+    <string name="repair_refused">TunaStream didn\'t start the repair.</string>
+    <string name="repair_needs_tunastream">The PC needs a newer TunaStream for this. TunaStream updates itself from its home page.</string>
+
     <!-- Check my controller -->
     <string name="controller_check_title">Check my controller</string>
     <string name="controller_check_summary">See whether this device can rumble your controller, and test it.</string>
