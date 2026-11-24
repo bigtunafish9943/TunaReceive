@@ -2,6 +2,7 @@ package com.limelight;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import com.limelight.utils.UiHelper;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -129,7 +130,7 @@ public class GameMenu implements Game.GameMenuCallbacks {
         if (currentDialog != null) {
             currentDialog.dismiss();
         }
-        currentDialog = builder.show();
+        currentDialog = UiHelper.styleDialog(builder.show());
 
         Window window = currentDialog.getWindow();
 

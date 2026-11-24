@@ -52,11 +52,11 @@ public class HelpLauncher {
     // these used to open describes other hosts.
     private static void showHelp(Context context, int title, int body) {
         if (context instanceof Activity && !((Activity) context).isFinishing()) {
-            new AlertDialog.Builder(context)
+            UiHelper.styleDialog(new AlertDialog.Builder(context)
                     .setTitle(title)
                     .setMessage(body)
                     .setPositiveButton(android.R.string.ok, null)
-                    .show();
+                    .show());
         }
     }
 

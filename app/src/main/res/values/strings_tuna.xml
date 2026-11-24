@@ -77,6 +77,9 @@
     <string name="files_gave_up">%1$s didn\'t arrive after several tries. Send it again from TunaStream on the PC.</string>
     <string name="files_failed">%1$s didn\'t arrive. TunaReceive will try again in a moment.</string>
 
+    <!-- When a stream's connection drops (error -1) -->
+    <string name="conn_dropped_msg">The connection to the PC dropped.\n\nThis usually means the Wi-Fi couldn\'t keep up for a moment. Lower the Picture quality in Settings, or long-press your PC and choose Fit picture quality to this connection. A smaller picture size (1080p instead of 4K) helps the most.\n\nIf TunaStream was updating or restarting on the PC, just start the game again.</string>
+
     <!-- Shown when a stream starts, the first three times -->
     <string name="tuna_menu_hint">Hold your controller\'s Home button for a second to open the quick menu.</string>
 

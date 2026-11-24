@@ -107,6 +107,7 @@ public class Dialog implements Runnable {
         synchronized (rundownDialogs) {
             rundownDialogs.add(this);
             alert.show();
+            UiHelper.styleDialog(alert);
         }
     }
 

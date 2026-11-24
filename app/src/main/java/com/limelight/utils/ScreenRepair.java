@@ -21,11 +21,11 @@ public final class ScreenRepair {
     private ScreenRepair() {}
 
     public static void run(final Activity activity, final ComputerDetails computer, final String uniqueId) {
-        final AlertDialog progress = new AlertDialog.Builder(activity)
+        final AlertDialog progress = UiHelper.styleDialog(new AlertDialog.Builder(activity)
                 .setTitle(R.string.repair_title)
                 .setMessage(R.string.repair_running)
                 .setCancelable(false)
-                .show();
+                .show());
 
         new Thread(() -> {
             int result;
@@ -65,11 +65,11 @@ public final class ScreenRepair {
                 if (extra != null && !extra.isEmpty()) {
                     text = text + "\n\n" + extra;
                 }
-                new AlertDialog.Builder(activity)
+                UiHelper.styleDialog(new AlertDialog.Builder(activity)
                         .setTitle(R.string.repair_title)
                         .setMessage(text)
                         .setPositiveButton(android.R.string.ok, null)
-                        .show();
+                        .show());
             });
         }, "TunaReceive screen repair").start();
     }

@@ -292,4 +292,45 @@ public class UiHelper {
     public static float dpToPx(Context context, float dp) {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
+
+    /**
+     * Gives a shown pop-up TunaStream's look whatever the device's own theme does: navy card,
+     * light text, cyan buttons. Some TV boxes draw app pop-ups in their own colours, which made
+     * ours bright blue with buttons that couldn't be read. Call right after show().
+     */
+    public static AlertDialog styleDialog(AlertDialog dialog) {
+        if (dialog == null) {
+            return null;
+        }
+        Context context = dialog.getContext();
+        android.view.Window window = dialog.getWindow();
+        if (window != null) {
+            window.setBackgroundDrawableResource(R.drawable.ts_dialog_bg);
+        }
+        int text = context.getResources().getColor(R.color.ts_text);
+        int secondary = context.getResources().getColor(R.color.ts_text_secondary);
+        int accent = context.getResources().getColor(R.color.ts_accent);
+        TextView message = dialog.findViewById(android.R.id.message);
+        if (message != null) {
+            message.setTextColor(secondary);
+        }
+        int titleId = context.getResources().getIdentifier("alertTitle", "id", "android");
+        if (titleId != 0) {
+            TextView title = dialog.findViewById(titleId);
+            if (title != null) {
+                title.setTextColor(text);
+            }
+        }
+        for (int which : new int[]{AlertDialog.BUTTON_POSITIVE, AlertDialog.BUTTON_NEGATIVE, AlertDialog.BUTTON_NEUTRAL}) {
+            android.widget.Button button = dialog.getButton(which);
+            if (button != null) {
+                button.setTextColor(accent);
+            }
+        }
+        android.widget.ListView list = dialog.getListView();
+        if (list != null) {
+            list.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+        }
+        return dialog;
+    }
 }

@@ -3614,6 +3614,11 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                                     message = getResources().getString(R.string.frame_conversion_error);
                                     break;
 
+                                case -1:
+                                    // The link to the PC went quiet: usually Wi-Fi that couldn't keep up
+                                    message = getResources().getString(R.string.conn_dropped_msg);
+                                    break;
+
                                 default:
                                     String errorCodeString;
                                     // We'll assume large errors are hex values

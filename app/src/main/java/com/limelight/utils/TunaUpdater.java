@@ -198,14 +198,14 @@ public final class TunaUpdater {
     }
 
     private static void offer(final Activity activity, final Release release) {
-        new AlertDialog.Builder(activity)
+        UiHelper.styleDialog(new AlertDialog.Builder(activity)
                 .setTitle(activity.getString(R.string.update_available_title, release.version))
                 .setMessage(activity.getString(R.string.update_available_body, BuildConfig.VERSION_NAME))
                 .setPositiveButton(R.string.update_now, (d, w) -> startUpdate(activity, release))
                 .setNegativeButton(R.string.update_later, (d, w) ->
                         PreferenceManager.getDefaultSharedPreferences(activity).edit()
                                 .putInt(PREF_DISMISSED_CODE, release.code).apply())
-                .show();
+                .show());
     }
 
     /** Call from onResume: carries on an update that was waiting for the install permission. */
@@ -228,7 +228,7 @@ public final class TunaUpdater {
         if (!canInstall(activity)) {
             // Android asks once whether TunaReceive may install apps; send the user to that switch
             pendingAfterPermission = release;
-            new AlertDialog.Builder(activity)
+            UiHelper.styleDialog(new AlertDialog.Builder(activity)
                     .setTitle(R.string.update_permission_title)
                     .setMessage(R.string.update_permission_body)
                     .setPositiveButton(R.string.update_permission_open, (d, w) -> {
@@ -244,17 +244,17 @@ public final class TunaUpdater {
                         }
                     })
                     .setNegativeButton(android.R.string.cancel, (d, w) -> pendingAfterPermission = null)
-                    .show();
+                    .show());
             return;
         }
 
         final boolean[] cancelled = {false};
-        final AlertDialog progress = new AlertDialog.Builder(activity)
+        final AlertDialog progress = UiHelper.styleDialog(new AlertDialog.Builder(activity)
                 .setTitle(activity.getString(R.string.update_downloading_title, release.version))
                 .setMessage(activity.getString(R.string.update_downloading, 0))
                 .setCancelable(false)
                 .setNegativeButton(android.R.string.cancel, (d, w) -> cancelled[0] = true)
-                .show();
+                .show());
         busy = true;
 
         final Handler ui = new Handler(Looper.getMainLooper());
@@ -279,11 +279,11 @@ public final class TunaUpdater {
                     return;
                 }
                 if (done == null) {
-                    new AlertDialog.Builder(activity)
+                    UiHelper.styleDialog(new AlertDialog.Builder(activity)
                             .setTitle(R.string.update_failed_title)
                             .setMessage(error != null ? error : activity.getString(R.string.update_check_failed))
                             .setPositiveButton(android.R.string.ok, null)
-                            .show();
+                            .show());
                     return;
                 }
                 try {

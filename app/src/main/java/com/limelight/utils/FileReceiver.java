@@ -235,6 +235,6 @@ public final class FileReceiver {
                 }
             });
         }
-        dialog.show();
+        UiHelper.styleDialog(dialog.show());
     }
 }

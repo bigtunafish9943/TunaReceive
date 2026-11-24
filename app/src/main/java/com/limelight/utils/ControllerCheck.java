@@ -143,7 +143,7 @@ public final class ControllerCheck {
             // Set below so pressing it doesn't close the box
             dialog.setPositiveButton(R.string.controller_check_test, null);
         }
-        AlertDialog shown = dialog.show();
+        AlertDialog shown = UiHelper.styleDialog(dialog.show());
         if (!withRumble.isEmpty()) {
             shown.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
                 for (InputDevice device : withRumble) {

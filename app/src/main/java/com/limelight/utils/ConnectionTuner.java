@@ -30,11 +30,11 @@ public final class ConnectionTuner {
      */
     public static void run(final Activity activity, final ComputerDetails computer, final String uniqueId,
                            final boolean quiet, final Runnable onDone) {
-        final AlertDialog progress = new AlertDialog.Builder(activity)
+        final AlertDialog progress = UiHelper.styleDialog(new AlertDialog.Builder(activity)
                 .setTitle(activity.getString(R.string.tuner_measuring_title, computer.name))
                 .setMessage(R.string.tuner_measuring_body)
                 .setCancelable(false)
-                .show();
+                .show());
 
         new Thread(() -> {
             int mbps = -1;
@@ -66,12 +66,12 @@ public final class ConnectionTuner {
                             onDone.run();
                         }
                     } else {
-                        new AlertDialog.Builder(activity)
+                        UiHelper.styleDialog(new AlertDialog.Builder(activity)
                                 .setTitle(R.string.tuner_failed_title)
                                 .setMessage(error != 0 ? error : R.string.tuner_failed)
                                 .setPositiveButton(android.R.string.ok, (d, w) -> { if (onDone != null) onDone.run(); })
                                 .setCancelable(false)
-                                .show();
+                                .show());
                     }
                     return;
                 }
@@ -103,7 +103,7 @@ public final class ConnectionTuner {
                         if (onDone != null) onDone.run();
                     });
         }
-        dialog.show();
+        UiHelper.styleDialog(dialog.show());
     }
 
     /** A share of the measured speed that depends on the Smoother/Sharper answer in setup. */
