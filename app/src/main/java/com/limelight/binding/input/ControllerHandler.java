@@ -21,6 +21,7 @@ import android.os.CombinedVibration;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.os.VibrationAttributes;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -3018,6 +3019,33 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
         context.leftTrigger = (byte)(leftTrigger * 0xFF);
         context.rightTrigger = (byte)(rightTrigger * 0xFF);
 
+        // Holding Home opens the quick menu, as it does for Bluetooth controllers; a normal
+        // press goes to the PC when Home is released
+        if (prefConfig.enableBackMenu) {
+            boolean guide = (buttonFlags & ControllerPacket.SPECIAL_BUTTON_FLAG) != 0;
+            if (guide) {
+                if (context.guideDownTime == 0) {
+                    context.guideDownTime = SystemClock.uptimeMillis();
+                }
+                buttonFlags &= ~ControllerPacket.SPECIAL_BUTTON_FLAG;
+            } else if (context.guideDownTime != 0) {
+                long held = SystemClock.uptimeMillis() - context.guideDownTime;
+                context.guideDownTime = 0;
+                if (held >= GUIDE_HOLD_FOR_MENU_MS) {
+                    final GenericControllerContext menuContext = context;
+                    activityContext.runOnUiThread(() -> gestures.showGameMenu(menuContext));
+                } else {
+                    context.inputMap = buttonFlags | ControllerPacket.SPECIAL_BUTTON_FLAG;
+                    sendControllerInputPacket(context);
+                    try {
+                        Thread.sleep(MINIMUM_BUTTON_DOWN_TIME_MS);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
+        }
+
         context.inputMap = buttonFlags;
 
         sendControllerInputPacket(context);
@@ -3055,6 +3083,9 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
     }
 
     class GenericControllerContext implements GameInputDevice{
+        // When the Home (Guide) button went down, while we wait to see if it's held for the menu
+        public long guideDownTime;
+
         public int id;
         public boolean external;
 
@@ -3198,8 +3229,6 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
         public int emulatingButtonFlags = 0;
         public boolean hasSelect;
         public boolean hasMode;
-        // When the Home (Guide) button went down, while we wait to see if it's held for the menu
-        public long guideDownTime;
         public boolean hasPaddles;
         public boolean hasShare;
         public boolean needsClickpadEmulation;
