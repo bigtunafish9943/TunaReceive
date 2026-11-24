@@ -3,7 +3,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- Home screen -->
-    <string name="home_tagline">Your PC\'s games, on this screen</string>
+    <string name="home_version">Version %1$s</string>
     <string name="home_searching_hint">TunaStream needs to be running on the PC, on the same network as this device.</string>
     <string name="tuna_settings_button">Settings</string>
 

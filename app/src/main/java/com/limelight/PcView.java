@@ -6,6 +6,7 @@ import java.net.UnknownHostException;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.limelight.binding.PlatformBinding;
+import com.limelight.BuildConfig;
 import com.limelight.binding.crypto.AndroidCryptoProvider;
 import com.limelight.computers.ComputerManagerListener;
 import com.limelight.computers.ComputerManagerService;
@@ -62,6 +63,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
@@ -176,6 +178,8 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
                 startActivity(i);
             }
         });
+        TextView brandVersion = findViewById(R.id.brandVersion);
+        brandVersion.setText(getString(R.string.home_version, BuildConfig.VERSION_NAME));
         ImageButton updateButton = findViewById(R.id.updateButton);
         updateButton.setOnClickListener(v -> TunaUpdater.check(PcView.this, true));
         helpButton.setOnClickListener(new OnClickListener() {
