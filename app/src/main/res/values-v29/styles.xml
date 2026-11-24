@@ -20,6 +20,10 @@
         <item name="colorOutline">@color/ts_surface_border</item>
         <item name="android:colorBackground">@color/ts_navy</item>
         <item name="colorAccent">@color/ts_accent</item>
+        <!-- Pop-ups: navy with light text, never light cyan -->
+        <item name="android:alertDialogTheme">@style/TunaDialog</item>
+        <item name="alertDialogTheme">@style/TunaDialogCompat</item>
+        <item name="materialAlertDialogTheme">@style/TunaDialogCompat</item>
     </style>
 
     <style name="SettingsTheme" parent="AppTheme">

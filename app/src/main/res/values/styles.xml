@@ -16,6 +16,10 @@
         <item name="colorSurface">@color/ts_surface</item>
         <item name="colorOnSurface">@color/ts_text</item>
         <item name="colorAccent">@color/ts_accent</item>
+        <!-- Pop-ups: navy with light text, never light cyan -->
+        <item name="android:alertDialogTheme">@style/TunaDialog</item>
+        <item name="alertDialogTheme">@style/TunaDialogCompat</item>
+        <item name="materialAlertDialogTheme">@style/TunaDialogCompat</item>
     </style>
 
     <!-- Application theme. -->
@@ -76,4 +80,30 @@
         <attr name="aperture_middle_color" format="color" />
     </declare-styleable>
 
+
+    <!-- Framework (android.app.AlertDialog) pop-ups -->
+    <style name="TunaDialog" parent="android:Theme.Material.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/ts_dialog_bg</item>
+        <item name="android:colorBackground">@color/ts_surface</item>
+        <item name="android:textColorPrimary">@color/ts_text</item>
+        <item name="android:textColorSecondary">@color/ts_text_secondary</item>
+        <item name="android:textColorAlertDialogListItem">@color/ts_text</item>
+        <item name="android:colorAccent">@color/ts_accent</item>
+        <item name="android:colorPrimary">@color/ts_accent</item>
+        <item name="android:colorControlActivated">@color/ts_accent</item>
+        <item name="android:colorControlHighlight">@color/ts_deep</item>
+    </style>
+
+    <!-- AndroidX and Material pop-ups -->
+    <style name="TunaDialogCompat" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/ts_dialog_bg</item>
+        <item name="android:colorBackground">@color/ts_surface</item>
+        <item name="colorSurface">@color/ts_surface</item>
+        <item name="colorOnSurface">@color/ts_text</item>
+        <item name="android:textColorPrimary">@color/ts_text</item>
+        <item name="android:textColorSecondary">@color/ts_text_secondary</item>
+        <item name="colorPrimary">@color/ts_accent</item>
+        <item name="colorAccent">@color/ts_accent</item>
+        <item name="colorControlHighlight">@color/ts_deep</item>
+    </style>
 </resources>

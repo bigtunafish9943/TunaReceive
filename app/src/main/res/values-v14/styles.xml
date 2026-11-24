@@ -7,6 +7,10 @@
     -->
     <style name="AppBaseTheme" parent="Theme.MaterialComponents.NoActionBar">
         <!-- API 14 theme customizations can go here. -->
+        <!-- Pop-ups: navy with light text, never light cyan -->
+        <item name="android:alertDialogTheme">@style/TunaDialog</item>
+        <item name="alertDialogTheme">@style/TunaDialogCompat</item>
+        <item name="materialAlertDialogTheme">@style/TunaDialogCompat</item>
     </style>
 
 </resources>

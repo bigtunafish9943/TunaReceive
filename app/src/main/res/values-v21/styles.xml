@@ -15,6 +15,10 @@
         <item name="colorSurface">@color/ts_surface</item>
         <item name="colorOnSurface">@color/ts_text</item>
         <item name="colorAccent">@color/ts_accent</item>
+        <!-- Pop-ups: navy with light text, never light cyan -->
+        <item name="android:alertDialogTheme">@style/TunaDialog</item>
+        <item name="alertDialogTheme">@style/TunaDialogCompat</item>
+        <item name="materialAlertDialogTheme">@style/TunaDialogCompat</item>
     </style>
 
 </resources>
