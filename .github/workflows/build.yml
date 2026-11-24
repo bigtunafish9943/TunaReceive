@@ -2,6 +2,10 @@ name: TunaReceive
 
 on:
   push:
+    # Text-only changes don't need a new APK or release
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
   pull_request:
 
 permissions:

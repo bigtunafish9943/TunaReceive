@@ -6,6 +6,18 @@ This is a fork of [Artemis](https://github.com/ClassicOldSong/moonlight-android)
 
 The app id is `com.tunastream.receive`. It installs next to Moonlight and next to Artemis. Java packages stay `com.limelight` so upstream merges stay possible.
 
+## What it adds
+
+- **Setup on first start.** A few questions, answered with the controller, choose the picture size, frame rate,
+  picture quality, controller and sound. Settings opens on the everyday choices; the rest are a switch away.
+- **Updates itself** from this repo's releases: only the APK for the device, only when its SHA-256 matches
+  GitHub's published checksum, and Android only installs it when it is signed with the same key.
+- **Straight to the games.** With one paired PC it opens that PC's games on start, waking the PC if it's asleep.
+- **Connection test.** After pairing, it measures how fast the PC can send to the device and suggests a picture
+  quality with headroom (needs TunaStream's `/tuna/speedtest`).
+- **Couch menu.** Hold the controller's Home button for the quick menu.
+- **Stream stats in plain words**, and TunaStream's look: navy, cyan, the tuna mark.
+
 ## What this repo is not
 
 Do not put TunaStream changes here. If the client needs something from the PC, write it in `docs/host-requests.md`. Claude maintains TunaStream.
