@@ -12,8 +12,10 @@ android {
         targetSdk 34
 
         // CI passes -PtunaVersionName and -PtunaVersionCode
-        versionName project.findProperty("tunaVersionName") ?: "0.1.0"
-        versionCode (project.findProperty("tunaVersionCode") ?: "1").toInteger()
+        // (Assignments, not Groovy command calls: "versionCode (x).toInteger()" calls versionCode with
+        // the text and then converts its empty result, which is why the first build stopped here.)
+        versionName = (project.findProperty("tunaVersionName") ?: "0.1.0").toString()
+        versionCode = Integer.parseInt((project.findProperty("tunaVersionCode") ?: "1").toString())
 
         // Generate native debug symbols to allow Google Play to symbolicate our native crashes
         ndk.debugSymbolLevel = 'FULL'
