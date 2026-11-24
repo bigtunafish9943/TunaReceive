@@ -29,3 +29,17 @@ A release signature comes from GitHub Actions secrets, not from this tree. The o
 ## Status
 
 `docs/status.md` is the phase note. It is not a claim that a Shield has already paired.
+
+## Credits
+
+TunaReceive is built on the work of others, and keeps their copyright notices and license:
+
+- [Artemis](https://github.com/ClassicOldSong/moonlight-android) by ClassicOldSong, which TunaReceive began as a
+  copy of: virtual display requests, clipboard sync, server commands and many client improvements come from it.
+- [Moonlight for Android](https://github.com/moonlight-stream/moonlight-android), which Artemis is built on, by
+  [Cameron Gutman](https://github.com/cgutman), [Diego Waxemberg](https://github.com/dwaxemberg),
+  [Aaron Neyer](https://github.com/Aaronneyer), [Andrew Hennessy](https://github.com/yetanothername) and the
+  Moonlight contributors. Moonlight was started as a project at [MHacks](http://mhacks.org) by students at
+  [Case Western](http://case.edu).
+
+TunaReceive is free software under the GPL-3.0; see `LICENSE.txt` and `NOTICE`.
