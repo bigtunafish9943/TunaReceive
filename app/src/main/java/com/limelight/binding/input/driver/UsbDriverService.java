@@ -231,7 +231,14 @@ public class UsbDriverService extends Service implements UsbDriverListener {
                 continue;
             }
 
-            if (inputDev.getVendorId() == device.getVendorId() &&
+            // Only a controller counts. Adapters like 8BitDo's 2.4G one (2dc8:310b) also have a
+            // keyboard/mouse interface that Android does run, while nothing runs the controller
+            // interface; that keyboard must not stop TunaReceive from driving the controller.
+            int sources = inputDev.getSources();
+            boolean isController = (sources & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD ||
+                    (sources & InputDevice.SOURCE_JOYSTICK) == InputDevice.SOURCE_JOYSTICK;
+            if (isController &&
+                    inputDev.getVendorId() == device.getVendorId() &&
                     inputDev.getProductId() == device.getProductId()) {
                 return true;
             }
