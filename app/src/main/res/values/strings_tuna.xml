@@ -24,6 +24,11 @@
     <string name="controller_check_rumble_yes">Rumble: works on this device. Press Test rumble.</string>
     <string name="controller_check_rumble_no">Rumble: this device doesn\'t offer rumble for it</string>
     <string name="controller_check_no_rumble_explained">Over Bluetooth, Android only lets apps rumble controllers its own drivers understand. When it doesn\'t, no app can make that controller rumble in that mode. A different connection mode on the controller, or a USB adapter, may show up differently here.</string>
+    <string name="controller_check_usb">USB: %1$s</string>
+    <string name="controller_check_usb_device">a USB device</string>
+    <string name="controller_check_usb_id">ID %1$s, type %2$s</string>
+    <string name="controller_check_usb_ours">During a stream, TunaReceive drives this itself, rumble included.</string>
+    <string name="controller_check_usb_not_ours">TunaReceive doesn\'t recognise this as a controller yet. Send these numbers to whoever maintains TunaReceive.</string>
     <string name="controller_check_none">No controller is connected. Turn it on, wait until it controls the TV, then try again.</string>
     <string name="controller_check_test">Test rumble</string>
 
