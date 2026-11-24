@@ -85,6 +85,11 @@
     <string name="tuna_reconnecting">The connection dropped. Reconnecting… (%1$d of %2$d)</string>
     <string name="tuna_adaptive_quality">Adjust picture quality to the Wi-Fi</string>
     <string name="tuna_adaptive_quality_summary">Watches how each frame arrives. When the Wi-Fi is getting full, it softens the picture a little before anything stutters, then goes back to full quality.</string>
+    <string name="tuna_adaptive_size">Adjust picture size too</string>
+    <string name="tuna_adaptive_size_summary">When the Wi-Fi drops a long way, send a smaller picture and let the TV stretch it, which looks cleaner than a blocky full-size one. It goes back to full size by itself. Needs Adjust picture quality to the Wi-Fi.</string>
+    <string name="tuna_size_test">Test a smaller picture (10 seconds)</string>
+    <string name="tuna_size_test_started">Sending a smaller picture for 10 seconds. It should stay full-screen, look a little softer, then sharpen again.</string>
+    <string name="tuna_size_test_unavailable">Can\'t try that here. Turn on both Adjust options in Settings, and update TunaStream on the PC.</string>
     <string name="tuna_tv_game_mode">Switch the TV to game mode</string>
     <string name="tuna_tv_game_mode_summary">While a game is on screen, ask the TV to skip its picture processing, which takes away a lot of delay. The TV goes back to normal afterwards. Needs a TV with auto low latency mode (ALLM).</string>
     <string name="tuna_10bit">10-bit picture (experimental)</string>

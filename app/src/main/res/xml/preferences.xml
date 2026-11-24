@@ -41,6 +41,13 @@
             android:summary="@string/tuna_10bit_summary"
             app:iconSpaceReserved="false" />
         <CheckBoxPreference
+            android:key="tuna_adaptive_size"
+            android:defaultValue="true"
+            android:dependency="tuna_adaptive_quality"
+            android:title="@string/tuna_adaptive_size"
+            android:summary="@string/tuna_adaptive_size_summary"
+            app:iconSpaceReserved="false" />
+        <CheckBoxPreference
             android:key="tuna_tv_game_mode"
             android:defaultValue="true"
             android:title="@string/tuna_tv_game_mode"

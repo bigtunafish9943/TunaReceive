@@ -201,6 +201,34 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
         void onStreamHealth(float lossPct, float receivedFps, float slowFramePct);
     }
 
+    /** True when this decoder takes a new picture size mid-stream without being restarted. */
+    public boolean canChangePictureSize() {
+        return adaptivePlayback;
+    }
+
+    /** The size being decoded right now, with the usual size beside it while it is reduced. */
+    private String pictureSizeLabel() {
+        String usual = initialWidth + "x" + initialHeight;
+        MediaFormat format = outputFormat;
+        if (format == null) {
+            return usual;
+        }
+        try {
+            int width = format.containsKey("crop-right") && format.containsKey("crop-left")
+                    ? format.getInteger("crop-right") - format.getInteger("crop-left") + 1
+                    : format.getInteger(MediaFormat.KEY_WIDTH);
+            int height = format.containsKey("crop-bottom") && format.containsKey("crop-top")
+                    ? format.getInteger("crop-bottom") - format.getInteger("crop-top") + 1
+                    : format.getInteger(MediaFormat.KEY_HEIGHT);
+            if (width > 0 && height > 0 && (width != initialWidth || height != initialHeight)) {
+                return width + "x" + height + " (" + usual + ")";
+            }
+        } catch (RuntimeException e) {
+            // A format without sizes: show the usual one
+        }
+        return usual;
+    }
+
     // Frames in the current one-second window, and how many of them trickled in
     private int healthFrames;
     private int healthSlowFrames;
@@ -1902,7 +1930,7 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
                         sb.append(context.getString(R.string.perf_overlay_drawdelay, Stereo3DRenderer.drawDelay));
                     } else {
                         // If GPU renders the frames, the render FPS is the actual drawn and visible fps for the user
-                        sb.append(context.getString(R.string.perf_overlay_streamdetails, initialWidth + "x" + initialHeight, fps.totalFps));
+                        sb.append(context.getString(R.string.perf_overlay_streamdetails, pictureSizeLabel(), fps.totalFps));
                     }
                     sb.append('\n');
                     sb.append(plainVerdict(lastTwo, fps, decodeTimeMs, rttInfo)).append('\n');

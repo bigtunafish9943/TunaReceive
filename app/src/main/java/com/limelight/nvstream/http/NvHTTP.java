@@ -833,9 +833,14 @@ public class NvHTTP {
         return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/vdisplay/repair");
     }
 
-    /** TunaStream only: asks for a new bitrate for this device's stream. JSON {"applied","kbps"}. */
-    public String setTunaBitrate(int kbps) throws IOException {
-        return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/bitrate", "kbps=" + kbps);
+    /**
+     * TunaStream only: asks for a new bitrate for this device's stream, and with scalePercent above
+     * zero a picture size too (percent of the size the stream started at).
+     * JSON {"applied","kbps","scale"}; "scale" is missing from a TunaStream that can't change the size.
+     */
+    public String setTunaBitrate(int kbps, int scalePercent) throws IOException {
+        return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/bitrate",
+                "kbps=" + kbps + (scalePercent > 0 ? "&scale=" + scalePercent : ""));
     }
 
     /** TunaStream only: how the PC reaches the network. JSON {"known","wifi","mbps","signal","channel"}. */

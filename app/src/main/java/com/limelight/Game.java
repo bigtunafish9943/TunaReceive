@@ -690,7 +690,10 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
 
         // Picture quality that adjusts itself to the Wi-Fi (needs a TunaStream that supports it)
         if (httpConn != null && PreferenceManager.getDefaultSharedPreferences(this).getBoolean("tuna_adaptive_quality", true)) {
-            adaptiveQuality = new AdaptiveQuality(httpConn, prefConfig.bitrate, Math.round(prefConfig.fps));
+            final boolean adjustSize = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("tuna_adaptive_size", true);
+            adaptiveQuality = new AdaptiveQuality(httpConn, prefConfig.bitrate, Math.round(prefConfig.fps),
+                    prefConfig.width, prefConfig.height,
+                    adjustSize ? () -> decoderRenderer != null && decoderRenderer.canChangePictureSize() : null);
             decoderRenderer.setStreamHealthListener(adaptiveQuality);
         }
 
@@ -4296,6 +4299,13 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         // Always exit zoom mode if mouse mode has changed
         isPanZoomMode = false;
         updateZoomButtonAppearance();
+    }
+
+    /** Quick menu: shows a smaller picture for ten seconds, to check this TV and PC handle the change. */
+    public void testPictureSize() {
+        boolean started = adaptiveQuality != null && adaptiveQuality.testPictureSize();
+        Toast.makeText(this, started ? R.string.tuna_size_test_started : R.string.tuna_size_test_unavailable,
+                Toast.LENGTH_LONG).show();
     }
 
     public void toggleHUD() {
