@@ -20,6 +20,7 @@ import com.limelight.ui.AdapterFragmentCallbacks;
 import com.limelight.utils.CacheHelper;
 import com.limelight.utils.Dialog;
 import com.limelight.utils.ServerHelper;
+import com.limelight.utils.FileReceiver;
 import com.limelight.utils.ShortcutHelper;
 import com.limelight.utils.SpinnerDialog;
 import com.limelight.utils.UiHelper;
@@ -240,6 +241,12 @@ public class AppView extends AppCompatActivity implements AdapterFragmentCallbac
                     });
 
                     return;
+                }
+
+                // Collect any files the PC is sending to this device (checks every few seconds at most)
+                ComputerManagerService.ComputerManagerBinder binder = managerBinder;
+                if (binder != null && details.pairState == PairingManager.PairState.PAIRED) {
+                    FileReceiver.check(AppView.this, details, binder.getUniqueId());
                 }
 
                 // App list is the same or empty

@@ -38,6 +38,18 @@
     <string name="tuner_needs_tunastream">The PC needs a newer TunaStream for this test. TunaStream updates itself from its home page.</string>
     <string name="tuner_stream_running">A stream is running on the PC. End it, then try again.</string>
 
+    <!-- Send to device: files from the PC -->
+    <plurals name="files_received_title">
+        <item quantity="one">A file from %2$s</item>
+        <item quantity="other">%1$d files from %2$s</item>
+    </plurals>
+    <string name="files_received_body">Saved in this device\'s Downloads:%1$s</string>
+    <string name="files_install">Install</string>
+    <string name="files_open">Open</string>
+    <string name="files_no_app">No app on this device can open that file. It\'s in Downloads.</string>
+    <string name="files_gave_up">%1$s didn\'t arrive after several tries. Send it again from TunaStream on the PC.</string>
+    <string name="files_failed">%1$s didn\'t arrive. TunaReceive will try again in a moment.</string>
+
     <!-- Shown when a stream starts, the first three times -->
     <string name="tuna_menu_hint">Hold your controller\'s Home button for a second to open the quick menu.</string>
 

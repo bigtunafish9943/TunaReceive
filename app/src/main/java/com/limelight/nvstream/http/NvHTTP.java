@@ -823,6 +823,21 @@ public class NvHTTP {
         return (int) (bytes * 8 / 1000 / ms);
     }
 
+    /** TunaStream only: JSON listing the files the PC is sending to this device ("Send to device"). */
+    public String getTunaFiles() throws IOException {
+        return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/files");
+    }
+
+    /** TunaStream only: one file the PC is sending. The caller reads and closes it. */
+    public ResponseBody openTunaFile(String id) throws IOException {
+        return openHttpConnection(httpClientLongConnectNoReadTimeout, getHttpsUrl(true), "tuna/file", "id=" + id, null);
+    }
+
+    /** TunaStream only: tells the PC the file arrived, so it stops offering it. */
+    public void tunaFileReceived(String id) throws IOException {
+        openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/file/done", "id=" + id);
+    }
+
     private static long readAndCount(ResponseBody body) throws IOException {
         long total = 0;
         try (InputStream in = body.byteStream()) {

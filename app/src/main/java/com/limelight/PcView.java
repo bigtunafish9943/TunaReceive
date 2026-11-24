@@ -30,6 +30,7 @@ import com.limelight.utils.Dialog;
 import com.limelight.utils.HelpLauncher;
 import com.limelight.utils.ServerHelper;
 import com.limelight.utils.ConnectionTuner;
+import com.limelight.utils.FileReceiver;
 import com.limelight.utils.ShortcutHelper;
 import com.limelight.utils.TunaUpdater;
 import com.limelight.utils.UiHelper;
@@ -916,6 +917,11 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
         pcGridAdapter.notifyDataSetChanged();
 
         maybeOpenOnlyPc(details);
+
+        // Collect any files a paired PC is sending to this device
+        if (managerBinder != null && details.pairState == PairState.PAIRED) {
+            FileReceiver.check(this, details, managerBinder.getUniqueId());
+        }
     }
 
     /** Set once per app start, so Back from the games list stays on the PC list. */
