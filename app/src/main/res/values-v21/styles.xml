@@ -6,7 +6,15 @@
         res/values-v21/styles.xml on API 21+ devices.
     -->
     <style name="AppBaseTheme" parent="Theme.MaterialComponents.NoActionBar">
-        <!-- API 21 theme customizations can go here. -->
+        <!-- TunaStream colours -->
+        <item name="colorPrimary">@color/ts_accent</item>
+        <item name="colorPrimaryVariant">@color/ts_blue</item>
+        <item name="colorOnPrimary">@color/ts_navy</item>
+        <item name="colorSecondary">@color/ts_accent</item>
+        <item name="colorOnSecondary">@color/ts_navy</item>
+        <item name="colorSurface">@color/ts_surface</item>
+        <item name="colorOnSurface">@color/ts_text</item>
+        <item name="colorAccent">@color/ts_accent</item>
     </style>
 
 </resources>

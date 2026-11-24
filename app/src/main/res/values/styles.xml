@@ -7,11 +7,15 @@
 
     -->
     <style name="AppBaseTheme" parent="Theme.MaterialComponents.NoActionBar">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+        <!-- TunaStream colours -->
+        <item name="colorPrimary">@color/ts_accent</item>
+        <item name="colorPrimaryVariant">@color/ts_blue</item>
+        <item name="colorOnPrimary">@color/ts_navy</item>
+        <item name="colorSecondary">@color/ts_accent</item>
+        <item name="colorOnSecondary">@color/ts_navy</item>
+        <item name="colorSurface">@color/ts_surface</item>
+        <item name="colorOnSurface">@color/ts_text</item>
+        <item name="colorAccent">@color/ts_accent</item>
     </style>
 
     <!-- Application theme. -->
@@ -19,10 +23,10 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:statusBarColor">#1A1A1A</item>
-        <item name="android:navigationBarColor">#1A1A1A</item>
-        <item name="android:colorBackground">#1A1A1A</item>
-        <item name="android:windowBackground">#1A1A1A</item>
+        <item name="android:statusBarColor">@color/ts_navy</item>
+        <item name="android:navigationBarColor">@color/ts_navy</item>
+        <item name="android:colorBackground">@color/ts_navy</item>
+        <item name="android:windowBackground">@color/ts_navy</item>
     </style>
 
     <style name="StreamBaseTheme" parent="AppBaseTheme">

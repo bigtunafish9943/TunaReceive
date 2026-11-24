@@ -4,6 +4,22 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <!-- Avoid some systems like MIUI which break the visibility of games title -->
         <item name="android:forceDarkAllowed">false</item>
+        <!-- TunaStream colours (Material 3) -->
+        <item name="colorPrimary">@color/ts_accent</item>
+        <item name="colorOnPrimary">@color/ts_navy</item>
+        <item name="colorPrimaryContainer">@color/ts_deep</item>
+        <item name="colorOnPrimaryContainer">@color/ts_accent_soft</item>
+        <item name="colorSecondary">@color/ts_accent_soft</item>
+        <item name="colorOnSecondary">@color/ts_navy</item>
+        <item name="colorSecondaryContainer">@color/ts_deep</item>
+        <item name="colorOnSecondaryContainer">@color/ts_text</item>
+        <item name="colorSurface">@color/ts_surface</item>
+        <item name="colorOnSurface">@color/ts_text</item>
+        <item name="colorSurfaceVariant">@color/ts_deep</item>
+        <item name="colorOnSurfaceVariant">@color/ts_text_secondary</item>
+        <item name="colorOutline">@color/ts_surface_border</item>
+        <item name="android:colorBackground">@color/ts_navy</item>
+        <item name="colorAccent">@color/ts_accent</item>
     </style>
 
     <style name="SettingsTheme" parent="AppTheme">

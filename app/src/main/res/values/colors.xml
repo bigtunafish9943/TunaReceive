@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="profileAccent">#FF4081</color>
+    <!-- TunaStream palette, shared with the TunaStream web interface -->
+    <color name="ts_navy">#041431</color>
+    <color name="ts_deep">#0A2350</color>
+    <color name="ts_surface">#081A3A</color>
+    <color name="ts_surface_border">#142F58</color>
+    <color name="ts_accent">#0CC8F6</color>
+    <color name="ts_accent_soft">#8BE6FC</color>
+    <color name="ts_blue">#0B74D1</color>
+    <color name="ts_text">#EEF5FB</color>
+    <color name="ts_text_secondary">#9FB3CC</color>
+
+    <color name="profileAccent">@color/ts_accent</color>
 </resources>
