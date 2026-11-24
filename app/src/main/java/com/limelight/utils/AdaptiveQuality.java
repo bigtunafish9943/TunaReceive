@@ -55,6 +55,7 @@ public final class AdaptiveQuality implements MediaCodecDecoderRenderer.StreamHe
     private static final double BPP_TOO_LOW = 0.06;
     private static final double BPP_ENOUGH = 0.08;
     private static final long MIN_MS_BETWEEN_SIZES = 20_000;
+    private static final double PICTURE_SHARE_OF_BITRATE = 0.78;
 
     /** Tells whether the decoder can take a different picture size mid-stream. */
     public interface SizeChangeCheck {
@@ -101,7 +102,8 @@ public final class AdaptiveQuality implements MediaCodecDecoderRenderer.StreamHe
     }
 
     private double bitsPerPixel(int kbps, int index) {
-        return kbps * 1000.0 / (fullPixelsPerSecond * PIXEL_SHARE[index]);
+        // About a fifth of the bitrate setting goes to error correction and sound, not the picture
+        return kbps * 1000.0 * PICTURE_SHARE_OF_BITRATE / (fullPixelsPerSecond * PIXEL_SHARE[index]);
     }
 
     /** The picture size that suits a bitrate: smaller while it is too thin, larger once there is plenty. */
