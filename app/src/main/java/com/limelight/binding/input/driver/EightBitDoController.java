@@ -37,6 +37,15 @@ public class EightBitDoController extends AbstractController {
     private volatile boolean stopped;
     private volatile boolean rumbleSupported;
 
+    // Rumble goes out from its own thread: the latest strength always wins, and a rumble that
+    // is still on is sent again regularly, so a missed report or a controller that lets a long
+    // rumble lapse doesn't leave it silent
+    private static final long RUMBLE_REFRESH_MS = 200;
+    private final Object rumbleLock = new Object();
+    private short wantLow, wantHigh;
+    private boolean rumbleChanged;
+    private Thread rumbleThread;
+
     public static boolean canClaimDevice(UsbDevice device) {
         return device.getVendorId() == VENDOR_8BITDO &&
                 device.getProductId() == PRODUCT_ULTIMATE2_WIRELESS &&
@@ -87,6 +96,8 @@ public class EightBitDoController extends AbstractController {
 
         inputThread = new Thread(this::readLoop, "8BitDo input");
         inputThread.start();
+        rumbleThread = new Thread(this::rumbleLoop, "8BitDo rumble");
+        rumbleThread.start();
         return true;
     }
 
@@ -186,7 +197,43 @@ public class EightBitDoController extends AbstractController {
 
     @Override
     public void rumble(short lowFreqMotor, short highFreqMotor) {
-        if (stopped || !rumbleSupported) {
+        synchronized (rumbleLock) {
+            wantLow = lowFreqMotor;
+            wantHigh = highFreqMotor;
+            rumbleChanged = true;
+            rumbleLock.notifyAll();
+        }
+    }
+
+    private void rumbleLoop() {
+        long lastSent = 0;
+        while (!stopped) {
+            short low, high;
+            boolean changed;
+            synchronized (rumbleLock) {
+                if (!rumbleChanged) {
+                    try {
+                        rumbleLock.wait(RUMBLE_REFRESH_MS);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                }
+                low = wantLow;
+                high = wantHigh;
+                changed = rumbleChanged;
+                rumbleChanged = false;
+            }
+            long now = SystemClock.uptimeMillis();
+            boolean on = low != 0 || high != 0;
+            if (changed || (on && now - lastSent >= RUMBLE_REFRESH_MS)) {
+                sendRumble(low, high);
+                lastSent = now;
+            }
+        }
+    }
+
+    private void sendRumble(short lowFreqMotor, short highFreqMotor) {
+        if (!rumbleSupported) {
             return;
         }
         byte[] report = {
@@ -198,10 +245,10 @@ public class EightBitDoController extends AbstractController {
         };
         int res;
         if (outEndpt != null) {
-            res = connection.bulkTransfer(outEndpt, report, report.length, 100);
+            res = connection.bulkTransfer(outEndpt, report, report.length, 250);
         } else {
             // HID SET_REPORT (output report 5) on the control endpoint
-            res = connection.controlTransfer(0x21, 0x09, (0x02 << 8) | 0x05, iface.getId(), report, report.length, 100);
+            res = connection.controlTransfer(0x21, 0x09, (0x02 << 8) | 0x05, iface.getId(), report, report.length, 250);
         }
         if (res != report.length) {
             LimeLog.warning("8BitDo: rumble not sent (" + res + ")");
@@ -218,9 +265,13 @@ public class EightBitDoController extends AbstractController {
         if (stopped) {
             return;
         }
-        // Stop any rumble before letting go
-        rumble((short) 0, (short) 0);
         stopped = true;
+        if (rumbleThread != null) {
+            rumbleThread.interrupt();
+            rumbleThread = null;
+        }
+        // Stop any rumble before letting go
+        sendRumble((short) 0, (short) 0);
         if (inputThread != null) {
             inputThread.interrupt();
             inputThread = null;
