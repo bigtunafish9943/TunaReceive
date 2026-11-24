@@ -669,7 +669,8 @@ public class AppView extends AppCompatActivity implements AdapterFragmentCallbac
                 }
 
                 if (updated) {
-                    appGridAdapter.notifyDataSetChanged();
+                    // The running game moves to the front
+                    appGridAdapter.resort();
                 }
             }
         });
