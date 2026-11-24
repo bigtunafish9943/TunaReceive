@@ -823,6 +823,16 @@ public class NvHTTP {
         return (int) (bytes * 8 / 1000 / ms);
     }
 
+    /** TunaStream only: JSON {"ok","repairing"} about the PC's virtual display driver. */
+    public String getTunaVdisplay() throws IOException {
+        return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/vdisplay");
+    }
+
+    /** TunaStream only: starts repairing the PC's virtual display driver. JSON {"started","error"}. */
+    public String repairTunaVdisplay() throws IOException {
+        return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/vdisplay/repair");
+    }
+
     /** TunaStream only: JSON listing the files the PC is sending to this device ("Send to device"). */
     public String getTunaFiles() throws IOException {
         return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/files");
