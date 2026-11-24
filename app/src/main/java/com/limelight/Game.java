@@ -3687,6 +3687,16 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 connecting = false;
                 updatePipAutoEnter();
 
+                // For the first few streams, say how to reach the quick menu from the couch
+                if (prefConfig.enableBackMenu) {
+                    SharedPreferences tunaPrefs = PreferenceManager.getDefaultSharedPreferences(Game.this);
+                    int hintsShown = tunaPrefs.getInt("tuna_menu_hint_count", 0);
+                    if (hintsShown < 3) {
+                        Toast.makeText(Game.this, R.string.tuna_menu_hint, Toast.LENGTH_LONG).show();
+                        tunaPrefs.edit().putInt("tuna_menu_hint_count", hintsShown + 1).apply();
+                    }
+                }
+
                 // Hide the mouse cursor now after a short delay.
                 // Doing it before dismissing the spinner seems to be undone
                 // when the spinner gets displayed. On Android Q, even now

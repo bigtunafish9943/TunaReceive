@@ -11,6 +11,9 @@
     <string name="tuna_show_expert">Show all settings</string>
     <string name="tuna_show_expert_summary">For experts. Most people never need these.</string>
 
+    <!-- Shown when a stream starts, the first three times -->
+    <string name="tuna_menu_hint">Hold your controller\'s Home button for a second to open the quick menu.</string>
+
     <!-- First line of the stream stats, in plain words -->
     <string name="perf_verdict_good">Running smoothly</string>
     <string name="perf_verdict_loss">Wi-Fi is losing parts of the picture. Lower Picture quality, or move the router or this device closer.</string>

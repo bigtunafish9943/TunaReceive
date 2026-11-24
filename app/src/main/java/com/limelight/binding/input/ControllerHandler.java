@@ -63,6 +63,8 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
     private static final int START_DOWN_TIME_MOUSE_MODE_MS = 750;
 
     private static final int MINIMUM_BUTTON_DOWN_TIME_MS = 25;
+    // Holding the controller's Home (Guide) button this long opens the quick menu
+    private static final int GUIDE_HOLD_FOR_MENU_MS = 800;
 
     private static final int QUICK_MENU_FIRST_STAGE_MS = 200;
 
@@ -2495,6 +2497,23 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
 
         switch (keyCode) {
         case KeyEvent.KEYCODE_BUTTON_MODE:
+            if (context.guideDownTime != 0) {
+                long held = event.getEventTime() - context.guideDownTime;
+                context.guideDownTime = 0;
+                if (held >= GUIDE_HOLD_FOR_MENU_MS) {
+                    // Held: open the quick menu, and the PC never sees the press
+                    gestures.showGameMenu(context);
+                    return true;
+                }
+                // A normal press: the PC gets it now, as a quick press and release
+                context.inputMap |= ControllerPacket.SPECIAL_BUTTON_FLAG;
+                sendControllerInputPacket(context);
+                try {
+                    Thread.sleep(ControllerHandler.MINIMUM_BUTTON_DOWN_TIME_MS);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
             context.inputMap &= ~ControllerPacket.SPECIAL_BUTTON_FLAG;
             break;
         case KeyEvent.KEYCODE_BUTTON_START:
@@ -2723,6 +2742,13 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
         switch (keyCode) {
         case KeyEvent.KEYCODE_BUTTON_MODE:
             context.hasMode = true;
+            if (prefConfig.enableBackMenu) {
+                // Wait for the release: a long hold opens the quick menu, a press goes to the PC
+                if (event.getRepeatCount() == 0) {
+                    context.guideDownTime = event.getEventTime();
+                }
+                return true;
+            }
             context.inputMap |= ControllerPacket.SPECIAL_BUTTON_FLAG;
             break;
         case KeyEvent.KEYCODE_BUTTON_START:
@@ -3172,6 +3198,8 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
         public int emulatingButtonFlags = 0;
         public boolean hasSelect;
         public boolean hasMode;
+        // When the Home (Guide) button went down, while we wait to see if it's held for the menu
+        public long guideDownTime;
         public boolean hasPaddles;
         public boolean hasShare;
         public boolean needsClickpadEmulation;
