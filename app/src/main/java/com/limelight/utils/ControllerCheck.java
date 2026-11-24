@@ -14,6 +14,7 @@ import android.view.InputDevice;
 
 import com.limelight.LimeLog;
 import com.limelight.R;
+import com.limelight.binding.input.driver.EightBitDoController;
 import com.limelight.binding.input.driver.ProConController;
 import com.limelight.binding.input.driver.Xbox360Controller;
 import com.limelight.binding.input.driver.Xbox360WirelessDongle;
@@ -100,7 +101,8 @@ public final class ControllerCheck {
         UsbManager usb = (UsbManager) activity.getSystemService(Context.USB_SERVICE);
         if (usb != null) {
             for (UsbDevice device : usb.getDeviceList().values()) {
-                boolean ours = Xbox360Controller.canClaimDevice(device) || XboxOneController.canClaimDevice(device)
+                boolean rumbleTakeover = EightBitDoController.canClaimDevice(device);
+                boolean ours = rumbleTakeover || Xbox360Controller.canClaimDevice(device) || XboxOneController.canClaimDevice(device)
                         || Xbox360WirelessDongle.canClaimDevice(device) || ProConController.canClaimDevice(device);
                 String ids = String.format(Locale.ROOT, "%04x:%04x", device.getVendorId(), device.getProductId());
                 String iface = device.getInterfaceCount() > 0
@@ -118,7 +120,12 @@ public final class ControllerCheck {
                 }
                 text.append(activity.getString(R.string.controller_check_usb, name)).append('\n')
                         .append(activity.getString(R.string.controller_check_usb_id, ids, iface)).append('\n')
-                        .append(activity.getString(ours ? R.string.controller_check_usb_ours : R.string.controller_check_usb_not_ours));
+                        .append(activity.getString(rumbleTakeover ? R.string.controller_check_usb_8bitdo
+                                : ours ? R.string.controller_check_usb_ours : R.string.controller_check_usb_not_ours));
+                if (rumbleTakeover && EightBitDoController.lastReportSize > 0) {
+                    text.append('\n').append(activity.getString(EightBitDoController.lastReportSize >= 34
+                            ? R.string.controller_check_8bitdo_fw_ok : R.string.controller_check_8bitdo_fw_old));
+                }
             }
         }
 

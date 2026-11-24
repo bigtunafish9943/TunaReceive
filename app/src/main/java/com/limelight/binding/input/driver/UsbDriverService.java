@@ -37,6 +37,12 @@ public class UsbDriverService extends Service implements UsbDriverListener {
     private final UsbDriverBinder binder = new UsbDriverBinder();
 
     private final ArrayList<AbstractController> controllers = new ArrayList<>();
+    // USB devices we are driving now, by device name, so a device is never taken twice
+    private final java.util.Map<AbstractController, String> claimedNames = new java.util.HashMap<>();
+
+    // Also take over controllers Android already runs but can't rumble (8BitDo's 2.4G adapter).
+    // Only the stream screen asks for this: elsewhere Android's own handling is fine.
+    private boolean claimForRumble;
 
     private UsbDriverListener listener;
     private UsbDriverStateListener stateListener;
@@ -63,6 +69,7 @@ public class UsbDriverService extends Service implements UsbDriverListener {
     public void deviceRemoved(AbstractController controller) {
         // Remove the the controller from our list (if not removed already)
         controllers.remove(controller);
+        claimedNames.remove(controller);
 
         // Call through to the client's listener
         if (listener != null) {
@@ -142,11 +149,32 @@ public class UsbDriverService extends Service implements UsbDriverListener {
         public void stop() {
             UsbDriverService.this.stop();
         }
+
+        /** The stream screen asks for this before start(): see claimForRumble. */
+        public void setClaimForRumble(boolean claim) {
+            claimForRumble = claim;
+            if (claim && started) {
+                // Already running for a menu screen: pick up the devices that are now wanted
+                for (UsbDevice dev : usbManager.getDeviceList().values()) {
+                    if (wantDevice(dev)) {
+                        handleUsbDeviceState(dev);
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean wantDevice(UsbDevice device) {
+        if (claimedNames.containsValue(device.getDeviceName())) {
+            return false;
+        }
+        return shouldClaimDevice(device, prefConfig.bindAllUsb) ||
+                (claimForRumble && EightBitDoController.canClaimDevice(device));
     }
 
     private void handleUsbDeviceState(UsbDevice device) {
         // Are we able to operate it?
-        if (shouldClaimDevice(device, prefConfig.bindAllUsb)) {
+        if (wantDevice(device)) {
             // Do we have permission yet?
             if (!usbManager.hasPermission(device)) {
                 // Let's ask for permission
@@ -205,6 +233,9 @@ public class UsbDriverService extends Service implements UsbDriverListener {
             else if (ProConController.canClaimDevice(device)) {
                 controller = new ProConController(device, connection, nextDeviceId++, this);
             }
+            else if (EightBitDoController.canClaimDevice(device)) {
+                controller = new EightBitDoController(device, connection, nextDeviceId++, this);
+            }
             else {
                 // Unreachable
                 return;
@@ -218,6 +249,7 @@ public class UsbDriverService extends Service implements UsbDriverListener {
 
             // Add this controller to the list
             controllers.add(controller);
+            claimedNames.put(controller, device.getDeviceName());
         }
     }
 
@@ -322,7 +354,7 @@ public class UsbDriverService extends Service implements UsbDriverListener {
 
         // Enumerate existing devices
         for (UsbDevice dev : usbManager.getDeviceList().values()) {
-            if (shouldClaimDevice(dev, prefConfig.bindAllUsb)) {
+            if (wantDevice(dev)) {
                 // Start the process of claiming this device
                 handleUsbDeviceState(dev);
             }
@@ -344,6 +376,7 @@ public class UsbDriverService extends Service implements UsbDriverListener {
             // Stop and remove the controller
             controllers.remove(0).stop();
         }
+        claimedNames.clear();
     }
 
     @Override

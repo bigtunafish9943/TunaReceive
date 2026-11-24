@@ -243,6 +243,8 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
             UsbDriverService.UsbDriverBinder binder = (UsbDriverService.UsbDriverBinder) iBinder;
             binder.setListener(controllerHandler);
             binder.setStateListener(Game.this);
+            // Take over controllers Android runs but can't rumble (8BitDo's 2.4G adapter)
+            binder.setClaimForRumble(true);
             binder.start();
             connectedToUsbDriverService = true;
         }
