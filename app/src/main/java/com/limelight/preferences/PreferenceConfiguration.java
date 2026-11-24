@@ -139,8 +139,8 @@ public class PreferenceConfiguration {
 
     private static final String CHECKBOX_ENABLE_COMMIT_TEXT = "checkbox_enable_commit_text";
 
-    static final String DEFAULT_RESOLUTION = "1920x1080"; // TVs are the first target
-    static final String DEFAULT_FPS = "60";
+    public static final String DEFAULT_RESOLUTION = "1920x1080"; // TVs are the first target
+    public static final String DEFAULT_FPS = "60";
     private static final boolean DEFAULT_ENABLE_ULTRA_LOW_LATENCY = false;
     private static final boolean DEFAULT_ENFORCE_DISPLAY_MODE = false;
     private static final boolean DEFAULT_USE_VIRTUAL_DISPLAY = true; // TunaStream streams on its own screen

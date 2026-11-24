@@ -11,6 +11,21 @@
     <string name="tuna_show_expert">Show all settings</string>
     <string name="tuna_show_expert_summary">For experts. Most people never need these.</string>
 
+    <!-- Connection test -->
+    <string name="tuner_menu">Fit picture quality to this connection</string>
+    <string name="tuner_measuring_title">Testing the connection to %1$s</string>
+    <string name="tuner_measuring_body">Measuring how fast the PC can send to this device. This takes a few seconds.</string>
+    <string name="tuner_result_title">Measured %1$d Mbps</string>
+    <string name="tuner_result_lower">That\'s how fast %1$s can send to this device. A Picture quality of %2$d Mbps (you have %3$d) leaves room for the Wi-Fi to dip without the stream stuttering.</string>
+    <string name="tuner_result_higher">That\'s how fast %1$s can send to this device. It has room for a sharper picture: %2$d Mbps instead of %3$d.</string>
+    <string name="tuner_result_same">That\'s how fast %1$s can send to this device. Your Picture quality of %2$d Mbps already fits it.</string>
+    <string name="tuner_use">Use %1$d Mbps</string>
+    <string name="tuner_keep">Keep %1$d Mbps</string>
+    <string name="tuner_failed_title">The connection test didn\'t run</string>
+    <string name="tuner_failed">TunaReceive couldn\'t reach the PC. Check that it\'s on and TunaStream is running, then try again.</string>
+    <string name="tuner_needs_tunastream">The PC needs a newer TunaStream for this test. TunaStream updates itself from its home page.</string>
+    <string name="tuner_stream_running">A stream is running on the PC. End it, then try again.</string>
+
     <!-- Shown when a stream starts, the first three times -->
     <string name="tuna_menu_hint">Hold your controller\'s Home button for a second to open the quick menu.</string>
 

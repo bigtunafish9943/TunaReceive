@@ -28,6 +28,7 @@ import com.limelight.ui.AdapterFragmentCallbacks;
 import com.limelight.utils.Dialog;
 import com.limelight.utils.HelpLauncher;
 import com.limelight.utils.ServerHelper;
+import com.limelight.utils.ConnectionTuner;
 import com.limelight.utils.ShortcutHelper;
 import com.limelight.utils.TunaUpdater;
 import com.limelight.utils.UiHelper;
@@ -138,6 +139,7 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
     private final static int GAMESTREAM_EOL_ID = 11;
     private final static int OPEN_MANAGEMENT_PAGE_ID = 20;
     private final static int PAIR_ID_OTP = 21;
+    private final static int TUNE_ID = 22;
 
     private void initializeViews() {
         setContentView(R.layout.activity_pc_view);
@@ -465,6 +467,7 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
             }
 
             menu.add(Menu.NONE, FULL_APP_LIST_ID, 4, getResources().getString(R.string.pcview_menu_app_list));
+            menu.add(Menu.NONE, TUNE_ID, 4, getResources().getString(R.string.tuner_menu));
         }
 
         menu.add(Menu.NONE, TEST_NETWORK_ID, 5, getResources().getString(R.string.pcview_menu_test_network));
@@ -581,8 +584,14 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
                         }
 
                         if (toastSuccess) {
-                            // Open the app list after a successful pairing attempt
-                            doAppList(computer, true, false);
+                            // Fit the picture quality to this connection, then open the app list
+                            ComputerDetails paired = managerBinder != null ? managerBinder.getComputer(computer.uuid) : null;
+                            if (paired != null && paired.serverCert != null) {
+                                ConnectionTuner.run(PcView.this, paired, managerBinder.getUniqueId(), true,
+                                        () -> doAppList(computer, true, false));
+                            } else {
+                                doAppList(computer, true, false);
+                            }
                         }
                         else {
                             // Start polling again if we're still in the foreground
@@ -815,6 +824,12 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
 
             case TEST_NETWORK_ID:
                 ServerHelper.doNetworkTest(PcView.this);
+                return true;
+
+            case TUNE_ID:
+                if (managerBinder != null) {
+                    ConnectionTuner.run(PcView.this, computer.details, managerBinder.getUniqueId(), false, null);
+                }
                 return true;
 
             case GAMESTREAM_EOL_ID:

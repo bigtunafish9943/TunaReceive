@@ -810,6 +810,33 @@ public class NvHTTP {
         openHttpConnectionToString(httpClientLongConnectTimeout, baseUrlHttp, "unpair");
     }
     
+    /**
+     * TunaStream only: downloads filler from the PC and returns how fast it arrived, in megabits
+     * a second. A short download first gets the connection up to speed, then a longer one is timed.
+     * Throws FileNotFoundException when the PC's host doesn't offer the test (not TunaStream, or older).
+     */
+    public int measureDownloadMbps() throws IOException {
+        readAndCount(openHttpConnection(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/speedtest", "bytes=4194304", null));
+        long start = android.os.SystemClock.elapsedRealtime();
+        long bytes = readAndCount(openHttpConnection(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/speedtest", "bytes=33554432", null));
+        long ms = Math.max(1, android.os.SystemClock.elapsedRealtime() - start);
+        return (int) (bytes * 8 / 1000 / ms);
+    }
+
+    private static long readAndCount(ResponseBody body) throws IOException {
+        long total = 0;
+        try (InputStream in = body.byteStream()) {
+            byte[] buf = new byte[256 * 1024];
+            int n;
+            while ((n = in.read(buf)) > 0) {
+                total += n;
+            }
+        } finally {
+            body.close();
+        }
+        return total;
+    }
+
     public InputStream getBoxArt(NvApp app) throws IOException {
         ResponseBody resp = openHttpConnection(httpClientLongConnectTimeout, getHttpsUrl(true), "appasset", "appid=" + app.getAppId() + "&AssetType=2&AssetIdx=0", null);
         return resp.byteStream();
