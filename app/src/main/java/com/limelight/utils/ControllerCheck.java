@@ -122,6 +122,10 @@ public final class ControllerCheck {
                         .append(activity.getString(R.string.controller_check_usb_id, ids, iface)).append('\n')
                         .append(activity.getString(rumbleTakeover ? R.string.controller_check_usb_8bitdo
                                 : ours ? R.string.controller_check_usb_ours : R.string.controller_check_usb_not_ours));
+                if (rumbleTakeover && EightBitDoController.batteryPercent >= 0) {
+                    text.append('\n').append(activity.getString(EightBitDoController.batteryCharging
+                            ? R.string.controller_battery_charging : R.string.controller_battery, EightBitDoController.batteryPercent));
+                }
                 if (rumbleTakeover && EightBitDoController.lastReportSize > 0) {
                     text.append('\n').append(activity.getString(EightBitDoController.lastReportSize >= 34
                             ? R.string.controller_check_8bitdo_fw_ok : R.string.controller_check_8bitdo_fw_old));

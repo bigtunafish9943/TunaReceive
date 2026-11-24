@@ -41,6 +41,9 @@
     <string name="controller_check_usb_8bitdo">Android runs this controller, but can\'t rumble it. During a stream TunaReceive takes it over and rumbles it itself (needs controller firmware 1.03 or later).</string>
     <string name="controller_check_8bitdo_fw_ok">Its firmware supports rumble through the adapter.</string>
     <string name="controller_check_8bitdo_fw_old">Its firmware is too old for rumble through the adapter. Update it with 8BitDo Ultimate Software on a PC.</string>
+    <string name="controller_battery">Battery: %1$d%%</string>
+    <string name="controller_battery_charging">Battery: %1$d%%, charging</string>
+    <string name="controller_battery_low">Controller battery at %1$d%%. Put it on the dock soon.</string>
     <string name="controller_check_none">No controller is connected. Turn it on, wait until it controls the TV, then try again.</string>
     <string name="controller_check_test">Test rumble</string>
 

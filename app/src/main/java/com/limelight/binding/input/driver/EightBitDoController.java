@@ -28,6 +28,20 @@ public class EightBitDoController extends AbstractController {
 
     /** Size of the last input report seen, for Check my controller (0 = not seen yet). */
     public static volatile int lastReportSize;
+    /** Battery from the last report: percent, or -1 if unknown; and whether it's charging. */
+    public static volatile int batteryPercent = -1;
+    public static volatile boolean batteryCharging;
+
+    private static final float STANDARD_GRAVITY = 9.80665f;
+    private static final long MOTION_EVERY_MS = 5;  // 200 a second is plenty for games
+    private static final int LOW_BATTERY_PCT = 15;
+
+    private final UsbDriverListener ownListener;
+    private long lastMotionMs;
+    private boolean lowBatteryWarned;
+    // Last state sent, so unchanged reports (it sends up to 1000 a second) aren't passed on
+    private int sentButtons = -1;
+    private float sentLX, sentLY, sentRX, sentRY, sentLT, sentRT;
 
     private final UsbDevice device;
     private final UsbDeviceConnection connection;
@@ -58,7 +72,9 @@ public class EightBitDoController extends AbstractController {
         this.device = device;
         this.connection = connection;
         this.type = MoonBridge.LI_CTYPE_XBOX;
-        this.capabilities = MoonBridge.LI_CCAP_ANALOG_TRIGGERS | MoonBridge.LI_CCAP_RUMBLE;
+        this.ownListener = listener;
+        this.capabilities = (short) (MoonBridge.LI_CCAP_ANALOG_TRIGGERS | MoonBridge.LI_CCAP_RUMBLE |
+                MoonBridge.LI_CCAP_GYRO | MoonBridge.LI_CCAP_ACCEL);
         this.supportedButtonFlags =
                 ControllerPacket.A_FLAG | ControllerPacket.B_FLAG | ControllerPacket.X_FLAG | ControllerPacket.Y_FLAG |
                 ControllerPacket.UP_FLAG | ControllerPacket.DOWN_FLAG | ControllerPacket.LEFT_FLAG | ControllerPacket.RIGHT_FLAG |
@@ -130,9 +146,80 @@ public class EightBitDoController extends AbstractController {
                         (rumbleSupported ? "available" : "needs controller firmware 1.03 or later"));
             }
             if (parse(buffer, res)) {
-                reportInput();
+                if (changedSinceSent()) {
+                    reportInput();
+                }
+                parseMotionAndBattery(buffer, res);
             }
         }
+    }
+
+    private boolean changedSinceSent() {
+        if (buttonFlags == sentButtons && leftStickX == sentLX && leftStickY == sentLY &&
+                rightStickX == sentRX && rightStickY == sentRY && leftTrigger == sentLT && rightTrigger == sentRT) {
+            return false;
+        }
+        sentButtons = buttonFlags;
+        sentLX = leftStickX;
+        sentLY = leftStickY;
+        sentRX = rightStickX;
+        sentRY = rightStickY;
+        sentLT = leftTrigger;
+        sentRT = rightTrigger;
+        return true;
+    }
+
+    private static short le16(byte[] r, int offset) {
+        return (short) ((r[offset] & 0xff) | (r[offset + 1] << 8));
+    }
+
+    /**
+     * Firmware 1.03+ reports also carry battery (byte 14) and motion (bytes 15-26), mapped to
+     * the axes games expect as SDL does it: accel in m/s^2 (4096 per g), gyro in deg/s (±2000).
+     */
+    private void parseMotionAndBattery(byte[] r, int size) {
+        if (size < 27) {
+            return;
+        }
+        int battery = r[14] & 0xff;
+        int level = battery & 0x7f;
+        boolean charging = (battery & 0x80) != 0;
+        if (level <= 100) {
+            batteryPercent = level;
+            batteryCharging = charging;
+            if (level <= LOW_BATTERY_PCT && !charging && !lowBatteryWarned) {
+                lowBatteryWarned = true;
+                warnLowBattery(level);
+            } else if (charging || level > LOW_BATTERY_PCT + 5) {
+                lowBatteryWarned = false;
+            }
+        }
+
+        long now = SystemClock.uptimeMillis();
+        if (now - lastMotionMs < MOTION_EVERY_MS) {
+            return;
+        }
+        lastMotionMs = now;
+        float accelScale = STANDARD_GRAVITY / 4096f;
+        float gyroScale = 2000f / 32767f;
+        accelX = -le16(r, 17) * accelScale;
+        accelY = le16(r, 19) * accelScale;
+        accelZ = -le16(r, 15) * accelScale;
+        gyroX = -le16(r, 23) * gyroScale;
+        gyroY = le16(r, 25) * gyroScale;
+        gyroZ = -le16(r, 21) * gyroScale;
+        reportMotion();
+    }
+
+    private void warnLowBattery(int level) {
+        if (!(ownListener instanceof android.content.Context)) {
+            return;
+        }
+        final android.content.Context context = (android.content.Context) ownListener;
+        new android.os.Handler(android.os.Looper.getMainLooper()).post(() ->
+                android.widget.Toast.makeText(context,
+                        context.getString(com.limelight.R.string.controller_battery_low, level),
+                        android.widget.Toast.LENGTH_LONG).show());
     }
 
     private static float stick(int raw) {
