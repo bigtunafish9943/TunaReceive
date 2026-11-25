@@ -397,6 +397,11 @@
     <string name="checkup_hdr_off">Turn off HDR: this TV doesn\'t report HDR, so colours would look washed out.</string>
     <string name="checkup_10bit_off">Turn off 10-bit picture: this device can\'t decode it, which can show a black or green picture.</string>
 
+    <!-- TV-matched frame rates -->
+    <string name="fps_5994">59.94 FPS (TV rate)</string>
+    <string name="fps_11988">119.88 FPS (TV rate)</string>
+    <string name="checkup_fps_ntsc">Use %2$s FPS instead of %1$s: this TV runs at %2$s Hz, so %1$s would hitch briefly every few seconds.</string>
+
     <!-- Anti-drift -->
     <string name="anti_drift_title">Fix stick drift</string>
     <string name="anti_drift_summary">For worn controllers whose character or camera creeps on its own. When a stick rests, its resting spot becomes the new centre. Small movements still count, unlike a bigger deadzone.</string>

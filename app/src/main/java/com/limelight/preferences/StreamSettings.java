@@ -744,6 +744,7 @@ public class StreamSettings extends AppCompatActivity {
                 // We give some extra room in case the FPS is rounded down
                 if (maxSupportedFps < 118) {
                     removeEntryFromListAndSetValue(PreferenceConfiguration.FPS_PREF_STRING, "120", "90");
+                    removeEntryFromListAndSetValue(PreferenceConfiguration.FPS_PREF_STRING, "119.88", "90");
                 }
                 if (maxSupportedFps < 88) {
                     // 1080p is unsupported

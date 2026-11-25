@@ -242,6 +242,22 @@ public final class StreamCheckup {
             String best = Math.round(tvMaxRate) >= 60 ? "60" : "30";
             out.add(new Suggestion("list_fps", best, a.getString(R.string.checkup_fps_tv, fpsNow, best)));
             fpsNow = Integer.parseInt(best);
+        } else if ((fps.equals("60") || fps.equals("120")) && display != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // A TV that only runs at 59.94 (or 119.88): match it, so no frame has to be dropped
+            float exact = Float.parseFloat(fps);
+            float tvRate = exact * 1000f / 1001f;
+            boolean hasExact = false, hasTvRate = false;
+            for (Display.Mode m : display.getSupportedModes()) {
+                if (Math.max(m.getPhysicalWidth(), m.getPhysicalHeight()) != tvWidth) {
+                    continue;
+                }
+                hasExact |= Math.abs(m.getRefreshRate() - exact) < 0.02f;
+                hasTvRate |= Math.abs(m.getRefreshRate() - tvRate) < 0.02f;
+            }
+            if (hasTvRate && !hasExact) {
+                String best = fps.equals("60") ? "59.94" : "119.88";
+                out.add(new Suggestion("list_fps", best, a.getString(R.string.checkup_fps_ntsc, fps, best)));
+            }
         }
 
         // The bitrate: a share of what was measured, as "Fit picture quality to this connection" does

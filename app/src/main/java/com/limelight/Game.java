@@ -1467,12 +1467,13 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     }
 
     private boolean isRefreshRateEqualMatch(float refreshRate) {
-        return refreshRate >= prefConfig.fps &&
+        // A little room below for TVs that report 59.94 as 59.9399
+        return refreshRate >= prefConfig.fps - 0.005f &&
                 refreshRate <= prefConfig.fps + 3;
     }
 
     private boolean isRefreshRateGoodMatch(float refreshRate) {
-        return refreshRate >= prefConfig.fps &&
+        return refreshRate >= prefConfig.fps - 0.005f &&
                 Math.round(refreshRate) % prefConfig.fps <= 3;
     }
 
