@@ -20,6 +20,17 @@ public class AndroidAudioRenderer implements AudioRenderer {
 
     private AudioTrack track;
 
+    // A sound buffer that grows by itself. The track is made with room for MAX_PACKETS packets
+    // but starts out using two, the least delay. Each time the device reports that the sound ran
+    // dry (Wi-Fi delivered a packet a little late), it uses one more packet's worth, up to the
+    // cap. A clean connection keeps the smallest buffer; an uneven one settles at just enough.
+    private static final int START_PACKETS = 2;
+    private static final int MAX_PACKETS = 12;
+    private int samplesPerPacket;
+    private int bufferPackets;
+    private int lastUnderruns;
+    private boolean bufferGrows;
+
     public AndroidAudioRenderer(Context context, boolean enableAudioFx) {
         this.context = context;
         this.enableAudioFx = enableAudioFx;
@@ -128,7 +139,8 @@ public class AndroidAudioRenderer implements AudioRenderer {
             switch (i) {
                 case 0:
                 case 2:
-                    bufferSize = bytesPerFrame * 2;
+                    // Room to grow into where the buffer can be resized while playing
+                    bufferSize = bytesPerFrame * (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? MAX_PACKETS : START_PACKETS);
                     break;
 
                 case 1:
@@ -160,10 +172,21 @@ public class AndroidAudioRenderer implements AudioRenderer {
 
             try {
                 track = createAudioTrack(channelConfig, sampleRate, bufferSize, lowLatency);
+
+                // Start with the smallest buffer and grow it only if the sound runs dry
+                bufferGrows = false;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && (i == 0 || i == 2)) {
+                    samplesPerPacket = samplesPerFrame;
+                    bufferPackets = START_PACKETS;
+                    int used = track.setBufferSizeInFrames(samplesPerPacket * bufferPackets);
+                    bufferGrows = used > 0;
+                    lastUnderruns = track.getUnderrunCount();
+                }
                 track.play();
 
                 // Successfully created working AudioTrack. We're done here.
-                LimeLog.info("Audio track configuration: "+bufferSize+" "+lowLatency);
+                LimeLog.info("Audio track configuration: "+bufferSize+" "+lowLatency+
+                        (bufferGrows ? ", using " + track.getBufferSizeInFrames() + " of " + track.getBufferCapacityInFrames() + " frames" : ""));
                 break;
             } catch (Exception e) {
                 // Try to release the AudioTrack if we got far enough
@@ -193,10 +216,30 @@ public class AndroidAudioRenderer implements AudioRenderer {
             // of pending audio data, so we do the above check to be able to bound
             // latency at 40 ms in that situation.
             track.write(audioData, 0, audioData.length);
+            growIfRanDry();
         }
         else {
             LimeLog.info("Too much pending audio data: " + MoonBridge.getPendingAudioDuration() +" ms");
         }
+    }
+
+    /** One more packet of buffer each time the sound has run dry, up to MAX_PACKETS. */
+    private void growIfRanDry() {
+        if (!bufferGrows || Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            return;
+        }
+        int underruns = track.getUnderrunCount();
+        if (underruns <= lastUnderruns) {
+            return;
+        }
+        lastUnderruns = underruns;
+        if (bufferPackets >= MAX_PACKETS) {
+            return;
+        }
+        bufferPackets++;
+        int used = track.setBufferSizeInFrames(samplesPerPacket * bufferPackets);
+        LimeLog.info("Audio ran dry (" + underruns + " times); sound buffer now " + bufferPackets +
+                " packets (" + used + " frames)");
     }
 
     @Override
