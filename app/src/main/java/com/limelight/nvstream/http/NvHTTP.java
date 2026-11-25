@@ -880,6 +880,15 @@ public class NvHTTP {
         return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/backup", null, body);
     }
 
+    /**
+     * TunaStream only: tell the PC TunaReceive's settings (for its Devices > TV settings page) and
+     * get back the changes made there. JSON {"revision", "changes": {key: value}}.
+     */
+    public String sendTunaSettings(String json) throws IOException {
+        RequestBody body = RequestBody.create(json, MediaType.parse("application/json"));
+        return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/settings", null, body);
+    }
+
     /** TunaStream only: the TunaReceive backups kept on the PC. JSON {"backups": [{"name", "device", "made"}]}. */
     public String getTunaBackups() throws IOException {
         return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/backups");

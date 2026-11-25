@@ -345,4 +345,7 @@
     <string name="settings_button">Settings</string>
     <string name="pc_tools_title">%1$s</string>
     <string name="pc_tools_not_ready">Still connecting to the PC. Try again in a moment.</string>
+
+    <!-- Settings changed on TunaStream's page -->
+    <string name="remote_settings_applied">Changed from the PC: %1$s. Used from the next game.</string>
 </resources>

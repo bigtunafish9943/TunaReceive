@@ -251,6 +251,8 @@ public class AppView extends AppCompatActivity implements AdapterFragmentCallbac
                 ComputerManagerService.ComputerManagerBinder binder = managerBinder;
                 if (binder != null && details.pairState == PairingManager.PairState.PAIRED) {
                     FileReceiver.check(AppView.this, details, binder.getUniqueId());
+                    // Settings changed for this TV on TunaStream's page (every 15 seconds at most)
+                    com.limelight.utils.RemoteSettings.sync(AppView.this, details, binder.getUniqueId());
                 }
 
                 // App list is the same or empty
