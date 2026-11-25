@@ -55,6 +55,14 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
     private float recentSlow;
     private float recentFps;
     private float recentDecode;
+
+    // The PC's side of the stream, from its answers to the reports (newer TunaStream only)
+    private int pcSamples;
+    private double pcMsSum;
+    private double pcMsWorst;
+    private double pcSkippedSum;
+    private int fecSum;
+    private boolean pcSplit;
     private volatile MediaCodecDecoderRenderer decoder;
     private final AdaptiveQuality quality;
     private final long startedAtWallMs = System.currentTimeMillis();
@@ -138,7 +146,11 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
         try {
             sender.execute(() -> {
                 try {
-                    http.sendTunaReport(query);
+                    String answer = http.sendTunaReport(query);
+                    JSONObject pc = answer != null ? new JSONObject(answer).optJSONObject("pc") : null;
+                    if (pc != null) {
+                        keepPc(pc);
+                    }
                 } catch (FileNotFoundException e) {
                     hostListens = false;
                 } catch (Exception e) {
@@ -185,6 +197,18 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
         }
         lastKbps = kbps;
         lastScale = scale;
+    }
+
+    private synchronized void keepPc(JSONObject pc) {
+        if (finished) {
+            return;
+        }
+        pcSamples++;
+        pcMsSum += pc.optDouble("pcMsAvg", 0);
+        pcMsWorst = Math.max(pcMsWorst, pc.optDouble("pcMsMax", 0));
+        pcSkippedSum += pc.optDouble("skippedPerSec", 0);
+        fecSum += pc.optInt("fecPercent", 0);
+        pcSplit |= pc.optBoolean("splitFrames", false);
     }
 
     /** The stream dropped with this error, rather than being closed. */
@@ -234,6 +258,13 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
             if (decoder != null) {
                 r.put("latencyMs", decoder.getAverageEndToEndLatency());
                 r.put("decodeMs", decoder.getAverageDecoderLatency());
+            }
+            if (pcSamples > 0) {
+                r.put("pcMs", pcMsSum / pcSamples);
+                r.put("pcMsWorst", pcMsWorst);
+                r.put("pcSkipped", pcSkippedSum / pcSamples);
+                r.put("fecPercent", fecSum / pcSamples);
+                r.put("pcSplit", pcSplit);
             }
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -321,6 +352,10 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
             sb.append(c.getString(R.string.report_smaller, minutes(c, smaller), r.optInt("smallestScale"))).append("\n\n");
             anything = true;
         }
+        if (r.has("pcMs") && r.optDouble("pcMs") > 800.0 / fps) {
+            sb.append(c.getString(R.string.report_pc_slow, Math.round(r.optDouble("pcMs")))).append("\n\n");
+            anything = true;
+        }
         if (decodeMs > 1000 / fps) {
             sb.append(c.getString(R.string.report_decode, decodeMs)).append("\n\n");
             anything = true;
@@ -339,6 +374,12 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
                 r.optInt("lowered"), r.optInt("raised"),
                 String.format(java.util.Locale.ROOT, "%.1f", r.optDouble("avgLossPct", 0)),
                 r.optInt("latencyMs"), decodeMs));
+        if (r.has("pcMs")) {
+            sb.append("\n").append(c.getString(r.optBoolean("pcSplit") ? R.string.report_pc_figures_split : R.string.report_pc_figures,
+                    String.format(java.util.Locale.ROOT, "%.1f", r.optDouble("pcMs")),
+                    String.format(java.util.Locale.ROOT, "%.1f", r.optDouble("pcMsWorst")),
+                    r.optInt("fecPercent")));
+        }
         if (r.optInt("reconnect") > 0) {
             sb.append("\n").append(c.getString(R.string.report_reconnected));
         }

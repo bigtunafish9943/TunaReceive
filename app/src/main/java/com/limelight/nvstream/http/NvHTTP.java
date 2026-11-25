@@ -844,8 +844,8 @@ public class NvHTTP {
     }
 
     /** TunaStream only: tells the PC what this device sees of its stream, for the PC's stream health. */
-    public void sendTunaReport(String query) throws IOException {
-        openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/report", query);
+    public String sendTunaReport(String query) throws IOException {
+        return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/report", query);
     }
 
     /** TunaStream only: how the PC reaches the network. JSON {"known","wifi","mbps","signal","channel"}. */
