@@ -152,6 +152,8 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
     private final static int TUNE_ID = 22;
     private final static int REPAIR_SCREEN_ID = 23;
     private final static int LAST_STREAM_ID = 24;
+    private final static int BACKUP_ID = 25;
+    private final static int RESTORE_ID = 26;
 
     private void initializeViews() {
         setContentView(R.layout.activity_pc_view);
@@ -490,6 +492,8 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
             menu.add(Menu.NONE, TUNE_ID, 4, getResources().getString(R.string.tuner_menu));
             menu.add(Menu.NONE, REPAIR_SCREEN_ID, 4, getResources().getString(R.string.repair_menu));
             menu.add(Menu.NONE, LAST_STREAM_ID, 4, getResources().getString(R.string.report_menu));
+            menu.add(Menu.NONE, BACKUP_ID, 4, getResources().getString(R.string.backup_menu));
+            menu.add(Menu.NONE, RESTORE_ID, 4, getResources().getString(R.string.restore_menu));
         }
 
         menu.add(Menu.NONE, TEST_NETWORK_ID, 5, getResources().getString(R.string.pcview_menu_test_network));
@@ -857,6 +861,18 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
 
             case LAST_STREAM_ID:
                 StreamReport.show(PcView.this);
+                return true;
+
+            case BACKUP_ID:
+                if (managerBinder != null) {
+                    com.limelight.utils.ReceiverBackup.backUp(PcView.this, computer.details, managerBinder.getUniqueId());
+                }
+                return true;
+
+            case RESTORE_ID:
+                if (managerBinder != null) {
+                    com.limelight.utils.ReceiverBackup.restoreFromPc(PcView.this, computer.details, managerBinder.getUniqueId());
+                }
                 return true;
 
             case TUNE_ID:

@@ -247,4 +247,20 @@
     <string name="screensaver_name">TunaReceive game covers</string>
     <string name="tuna_screensaver">Screen saver</string>
     <string name="tuna_screensaver_summary">Your game covers drifting by, with the time. Opens the TV\'s screen saver settings: pick TunaReceive game covers there.</string>
+    <string name="backup_menu">Back up TunaReceive to this PC</string>
+    <string name="restore_menu">Restore TunaReceive from this PC</string>
+    <string name="backup_title">Back up TunaReceive</string>
+    <string name="backup_desc">Saves TunaReceive\'s settings on %1$s, so they can be put back here or on a new TV.</string>
+    <string name="backup_include_pairings">Include pairings</string>
+    <string name="backup_pairings_note">With pairings, a restored TV works with your PCs straight away, without pairing again. The backup then holds this TV\'s keys, so it\'s only given back to devices allowed to launch games.</string>
+    <string name="backup_save">Back up</string>
+    <string name="backup_saved">Backed up. It\'s kept on the PC; TunaStream\'s Troubleshooting page lists it.</string>
+    <string name="backup_failed">The backup couldn\'t be saved. Check the PC is on and try again.</string>
+    <string name="backup_needs_tunastream">Backups need a newer TunaStream on the PC.</string>
+    <string name="restore_title">Restore TunaReceive</string>
+    <string name="restore_none">There are no TunaReceive backups on this PC yet.</string>
+    <string name="restore_confirm">Put this backup back? Its settings replace the ones here, then TunaReceive closes. Open it again to carry on.</string>
+    <string name="restore_button">Restore</string>
+    <string name="restore_done">Restored. TunaReceive closes now; open it again.</string>
+    <string name="restore_failed">The backup couldn\'t be restored.</string>
 </resources>

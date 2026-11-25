@@ -869,6 +869,23 @@ public class NvHTTP {
         openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/file/done", "id=" + id);
     }
 
+    /** TunaStream only: keep this backup of TunaReceive's settings on the PC. JSON {"saved", "name"}. */
+    public String sendTunaBackup(String json) throws IOException {
+        RequestBody body = RequestBody.create(json, MediaType.parse("application/json"));
+        return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/backup", null, body);
+    }
+
+    /** TunaStream only: the TunaReceive backups kept on the PC. JSON {"backups": [{"name", "device", "made"}]}. */
+    public String getTunaBackups() throws IOException {
+        return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/backups");
+    }
+
+    /** TunaStream only: one TunaReceive backup kept on the PC. */
+    public String getTunaBackup(String name) throws IOException {
+        return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/backup",
+                "name=" + java.net.URLEncoder.encode(name, "UTF-8"));
+    }
+
     /** TunaStream only: send a screenshot (JPEG or PNG) to be kept on the PC. */
     public boolean sendTunaScreenshot(byte[] image) throws IOException {
         RequestBody body = RequestBody.create(image, okhttp3.MediaType.parse("image/jpeg"));
