@@ -84,6 +84,7 @@ public final class RemoteSettings {
             list("controller", Shortcuts.REPLAY, R.string.shortcut_replay_title, null, 0, 0),
             list("controller", Shortcuts.STATS, R.string.shortcut_stats_title, null, 0, 0),
             list("controller", Shortcuts.QUIT, R.string.shortcut_quit_title, null, 0, 0),
+            bool("tv", "tuna_checkup_before_game", R.string.checkup_setting, true),
             bool("tv", "tuna_open_only_pc", R.string.tuna_open_only_pc, true),
             bool("tv", "tuna_tv_game_mode", R.string.tuna_tv_game_mode, true),
             bool("tv", "tuna_auto_reconnect", R.string.tuna_auto_reconnect, true),
@@ -191,6 +192,7 @@ public final class RemoteSettings {
             case "checkbox_host_audio": return R.string.summary_checkbox_host_audio;
             case "checkbox_enable_rumble": return R.string.summary_enable_rumble;
             case "checkbox_flip_face_buttons": return R.string.summary_checkbox_flip_face_buttons;
+            case "tuna_checkup_before_game": return R.string.checkup_setting_summary;
             case "tuna_open_only_pc": return R.string.tuna_open_only_pc_summary;
             case "tuna_tv_game_mode": return R.string.tuna_tv_game_mode_summary;
             case "tuna_auto_reconnect": return R.string.tuna_auto_reconnect_summary;
