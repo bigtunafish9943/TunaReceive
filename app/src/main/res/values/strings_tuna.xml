@@ -397,6 +397,14 @@
     <string name="checkup_hdr_off">Turn off HDR: this TV doesn\'t report HDR, so colours would look washed out.</string>
     <string name="checkup_10bit_off">Turn off 10-bit picture: this device can\'t decode it, which can show a black or green picture.</string>
 
+    <!-- Send logs to PC -->
+    <string name="send_logs_menu">Send logs to PC</string>
+    <string name="send_logs_title">Send logs to PC</string>
+    <string name="send_logs_sending">Sending TunaReceive\'s recent log…</string>
+    <string name="send_logs_done">Sent. On %1$s, open TunaStream\'s web page, then Troubleshooting > Logs from TVs.</string>
+    <string name="send_logs_failed">The log couldn\'t be sent. Check that the PC is on and TunaStream is running, then try again.</string>
+    <string name="send_logs_needs_update">This PC\'s TunaStream is too old to keep logs. Update it, then try again.</string>
+
     <!-- Per-game settings -->
     <string name="game_profile_menu">Settings for this game</string>
     <string name="game_profile_title">Settings for %1$s</string>

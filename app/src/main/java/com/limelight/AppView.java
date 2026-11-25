@@ -431,6 +431,7 @@ public class AppView extends AppCompatActivity implements AdapterFragmentCallbac
                 getString(R.string.backup_menu),
                 getString(R.string.restore_menu),
                 getString(R.string.shortcuts_category),
+                getString(R.string.send_logs_menu),
         };
         android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(this)
                 .setTitle(getString(R.string.pc_tools_title, pc.name))
@@ -442,6 +443,7 @@ public class AppView extends AppCompatActivity implements AdapterFragmentCallbac
                         case 3: com.limelight.utils.ScreenRepair.run(this, pc, uniqueId); break;
                         case 4: com.limelight.utils.ReceiverBackup.backUp(this, pc, uniqueId); break;
                         case 5: com.limelight.utils.ReceiverBackup.restoreFromPc(this, pc, uniqueId); break;
+                        case 7: com.limelight.utils.SendLogs.send(this, pc, uniqueId); break;
                         default:
                             startActivity(new Intent(this, com.limelight.preferences.StreamSettings.class)
                                     .putExtra(com.limelight.preferences.StreamSettings.EXTRA_JUMP_TO, "category_tuna_shortcuts"));

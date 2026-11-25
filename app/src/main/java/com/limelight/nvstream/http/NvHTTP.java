@@ -899,6 +899,12 @@ public class NvHTTP {
         return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/settings", null, body);
     }
 
+    /** TunaStream only: keep TunaReceive's recent log on the PC for troubleshooting. JSON {"saved", "name"}. */
+    public String sendTunaLog(String text) throws IOException {
+        RequestBody body = RequestBody.create(text, MediaType.parse("text/plain; charset=utf-8"));
+        return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/log", null, body);
+    }
+
     /** TunaStream only: the TunaReceive backups kept on the PC. JSON {"backups": [{"name", "device", "made"}]}. */
     public String getTunaBackups() throws IOException {
         return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/backups");
