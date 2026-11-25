@@ -1,5 +1,7 @@
 package com.limelight.preferences;
 
+import com.limelight.utils.UiHelper;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -195,6 +197,7 @@ public class SeekBarPreference extends Preference
         AlertDialog dialog = getDialog();
         updateSeekbar();
         dialog.show();
+        UiHelper.styleDialog(dialog);
     }
 
     @Override

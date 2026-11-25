@@ -247,6 +247,7 @@ public class UiHelper {
         }
         AlertDialog dialog = builder.create();
         dialog.show();
+        styleDialog(dialog);
         ((TextView)dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
     }
 
@@ -298,39 +299,76 @@ public class UiHelper {
      * light text, cyan buttons. Some TV boxes draw app pop-ups in their own colours, which made
      * ours bright blue with buttons that couldn't be read. Call right after show().
      */
+    /** The same look for AndroidX pop-ups. */
+    public static androidx.appcompat.app.AlertDialog styleDialog(androidx.appcompat.app.AlertDialog dialog) {
+        if (dialog == null) {
+            return null;
+        }
+        styleDialogParts(dialog, which -> dialog.getButton(which), dialog.getListView());
+        return dialog;
+    }
+
     public static AlertDialog styleDialog(AlertDialog dialog) {
         if (dialog == null) {
             return null;
         }
+        styleDialogParts(dialog, which -> dialog.getButton(which), dialog.getListView());
+        return dialog;
+    }
+
+    private interface ButtonLookup {
+        android.widget.Button get(int which);
+    }
+
+    private static void styleDialogParts(android.app.Dialog dialog, ButtonLookup buttons, android.widget.ListView list) {
         Context context = dialog.getContext();
         android.view.Window window = dialog.getWindow();
         if (window != null) {
             window.setBackgroundDrawableResource(R.drawable.ts_dialog_bg);
         }
+        // TV boxes lay pop-ups out with their own panels, which paint themselves bright blue over
+        // the navy card. Clear them so the card shows through.
+        for (String panel : new String[]{"parentPanel", "topPanel", "title_template", "contentPanel",
+                "scrollView", "customPanel", "buttonPanel"}) {
+            // Android's own pop-ups use the system's ids; AndroidX ones use the app's
+            for (String pkg : new String[]{"android", context.getPackageName()}) {
+                int id = context.getResources().getIdentifier(panel, "id", pkg);
+                if (id != 0) {
+                    android.view.View view = dialog.findViewById(id);
+                    if (view != null) {
+                        view.setBackground(null);
+                    }
+                }
+            }
+        }
         int text = context.getResources().getColor(R.color.ts_text);
         int secondary = context.getResources().getColor(R.color.ts_text_secondary);
-        int accent = context.getResources().getColor(R.color.ts_accent);
         TextView message = dialog.findViewById(android.R.id.message);
         if (message != null) {
             message.setTextColor(secondary);
         }
-        int titleId = context.getResources().getIdentifier("alertTitle", "id", "android");
-        if (titleId != 0) {
-            TextView title = dialog.findViewById(titleId);
-            if (title != null) {
-                title.setTextColor(text);
+        for (String pkg : new String[]{"android", context.getPackageName()}) {
+            int titleId = context.getResources().getIdentifier("alertTitle", "id", pkg);
+            if (titleId != 0) {
+                TextView title = dialog.findViewById(titleId);
+                if (title != null) {
+                    title.setTextColor(text);
+                }
             }
         }
         for (int which : new int[]{AlertDialog.BUTTON_POSITIVE, AlertDialog.BUTTON_NEGATIVE, AlertDialog.BUTTON_NEUTRAL}) {
-            android.widget.Button button = dialog.getButton(which);
+            android.widget.Button button = buttons.get(which);
             if (button != null) {
-                button.setTextColor(accent);
+                // Cyan text normally; dark text on a cyan pill when selected, readable from the sofa
+                button.setTextColor(context.getResources().getColorStateList(R.color.ts_dialog_button_text));
+                button.setBackgroundResource(R.drawable.ts_dialog_button_bg);
+                button.setAllCaps(false);
+                int padH = (int) dpToPx(context, 20);
+                button.setPadding(padH, button.getPaddingTop(), padH, button.getPaddingBottom());
             }
         }
-        android.widget.ListView list = dialog.getListView();
         if (list != null) {
             list.setBackgroundColor(android.graphics.Color.TRANSPARENT);
         }
-        return dialog;
     }
 }

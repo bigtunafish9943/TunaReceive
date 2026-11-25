@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Pop-up buttons: cyan text, dark text on the cyan pill when selected -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true" android:color="@color/ts_navy" />
+    <item android:state_pressed="true" android:color="@color/ts_navy" />
+    <item android:color="@color/ts_accent" />
+</selector>

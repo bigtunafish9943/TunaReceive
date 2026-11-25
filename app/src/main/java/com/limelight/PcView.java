@@ -652,6 +652,7 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
         dialogBuilder.setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.dismiss());
         AlertDialog dialog = dialogBuilder.create();
         dialog.show();
+        UiHelper.styleDialog(dialog);
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
             String pin = otpInput.getText().toString();

@@ -164,7 +164,7 @@ public class EditProfileActivity extends AppCompatActivity {
         input.setText(initial);
         input.setSelection(initial.length());
 
-        new AlertDialog.Builder(this)
+        UiHelper.styleDialog(new AlertDialog.Builder(this)
                 .setTitle(R.string.profile_manager_edit_profile_name)
                 .setView(input)
                 .setPositiveButton("OK", (dialog, which) -> {
@@ -185,7 +185,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     }
                 })
                 .setNegativeButton(getString(R.string.cancel), null)
-                .show();
+                .show());
     }
 
     public SharedPreferences getInMemoryPrefs() {
