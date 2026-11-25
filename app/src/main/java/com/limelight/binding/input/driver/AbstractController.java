@@ -62,6 +62,10 @@ public abstract class AbstractController {
         listener.reportControllerMotion(deviceId, MoonBridge.LI_MOTION_TYPE_ACCEL, accelX, accelY, accelZ);
     }
 
+    protected void reportBattery(byte state, byte percent) {
+        listener.reportControllerBattery(deviceId, state, percent);
+    }
+
     public abstract boolean start();
 
     public abstract void stop();

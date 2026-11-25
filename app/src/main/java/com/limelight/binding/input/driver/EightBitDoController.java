@@ -31,6 +31,8 @@ public class EightBitDoController extends AbstractController {
     /** Battery from the last report: percent, or -1 if unknown; and whether it's charging. */
     public static volatile int batteryPercent = -1;
     public static volatile boolean batteryCharging;
+    /** When the battery was last read (uptime ms), so a controller that has gone isn't shown. */
+    public static volatile long batteryReadMs;
 
     private static final float STANDARD_GRAVITY = 9.80665f;
     private static final long MOTION_EVERY_MS = 5;  // 200 a second is plenty for games
@@ -39,6 +41,11 @@ public class EightBitDoController extends AbstractController {
     private final UsbDriverListener ownListener;
     private long lastMotionMs;
     private boolean lowBatteryWarned;
+    private long batterySentMs;
+    private int batterySends;
+    private int lastSentLevel = -1;
+    private boolean lastSentCharging;
+    private static final long BATTERY_RESEND_MS = 60_000;
     // Last state sent, so unchanged reports (it sends up to 1000 a second) aren't passed on
     private int sentButtons = -1;
     private float sentLX, sentLY, sentRX, sentRY, sentLT, sentRT;
@@ -185,8 +192,22 @@ public class EightBitDoController extends AbstractController {
         int level = battery & 0x7f;
         boolean charging = (battery & 0x80) != 0;
         if (level <= 100) {
+            // Tell the PC when it changes, and again now and then in case a report went missing
+            long nowMs = SystemClock.uptimeMillis();
+            boolean changed = level != lastSentLevel || charging != lastSentCharging;
+            long wait = changed ? 2_000 : (batterySends < 3 ? 3_000 : BATTERY_RESEND_MS);
+            if (nowMs - batterySentMs > wait) {
+                // The first few go out quickly: the PC ignores any sent before it has set up the controller
+                batterySentMs = nowMs;
+                batterySends++;
+                lastSentLevel = level;
+                lastSentCharging = charging;
+                reportBattery(charging ? (level >= 100 ? MoonBridge.LI_BATTERY_STATE_FULL : MoonBridge.LI_BATTERY_STATE_CHARGING)
+                                : MoonBridge.LI_BATTERY_STATE_DISCHARGING, (byte) level);
+            }
             batteryPercent = level;
             batteryCharging = charging;
+            batteryReadMs = nowMs;
             if (level <= LOW_BATTERY_PCT && !charging && !lowBatteryWarned) {
                 lowBatteryWarned = true;
                 warnLowBattery(level);

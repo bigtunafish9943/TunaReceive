@@ -9,6 +9,8 @@
 
     <string name="menu_button">Menu</string>
     <string name="quick_menu_title">Quick menu</string>
+    <string name="quick_menu_title_battery">Quick menu: controller battery %1$d%%</string>
+    <string name="quick_menu_title_charging">Quick menu: controller charging, %1$d%%</string>
     <string name="configuration_mode_move_buttons">Move buttons mode</string>
     <string name="configuration_mode_resize_buttons">Resize buttons mode</string>
     <string name="configuration_mode_disable_enable_buttons">Enable/Disable buttons mode</string>

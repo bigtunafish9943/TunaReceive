@@ -332,7 +332,18 @@ public class GameMenu implements Game.GameMenuCallbacks {
 
         options.add(new MenuOption(getString(R.string.game_menu_cancel), null));
 
-        showMenuDialog(getString(R.string.quick_menu_title), options.toArray(new MenuOption[options.size()]));
+        showMenuDialog(menuTitle(), options.toArray(new MenuOption[options.size()]));
+    }
+
+    /** "Quick menu", with the controller's battery when TunaReceive can read it. */
+    private String menuTitle() {
+        int battery = com.limelight.binding.input.driver.EightBitDoController.batteryPercent;
+        long age = android.os.SystemClock.uptimeMillis() - com.limelight.binding.input.driver.EightBitDoController.batteryReadMs;
+        if (battery < 0 || age > 30_000) {
+            return getString(R.string.quick_menu_title);
+        }
+        return game.getString(com.limelight.binding.input.driver.EightBitDoController.batteryCharging
+                ? R.string.quick_menu_title_charging : R.string.quick_menu_title_battery, battery);
     }
 
     @Override
