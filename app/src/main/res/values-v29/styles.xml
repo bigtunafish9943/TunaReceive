@@ -1,5 +1,15 @@
 <resources>
     <style name="AppBaseTheme" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Theme colours, Deep Sea by default; a chosen theme is laid over these -->
+        <item name="tsNavy">#041431</item>
+        <item name="tsDeep">#0A2350</item>
+        <item name="tsSurface">#081A3A</item>
+        <item name="tsSurfaceBorder">#142F58</item>
+        <item name="tsAccent">#0CC8F6</item>
+        <item name="tsAccentSoft">#8BE6FC</item>
+        <item name="tsBlue">#0B74D1</item>
+        <item name="tsText">#EEF5FB</item>
+        <item name="tsTextSecondary">#9FB3CC</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <!-- Avoid some systems like MIUI which break the visibility of games title -->

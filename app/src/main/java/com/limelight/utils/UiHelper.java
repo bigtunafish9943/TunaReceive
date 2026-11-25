@@ -341,8 +341,8 @@ public class UiHelper {
                 }
             }
         }
-        int text = context.getResources().getColor(R.color.ts_text);
-        int secondary = context.getResources().getColor(R.color.ts_text_secondary);
+        int text = androidx.core.content.ContextCompat.getColor(context, R.color.ts_text);
+        int secondary = androidx.core.content.ContextCompat.getColor(context, R.color.ts_text_secondary);
         TextView message = dialog.findViewById(android.R.id.message);
         if (message != null) {
             message.setTextColor(secondary);
@@ -360,7 +360,7 @@ public class UiHelper {
             android.widget.Button button = buttons.get(which);
             if (button != null) {
                 // Cyan text normally; dark text on a cyan pill when selected, readable from the sofa
-                button.setTextColor(context.getResources().getColorStateList(R.color.ts_dialog_button_text));
+                button.setTextColor(androidx.core.content.ContextCompat.getColorStateList(context, R.color.ts_dialog_button_text));
                 button.setBackgroundResource(R.drawable.ts_dialog_button_bg);
                 button.setAllCaps(false);
                 int padH = (int) dpToPx(context, 20);

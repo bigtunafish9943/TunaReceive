@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Theme colours: every TunaReceive colour comes from these, so a theme can swap them all -->
+    <attr name="tsNavy" format="color" />
+    <attr name="tsDeep" format="color" />
+    <attr name="tsSurface" format="color" />
+    <attr name="tsSurfaceBorder" format="color" />
+    <attr name="tsAccent" format="color" />
+    <attr name="tsAccentSoft" format="color" />
+    <attr name="tsBlue" format="color" />
+    <attr name="tsText" format="color" />
+    <attr name="tsTextSecondary" format="color" />
+</resources>

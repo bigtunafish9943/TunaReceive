@@ -172,7 +172,7 @@ public class StreamSettings extends AppCompatActivity {
 
         /** The settings most people need; the rest appear with "Show all settings". */
         private static final java.util.Set<String> EVERYDAY_KEYS = new java.util.HashSet<>(Arrays.asList(
-                "tuna_run_setup", "tuna_controller_check", "tuna_open_only_pc", "tuna_adaptive_quality", "tuna_adaptive_size", "tuna_10bit", "tuna_tv_game_mode", "tuna_auto_reconnect", "tuna_show_expert", "tuna_check_updates",
+                "tuna_run_setup", "tuna_controller_check", "tuna_open_only_pc", "tuna_adaptive_quality", "tuna_adaptive_size", "tuna_10bit", "tuna_match_pc_theme", "tuna_theme", "tuna_tv_game_mode", "tuna_auto_reconnect", "tuna_show_expert", "tuna_check_updates",
                 "list_resolution", "list_fps", "seekbar_bitrate_kbps", "checkbox_use_virtual_display",
                 "checkbox_enable_hdr",
                 "list_audio_config",
@@ -921,6 +921,25 @@ public class StreamSettings extends AppCompatActivity {
                 });
             }
             showEverydayOrAll(getPrefs().getBoolean("tuna_show_expert", false));
+
+            // Themes: picking one only applies while not matching the PC; either change shows at once
+            Preference matchPref = findPreference(com.limelight.utils.TunaTheme.PREF_MATCH_PC);
+            Preference themePref = findPreference(com.limelight.utils.TunaTheme.PREF_OWN);
+            if (matchPref != null && themePref != null) {
+                if (!com.limelight.utils.TunaTheme.supported()) {
+                    matchPref.setVisible(false);
+                    themePref.setVisible(false);
+                } else {
+                    matchPref.setOnPreferenceChangeListener((preference, newValue) -> {
+                        getView().post(() -> com.limelight.utils.TunaTheme.changed(getActivity()));
+                        return true;
+                    });
+                    themePref.setOnPreferenceChangeListener((preference, newValue) -> {
+                        getView().post(() -> com.limelight.utils.TunaTheme.changed(getActivity()));
+                        return true;
+                    });
+                }
+            }
 
             Preference updatesPref = findPreference("tuna_check_updates");
             if (updatesPref != null) {

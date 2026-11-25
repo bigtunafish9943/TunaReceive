@@ -435,6 +435,7 @@ public class NvHTTP {
         }
 
         details.serverCommands = getServerCmds(serverInfo);
+        details.tunaTheme = getXmlString(serverInfo, "TunaTheme", false);
 
         details.pairState = getPairState(serverInfo);
         details.runningGameId = getCurrentGame(serverInfo);

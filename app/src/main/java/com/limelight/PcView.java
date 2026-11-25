@@ -36,6 +36,7 @@ import com.limelight.utils.StreamReport;
 import com.limelight.utils.ShortcutHelper;
 import com.limelight.utils.UsbMenuNavigation;
 import com.limelight.utils.TunaUpdater;
+import com.limelight.utils.TunaTheme;
 import com.limelight.utils.UiHelper;
 
 import android.app.ActivityManager;
@@ -946,6 +947,7 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
         // Collect any files a paired PC is sending to this device
         if (managerBinder != null && details.pairState == PairState.PAIRED) {
             FileReceiver.check(this, details, managerBinder.getUniqueId());
+            TunaTheme.fromPc(this, details.tunaTheme);
         }
     }
 

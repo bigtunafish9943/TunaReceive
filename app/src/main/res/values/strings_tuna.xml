@@ -91,6 +91,23 @@
     <string name="tuna_size_test">Test a smaller picture (10 seconds)</string>
     <string name="tuna_size_test_started">Sending a smaller picture for 10 seconds. It should stay full-screen, look a little softer, then sharpen again.</string>
     <string name="tuna_size_test_unavailable">Can\'t try that here. Turn on both Adjust options in Settings, and update TunaStream on the PC.</string>
+    <string name="tuna_match_pc_theme">Match my PC\'s theme</string>
+    <string name="tuna_match_pc_theme_summary">Wear the colour theme chosen in TunaStream on the PC. Turn off to pick one for this TV below.</string>
+    <string name="tuna_theme">Theme</string>
+    <string-array name="tuna_theme_names">
+        <item>Deep Sea</item>
+        <item>Coral Reef</item>
+        <item>Kelp Forest</item>
+        <item>Midnight</item>
+        <item>Golden Hour</item>
+    </string-array>
+    <string-array name="tuna_theme_ids" translatable="false">
+        <item>deepsea</item>
+        <item>reef</item>
+        <item>kelp</item>
+        <item>midnight</item>
+        <item>gold</item>
+    </string-array>
     <string name="tuna_tv_game_mode">Switch the TV to game mode</string>
     <string name="tuna_tv_game_mode_summary">While a game is on screen, ask the TV to skip its picture processing, which takes away a lot of delay. The TV goes back to normal afterwards. Needs a TV with auto low latency mode (ALLM).</string>
     <string name="tuna_10bit">10-bit picture (experimental)</string>

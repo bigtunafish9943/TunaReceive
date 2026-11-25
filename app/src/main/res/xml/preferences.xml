@@ -48,6 +48,22 @@
             android:summary="@string/tuna_adaptive_size_summary"
             app:iconSpaceReserved="false" />
         <CheckBoxPreference
+            android:key="tuna_match_pc_theme"
+            android:disableDependentsState="true"
+            android:defaultValue="true"
+            android:title="@string/tuna_match_pc_theme"
+            android:summary="@string/tuna_match_pc_theme_summary"
+            app:iconSpaceReserved="false" />
+        <ListPreference
+            android:key="tuna_theme"
+            android:dependency="tuna_match_pc_theme"
+            android:defaultValue="deepsea"
+            android:title="@string/tuna_theme"
+            android:entries="@array/tuna_theme_names"
+            android:entryValues="@array/tuna_theme_ids"
+            android:summary="%s"
+            app:iconSpaceReserved="false" />
+        <CheckBoxPreference
             android:key="tuna_tv_game_mode"
             android:defaultValue="true"
             android:title="@string/tuna_tv_game_mode"

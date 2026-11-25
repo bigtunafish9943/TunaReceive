@@ -82,6 +82,9 @@ public class ComputerDetails {
     public String rawAppList;
     public boolean nvidiaServer;
 
+    // TunaStream only: the theme chosen on the PC, or null
+    public String tunaTheme;
+
     // VDisplay info
     public boolean vDisplaySupported = false;
     public boolean vDisplayDriverReady = false;
@@ -163,6 +166,9 @@ public class ComputerDetails {
 
         this.vDisplayDriverReady = details.vDisplayDriverReady;
         this.vDisplaySupported = details.vDisplaySupported;
+        if (details.tunaTheme != null) {
+            this.tunaTheme = details.tunaTheme;
+        }
 
         this.serverCommands = details.serverCommands;
     }
