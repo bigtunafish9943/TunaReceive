@@ -29,7 +29,8 @@ import java.util.List;
  * connection to the PC for about a second, looks at what this TV can show and decode and at how
  * the last stream went, and suggests settings that would play better. Each suggestion can be
  * taken or left; nothing changes unless it's chosen. A suggestion turned down isn't made again
- * for a week, unless things change enough to suggest something different.
+ * for a week, unless things change enough to suggest something different. Runs from
+ * ServerHelper.doStart, so every way of starting a game goes through it.
  */
 public final class StreamCheckup {
     private StreamCheckup() {}
