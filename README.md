@@ -27,6 +27,14 @@ adjusts while you play instead of freezing when the Wi-Fi gets busy.
 - **Sound that doesn't drop out.** The sound buffer starts as small as it can and grows a little each time a
   packet arrives late, so a clean connection keeps the lowest delay and an uneven one stops going silent.
 - **Even frame pacing** by default, and a dropped stream reconnects by itself.
+- **59.94 and 119.88 FPS.** Most TVs really refresh at 59.94 Hz, so a 60 FPS stream has to drop a frame every
+  few seconds, which shows as a small hitch when panning. Picking the TV's own rate removes it, and TunaStream
+  makes its virtual screen run at exactly that rate. The check before each game suggests it when the TV has no
+  true 60 Hz mode.
+- **Sharpen the picture** (experimental, off unless turned on). Light, Medium or Strong contrast-adaptive
+  sharpening, applied at the stream's own size before the TV scales it up, so 720p to 1440p streams look less
+  soft without bright outlines. Skipped for HDR and 4K, and falls back to the normal picture if the TV's
+  graphics can't run it.
 - **A check before each game.** About a second measuring the connection to the PC, then suggestions that would
   play better on this TV: picture size, frame rate, bitrate, adjusting to the Wi-Fi, and HDR or 10-bit off where
   the TV can't use them. Each is a tick box: *Use checked*, *Use all* or *Keep mine*; *Skip* starts at once. A
@@ -50,6 +58,9 @@ Works with TunaStream; everything above needs TunaStream 1.0. Split-frame encodi
   or later.
 - **Controllers in Xbox mode** get the start-up message Windows' own driver sends, which some adapters (8BitDo's
   among them) wait for before sending any input.
+- **Fix stick drift** (off unless turned on). When a worn stick rests near the centre for a moment, its resting
+  spot becomes the new centre, so the camera stops creeping. Unlike a bigger deadzone, small movements still
+  count and full tilt still reaches the edge.
 - **Check my controller** in Settings shows what the controller is, how it is connected and whether it can rumble,
   with the fix when something's wrong. On the PC, *Rumble now* on TunaStream's Troubleshooting page buzzes it
   directly.
@@ -83,6 +94,13 @@ Works with TunaStream; everything above needs TunaStream 1.0. Split-frame encodi
 - **Couch menu.** Hold the controller's Home button for the quick menu (or set your own buttons).
 - **PC tools and Settings** at the top of the games: your week, how the last stream went, fitting the picture
   quality to the connection, repairing the PC's virtual screen, and backup and restore, all in one place.
+- **Settings for each game.** Hold a game and choose *Settings for this game* to give it one of your settings
+  profiles (4K with HDR for a slow game, 1080p at 120 for a shooter). It's used whenever that game streams;
+  every other game keeps your usual settings.
+- **Send logs to PC.** *PC tools > Send logs to PC* sends TunaReceive's recent log, with the TV's model and
+  settings, to TunaStream's Troubleshooting page. Problems can be looked into without a cable or adb.
+- **What's new.** After an update, TunaReceive shows what changed since the version this TV last ran, once.
+- **English, Spanish, French and German.** Settings > Language, or the TV's own language.
 - **Settings from the PC.** TunaStream's Devices > TV settings changes this TV's settings from the PC, where
   there's room to explain each one; the TV picks them up within 15 seconds and says what changed.
 - **Files from the PC** sent with TunaStream's *Send to device* arrive in Downloads by themselves.
