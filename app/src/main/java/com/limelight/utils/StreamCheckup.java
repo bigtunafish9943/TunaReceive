@@ -226,8 +226,11 @@ public final class StreamCheckup {
             boolean tvCanDoMore = bw > width;
             boolean tooMuchForConnection = measuredMbps >= 0 && bw < width;
             if (tooBigForTv || tvCanDoMore || tooMuchForConnection) {
-                out.add(new Suggestion("list_resolution", bestSize, a.getString(
-                        tooBigForTv ? R.string.checkup_size_tv : tvCanDoMore ? R.string.checkup_size_up : R.string.checkup_size_down,
+                // Without a measurement, a bigger size is only suggested because the TV can show it
+                int why = tooBigForTv ? R.string.checkup_size_tv
+                        : tvCanDoMore ? (measuredMbps > 0 ? R.string.checkup_size_up : R.string.checkup_size_up_tv)
+                        : R.string.checkup_size_down;
+                out.add(new Suggestion("list_resolution", bestSize, a.getString(why,
                         label(a, resolution), label(a, bestSize), measuredMbps)));
                 width = bw;
                 height = parse(bestSize, 1);

@@ -2,6 +2,9 @@
 
 Play your PC's games on an Android TV box, phone or tablet, streamed from [TunaStream](https://github.com/bigtunafish9943/TunaStream). Made first for the NVIDIA Shield TV.
 
+This is TunaReceive 1.0, the first complete version, played on every day on an NVIDIA Shield TV with an 8BitDo
+controller. Other devices have had little testing yet.
+
 **Install:** download the APK ending in `arm64-v8a` from the [latest release](https://github.com/bigtunafish9943/TunaReceive/releases/latest) and open it on the device. After that, TunaReceive updates itself.
 
 The app id is `com.tunastream.receive`, so it installs next to Moonlight and Artemis.
@@ -35,7 +38,7 @@ adjusts while you play instead of freezing when the Wi-Fi gets busy.
   video, delay, and the PC's side of the same stream. The last five streams are kept. TunaStream's home page shows
   the TV's view of the stream next to its own figures.
 
-Works with TunaStream; everything above needs TunaStream 0.1.161 or later. Split-frame encoding and the rest of the PC's side are described in
+Works with TunaStream; everything above needs TunaStream 1.0. Split-frame encoding and the rest of the PC's side are described in
 [TunaStream's README](https://github.com/bigtunafish9943/TunaStream#smooth-on-wi-fi).
 
 ### Rumble that works

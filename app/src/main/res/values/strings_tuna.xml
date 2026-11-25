@@ -388,6 +388,7 @@
     </plurals>
     <string name="checkup_size_tv">Picture size %1$s → %2$s: the TV can\'t show %1$s, so the extra detail is wasted.</string>
     <string name="checkup_size_up">Picture size %1$s → %2$s: this TV can show %2$s, and the connection (%3$d Mbps) can carry it.</string>
+    <string name="checkup_size_up_tv">Picture size %1$s → %2$s: this TV can show %2$s. The connection wasn\'t measured this time, so try it and see.</string>
     <string name="checkup_size_down">Picture size %1$s → %2$s: the connection measured %3$d Mbps, too little for a steady %1$s.</string>
     <string name="checkup_fps_tv">Frame rate %1$d → %2$s fps: the TV shows at most %2$s.</string>
     <string name="checkup_bitrate_down">Bitrate %1$d → %2$d Mbps: the connection measured %3$d Mbps; leaving room stops stutter.</string>

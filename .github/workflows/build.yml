@@ -82,7 +82,7 @@ jobs:
           fi
           chmod +x ./gradlew
           ./gradlew :app:assembleNonRoot_gameRelease --stacktrace \
-            -PtunaVersionName=0.1.${{ github.run_number }} \
+            -PtunaVersionName=1.0.${{ github.run_number }} \
             -PtunaVersionCode=${{ github.run_number }}
 
       - name: Name the APKs
@@ -92,7 +92,7 @@ jobs:
           python3 - << 'PY'
           import os, shutil
           from pathlib import Path
-          version = "0.1." + os.environ["GITHUB_RUN_NUMBER"]
+          version = "1.0." + os.environ["GITHUB_RUN_NUMBER"]
           found = list(Path("app/build/outputs/apk").rglob("*.apk"))
           if not found:
               raise SystemExit("no apk")
@@ -125,8 +125,8 @@ jobs:
         if: steps.ks.outputs.present == 'true' && github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v0.1.${{ github.run_number }}
-          name: TunaReceive 0.1.${{ github.run_number }}
+          tag_name: v1.0.${{ github.run_number }}
+          name: TunaReceive 1.0.${{ github.run_number }}
           files: out/*.apk
           # GitHub's generated notes started failing with server errors (500) on this
           # repository, so the notes are the commit's own message instead
