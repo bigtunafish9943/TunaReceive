@@ -134,6 +134,22 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
         tellPc(lossPct, receivedFps, slowFramePct, decodeMs);
     }
 
+    private volatile int hdrPeakNits;
+
+    /** How bright the TV says it can go in HDR, for the PC (0 when it doesn't say). */
+    public void setHdrPeak(android.view.Display display) {
+        if (display == null || android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
+            return;
+        }
+        android.view.Display.HdrCapabilities hdr = display.getHdrCapabilities();
+        if (hdr != null && hdr.getSupportedHdrTypes().length > 0) {
+            float peak = hdr.getDesiredMaxLuminance();
+            if (peak > 0 && peak < 10000) {
+                hdrPeakNits = Math.round(peak);
+            }
+        }
+    }
+
     /** The decoder whose delay figures go into the reports to the PC. */
     public void setDecoder(MediaCodecDecoderRenderer decoder) {
         this.decoder = decoder;
@@ -152,10 +168,10 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
             return;
         }
         final String query = String.format(Locale.ROOT,
-                "loss=%.2f&slow=%.1f&fps=%.1f&decode=%.2f&latency=%d&kbps=%d&setting=%d",
+                "loss=%.2f&slow=%.1f&fps=%.1f&decode=%.2f&latency=%d&kbps=%d&setting=%d&hdrpeak=%d",
                 recentLoss / recentSeconds, recentSlow / recentSeconds, recentFps / recentSeconds,
                 recentDecode / recentSeconds, decoder != null ? decoder.getAverageEndToEndLatency() : 0,
-                quality != null ? quality.currentKbps() : settingKbps, settingKbps);
+                quality != null ? quality.currentKbps() : settingKbps, settingKbps, hdrPeakNits);
         recentSeconds = 0;
         recentLoss = recentSlow = recentFps = recentDecode = 0;
         try {
