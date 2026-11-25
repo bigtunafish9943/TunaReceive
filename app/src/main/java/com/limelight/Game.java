@@ -704,6 +704,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 prefConfig.width, prefConfig.height, Math.round(prefConfig.fps), prefConfig.bitrate,
                 getIntent().getIntExtra(EXTRA_TUNA_RECONNECT, 0));
         streamReport.setDecoder(decoderRenderer);
+        streamReport.setContext(this);
         streamReport.setHdrPeak(getWindowManager().getDefaultDisplay());
         // Messages and sounds sent from TunaStream's home page
         tvMessageBanner = new com.limelight.utils.TvMessageBanner(this, findViewById(R.id.tunaMessage), httpConn);

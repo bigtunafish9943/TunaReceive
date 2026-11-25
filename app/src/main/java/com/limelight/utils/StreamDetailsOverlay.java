@@ -168,28 +168,13 @@ public final class StreamDetailsOverlay {
     }
 
     private String tvNetwork() {
-        try {
-            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && cm != null) {
-                NetworkCapabilities caps = cm.getNetworkCapabilities(cm.getActiveNetwork());
-                if (caps != null && caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                    return context.getString(R.string.details_wired);
-                }
-            }
-            WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-            WifiInfo info = wifi != null ? wifi.getConnectionInfo() : null;
-            if (info == null || info.getNetworkId() == -1) {
-                return context.getString(R.string.details_unknown_network);
-            }
-            int signal = WifiManager.calculateSignalLevel(info.getRssi(), 101);
-            String band = "";
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                int mhz = info.getFrequency();
-                band = mhz >= 5925 ? "6 GHz" : mhz >= 4900 ? "5 GHz" : "2.4 GHz";
-            }
-            return context.getString(R.string.details_wifi, band, signal, info.getRssi(), info.getLinkSpeed());
-        } catch (Exception e) {
+        TvNetwork n = TvNetwork.read(context);
+        if (TvNetwork.WIRED.equals(n.kind)) {
+            return context.getString(R.string.details_wired);
+        }
+        if (!TvNetwork.WIFI.equals(n.kind)) {
             return context.getString(R.string.details_unknown_network);
         }
+        return context.getString(R.string.details_wifi, n.band, n.signal, n.rssi, n.linkMbps);
     }
 }

@@ -207,6 +207,13 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
         }
     }
 
+    private android.content.Context appContext;
+
+    /** For reading the TV's own network for the reports to the PC. */
+    public void setContext(android.content.Context context) {
+        appContext = context.getApplicationContext();
+    }
+
     /** The decoder whose delay figures go into the reports to the PC. */
     public void setDecoder(MediaCodecDecoderRenderer decoder) {
         this.decoder = decoder;
@@ -224,11 +231,33 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
         if (recentSeconds < REPORT_EVERY_SECONDS) {
             return;
         }
-        final String query = String.format(Locale.ROOT,
+        String base = String.format(Locale.ROOT,
                 "loss=%.2f&slow=%.1f&fps=%.1f&decode=%.2f&latency=%d&kbps=%d&setting=%d&hdrpeak=%d",
                 recentLoss / recentSeconds, recentSlow / recentSeconds, recentFps / recentSeconds,
                 recentDecode / recentSeconds, decoder != null ? decoder.getAverageEndToEndLatency() : 0,
                 quality != null ? quality.currentKbps() : settingKbps, settingKbps, hdrPeakNits);
+        // The same details as the stream details overlay, for TunaStream's phone page
+        Live l = live();
+        String codec = "";
+        int bits = 8;
+        if (decoder != null) {
+            int f = decoder.getActiveVideoFormat();
+            codec = (f & com.limelight.nvstream.jni.MoonBridge.VIDEO_FORMAT_MASK_AV1) != 0 ? "av1"
+                    : (f & com.limelight.nvstream.jni.MoonBridge.VIDEO_FORMAT_MASK_H265) != 0 ? "hevc" : "h264";
+            bits = (f & com.limelight.nvstream.jni.MoonBridge.VIDEO_FORMAT_MASK_10BIT) != 0 ? 10 : 8;
+        }
+        long rttInfo = com.limelight.nvstream.jni.MoonBridge.getEstimatedRttInfo();
+        int rtt = rttInfo != -1 ? (int) (rttInfo >> 32) : 0;
+        int rttVar = rttInfo != -1 ? (int) (rttInfo & 0xFFFFFFFFL) : 0;
+        String net = "";
+        if (appContext != null) {
+            TvNetwork n = TvNetwork.read(appContext);
+            net = String.format(Locale.ROOT, "&net=%s&band=%s&signal=%d&rssi=%d&link=%d", n.kind,
+                    n.band.replace(" GHz", ""), n.signal, Math.abs(n.rssi), n.linkMbps);
+        }
+        final String query = base + String.format(Locale.ROOT,
+                "&avgfps=%.1f&late30=%.2f&lossec=%d&scale=%d&codec=%s&bits=%d&rtt=%d&rttvar=%d",
+                l.averageFps, l.latePct30, l.lossSeconds, l.scalePercent, codec, bits, rtt, rttVar) + net;
         recentSeconds = 0;
         recentLoss = recentSlow = recentFps = recentDecode = 0;
         try {
