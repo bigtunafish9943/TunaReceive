@@ -36,7 +36,8 @@ import java.util.concurrent.RejectedExecutionException;
  *
  * PCs whose TunaStream can't do this answer "not found", and it stops asking.
  */
-public final class AdaptiveQuality implements MediaCodecDecoderRenderer.StreamHealthListener {
+public final class AdaptiveQuality implements MediaCodecDecoderRenderer.StreamHealthListener,
+        MediaCodecDecoderRenderer.BitrateSource {
     private static final float LOSS_THRESHOLD_PCT = 1.0f;
     private static final float SLOW_FRAMES_THRESHOLD_PCT = 30f;
     private static final int BAD_SECONDS_TO_LOWER = 2;
@@ -71,7 +72,7 @@ public final class AdaptiveQuality implements MediaCodecDecoderRenderer.StreamHe
     private final ExecutorService sender = Executors.newSingleThreadExecutor();
 
     private volatile boolean disabled;
-    private int currentKbps;
+    private volatile int currentKbps;
     private int badStreak;
     private int slowStreak;
     private int goodStreak;
@@ -162,6 +163,17 @@ public final class AdaptiveQuality implements MediaCodecDecoderRenderer.StreamHe
             // The bitrate settled where a different picture size suits it, but the size had changed too recently
             request(currentKbps, now, "picture size catching up");
         }
+    }
+
+    /** The bitrate asked for most recently, in the units of the bitrate setting. */
+    @Override
+    public int currentKbps() {
+        return currentKbps;
+    }
+
+    /** The picture size in use, in percent of the size the stream started at. */
+    public int scalePercent() {
+        return SCALES[scaleIndex];
     }
 
     /** Having to lower soon after raising means the raise was too much: wait longer next time. */

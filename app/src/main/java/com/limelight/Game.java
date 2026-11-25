@@ -52,6 +52,7 @@ import com.limelight.utils.PerformanceDataTracker;
 import com.limelight.utils.ServerHelper;
 import com.limelight.utils.ShortcutHelper;
 import com.limelight.utils.SpinnerDialog;
+import com.limelight.utils.StreamReport;
 import com.limelight.utils.UiHelper;
 
 import android.annotation.SuppressLint;
@@ -270,6 +271,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     // When the picture first came through, or 0 before that
     private long connectedAtMs;
     private AdaptiveQuality adaptiveQuality;
+    private StreamReport streamReport;
     public static final String EXTRA_PC_UUID = "UUID";
     public static final String EXTRA_PC_NAME = "PcName";
     public static final String EXTRA_APP_HDR = "HDR";
@@ -694,8 +696,13 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
             adaptiveQuality = new AdaptiveQuality(httpConn, prefConfig.bitrate, Math.round(prefConfig.fps),
                     prefConfig.width, prefConfig.height,
                     adjustSize ? () -> decoderRenderer != null && decoderRenderer.canChangePictureSize() : null);
-            decoderRenderer.setStreamHealthListener(adaptiveQuality);
         }
+        // How the stream went, kept for the PC's menu afterwards
+        streamReport = new StreamReport(adaptiveQuality, adaptiveQuality, pcName, appName,
+                prefConfig.width, prefConfig.height, Math.round(prefConfig.fps), prefConfig.bitrate,
+                getIntent().getIntExtra(EXTRA_TUNA_RECONNECT, 0));
+        decoderRenderer.setStreamHealthListener(streamReport);
+        decoderRenderer.setBitrateSource(adaptiveQuality);
 
 // --- Force tight thresholds (prefConfig.forceTightThresholds) ---
         try {
@@ -3480,6 +3487,9 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     }
 
     private void stopConnection() {
+        if (streamReport != null) {
+            streamReport.finish(this, decoderRenderer);
+        }
         if (adaptiveQuality != null) {
             adaptiveQuality.stop();
             adaptiveQuality = null;
@@ -3654,6 +3664,9 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 if (!displayedFailureDialog) {
                     displayedFailureDialog = true;
                     LimeLog.severe("Connection terminated: " + errorCode);
+                    if (streamReport != null && errorCode != MoonBridge.ML_ERROR_GRACEFUL_TERMINATION) {
+                        streamReport.setDropped(errorCode);
+                    }
                     stopConnection();
 
                     // A stream that was playing and dropped (Wi-Fi hiccup, the PC busy for a

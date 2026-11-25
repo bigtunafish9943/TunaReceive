@@ -32,6 +32,7 @@ import com.limelight.utils.ServerHelper;
 import com.limelight.utils.ConnectionTuner;
 import com.limelight.utils.FileReceiver;
 import com.limelight.utils.ScreenRepair;
+import com.limelight.utils.StreamReport;
 import com.limelight.utils.ShortcutHelper;
 import com.limelight.utils.UsbMenuNavigation;
 import com.limelight.utils.TunaUpdater;
@@ -149,6 +150,7 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
     private final static int PAIR_ID_OTP = 21;
     private final static int TUNE_ID = 22;
     private final static int REPAIR_SCREEN_ID = 23;
+    private final static int LAST_STREAM_ID = 24;
 
     private void initializeViews() {
         setContentView(R.layout.activity_pc_view);
@@ -486,6 +488,7 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
             menu.add(Menu.NONE, FULL_APP_LIST_ID, 4, getResources().getString(R.string.pcview_menu_app_list));
             menu.add(Menu.NONE, TUNE_ID, 4, getResources().getString(R.string.tuner_menu));
             menu.add(Menu.NONE, REPAIR_SCREEN_ID, 4, getResources().getString(R.string.repair_menu));
+            menu.add(Menu.NONE, LAST_STREAM_ID, 4, getResources().getString(R.string.report_menu));
         }
 
         menu.add(Menu.NONE, TEST_NETWORK_ID, 5, getResources().getString(R.string.pcview_menu_test_network));
@@ -848,6 +851,10 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
                 if (managerBinder != null) {
                     ScreenRepair.run(PcView.this, computer.details, managerBinder.getUniqueId());
                 }
+                return true;
+
+            case LAST_STREAM_ID:
+                StreamReport.show(PcView.this);
                 return true;
 
             case TUNE_ID:

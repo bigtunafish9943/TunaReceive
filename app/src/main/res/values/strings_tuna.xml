@@ -97,6 +97,25 @@
     <string name="tuna_auto_reconnect">Reconnect by itself</string>
     <string name="tuna_auto_reconnect_summary">If a stream drops mid-game, start it again automatically. The game keeps running on the PC meanwhile.</string>
 
+    <!-- How the last stream went (PC's long-press menu) -->
+    <string name="report_menu">How the last stream went</string>
+    <string name="report_title">How the last stream went</string>
+    <string name="report_none">No stream to report on yet. Play for at least ten seconds and look again.</string>
+    <string name="report_a_game">A game</string>
+    <string name="report_header">%1$s on %2$s, %3$s, for %4$s.</string>
+    <string name="report_seconds">%1$d seconds</string>
+    <string name="report_minutes">%1$d minutes</string>
+    <string name="report_smooth">Smooth the whole way: the picture arrived complete and on time.</string>
+    <string name="report_dropped">It ended because the connection to the PC dropped. Usually the Wi-Fi couldn't keep up for a moment.</string>
+    <string name="report_error">It ended with an error (%1$s).</string>
+    <string name="report_losing">The Wi-Fi lost parts of the picture in %1$d%% of the seconds played. That shows as stutter or smearing. A cable to the PC, or a lower Picture quality, helps most.</string>
+    <string name="report_reduced">Picture quality turned itself down for %1$s of %2$s to keep things smooth, going as low as %3$d Mbps (your setting is %4$d). If that happens often, a lower Picture quality in Settings gives a steadier picture.</string>
+    <string name="report_smaller">For %1$s the picture was sent smaller (down to %2$d%% of full size) and stretched to fill the screen, because the Wi-Fi couldn't carry the full size.</string>
+    <string name="report_decode">This device took %1$d ms to decode each frame, which is longer than a frame lasts. A smaller Picture size would help.</string>
+    <string name="report_slow">The connection was nearly full in %1$d%% of the seconds played: frames arrived slowly though none were lost. A slightly lower Picture quality would give it room.</string>
+    <string name="report_figures">The figures: %1$s at %2$d FPS. Picture quality %3$d Mbps set, %4$d Mbps on average; turned down %5$d times and back up %6$d times. Picture lost: %7$s%% on average. Delay on this device: %8$d ms, of which decoding %9$d ms.</string>
+    <string name="report_reconnected">This stream started after the connection dropped and TunaReceive reconnected by itself.</string>
+
     <!-- When a stream's connection drops (error -1) -->
     <string name="conn_dropped_msg">The connection to the PC dropped.\n\nThis usually means the Wi-Fi couldn\'t keep up for a moment. Lower the Picture quality in Settings, or long-press your PC and choose Fit picture quality to this connection. A smaller picture size (1080p instead of 4K) helps the most.\n\nIf TunaStream was updating or restarting on the PC, just start the game again.</string>
 
@@ -108,6 +127,7 @@
     <string name="perf_verdict_loss">Wi-Fi is losing parts of the picture. Lower Picture quality, or move the router or this device closer.</string>
     <string name="perf_verdict_decode">This device can\'t keep up. Try a smaller Picture size.</string>
     <string name="perf_verdict_host">The PC is sending %1$.0f of %2$d frames a second. Normal on a still screen; in a game, the game is running slow on the PC.</string>
+    <string name="perf_overlay_adjusted">Picture quality: %1$d of %2$d Mbps, turned down for the Wi-Fi</string>
     <string name="perf_verdict_strain">The connection is nearly full: frames are arriving slowly. Lower Picture quality a little.</string>
     <string name="perf_verdict_jitter">Wi-Fi delay is jumping around. Something else may be using the Wi-Fi.</string>
 

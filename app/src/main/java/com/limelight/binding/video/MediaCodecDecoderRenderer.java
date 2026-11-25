@@ -201,6 +201,17 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
         void onStreamHealth(float lossPct, float receivedFps, float slowFramePct);
     }
 
+    /** Where the bitrate being asked of the PC right now comes from, when it adjusts itself. */
+    public interface BitrateSource {
+        int currentKbps();
+    }
+
+    private volatile BitrateSource bitrateSource;
+
+    public void setBitrateSource(BitrateSource source) {
+        bitrateSource = source;
+    }
+
     /** True when this decoder takes a new picture size mid-stream without being restarted. */
     public boolean canChangePictureSize() {
         return adaptivePlayback;
@@ -1936,6 +1947,11 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
                     sb.append(plainVerdict(lastTwo, fps, decodeTimeMs, rttInfo)).append('\n');
                     sb.append(context.getString(R.string.perf_overlay_decoder, decoder)).append('\n');
                     sb.append(context.getString(R.string.perf_overlay_incomingfps, fps.receivedFps)).append('\n');
+                    BitrateSource source = bitrateSource;
+                    if (source != null && prefs.bitrate > 0 && source.currentKbps() < prefs.bitrate * 0.95) {
+                        sb.append(context.getString(R.string.perf_overlay_adjusted,
+                                Math.round(source.currentKbps() / 1000f), Math.round(prefs.bitrate / 1000f))).append('\n');
+                    }
                     sb.append(context.getString(R.string.perf_overlay_renderingfps, fps.renderedFps)).append('\n');
                     sb.append(context.getString(R.string.perf_overlay_netdrops,
                             (float)lastTwo.framesLost / lastTwo.totalFrames * 100)).append('\n');
