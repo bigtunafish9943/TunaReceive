@@ -192,17 +192,22 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
         ending = errorCode == -1 ? "dropped" : "error " + errorCode;
     }
 
-    /** Saves the report. Call once, as the stream closes, while the decoder's figures are still there. */
-    public synchronized void finish(Context context, MediaCodecDecoderRenderer decoder) {
+    /**
+     * Saves the report. Call once, as the stream closes, while the decoder's figures are still there.
+     * @return true when the stream was closed normally but had enough trouble to be worth a look
+     */
+    public synchronized boolean finish(Context context, MediaCodecDecoderRenderer decoder) {
         if (finished) {
-            return;
+            return false;
         }
         finished = true;
         sender.shutdownNow();
         if (seconds < 10) {
             // A stream that never got going says nothing useful
-            return;
+            return false;
         }
+        boolean troubled = ending == null && seconds >= 60 &&
+                (losingSeconds * 100 >= seconds * 5 || reducedSeconds * 100 >= seconds * 30);
         try {
             JSONObject r = new JSONObject();
             r.put("at", startedAtWallMs);
@@ -241,7 +246,9 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
             prefs.edit().putString(PREF, kept.toString()).apply();
         } catch (JSONException e) {
             LimeLog.warning("Couldn't save the stream report: " + e);
+            return false;
         }
+        return troubled;
     }
 
     /** Shows the most recent report, from the PC's menu. */

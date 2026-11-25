@@ -3488,8 +3488,9 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     }
 
     private void stopConnection() {
-        if (streamReport != null) {
-            streamReport.finish(this, decoderRenderer);
+        if (streamReport != null && streamReport.finish(this, decoderRenderer)) {
+            // A rough game that was closed normally: say where to see what happened
+            Toast.makeText(getApplicationContext(), R.string.report_hint, Toast.LENGTH_LONG).show();
         }
         if (adaptiveQuality != null) {
             adaptiveQuality.stop();

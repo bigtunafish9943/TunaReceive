@@ -100,6 +100,7 @@
     <!-- How the last stream went (PC's long-press menu) -->
     <string name="report_menu">How the last stream went</string>
     <string name="report_title">How the last stream went</string>
+    <string name="report_hint">That stream had some trouble. Hold the select button on the PC and choose How the last stream went to see what happened.</string>
     <string name="report_none">No stream to report on yet. Play for at least ten seconds and look again.</string>
     <string name="report_a_game">A game</string>
     <string name="report_header">%1$s on %2$s, %3$s, for %4$s.</string>
