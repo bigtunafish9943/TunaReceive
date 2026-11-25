@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Behind the app icon's fish: TunaStream's navy, a little lighter at the top -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <gradient android:angle="270" android:startColor="#0A2350" android:endColor="#041431" />
-</shape>
