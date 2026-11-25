@@ -396,4 +396,8 @@
     <string name="checkup_adaptive">Turn on Adjust picture quality to the Wi-Fi: the last stream lost video often; this softens the picture briefly instead.</string>
     <string name="checkup_hdr_off">Turn off HDR: this TV doesn\'t report HDR, so colours would look washed out.</string>
     <string name="checkup_10bit_off">Turn off 10-bit picture: this device can\'t decode it, which can show a black or green picture.</string>
+
+    <!-- What's new after an update -->
+    <string name="whatsnew_title">What\'s new in TunaReceive %1$s</string>
+    <string name="whatsnew_ok">Got it</string>
 </resources>

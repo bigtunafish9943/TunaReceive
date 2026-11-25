@@ -403,6 +403,8 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
     @Override
     protected void onResume() {
         super.onResume();
+        // After an update: what changed, once
+        com.limelight.utils.WhatsNew.maybeShow(this);
         usbMenu.resume();
 
         // Display a decoder crash notification if we've returned after a crash

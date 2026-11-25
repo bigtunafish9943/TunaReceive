@@ -427,7 +427,7 @@ public final class TunaUpdater {
 
     // ------------------------------------------------------------------ network
 
-    private static HttpURLConnection open(String address) throws IOException {
+    static HttpURLConnection open(String address) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) new URL(address).openConnection();
         conn.setConnectTimeout(15000);
         conn.setReadTimeout(30000);
