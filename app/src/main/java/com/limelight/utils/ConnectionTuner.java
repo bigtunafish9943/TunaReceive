@@ -127,6 +127,18 @@ public final class ConnectionTuner {
         UiHelper.styleDialog(dialog.show());
     }
 
+    /** suggestMbps for a picture size and frame rate other than the ones set now. */
+    static int suggestMbpsFor(SharedPreferences prefs, int measuredMbps, String resolution, String fps) {
+        double share = shareFor(prefs);
+        int ceiling = 2 * PreferenceConfiguration.getDefaultBitrate(resolution, fps) / 1000;
+        return Math.max(5, Math.min(ceiling, (int) Math.round(measuredMbps * share)));
+    }
+
+    private static double shareFor(SharedPreferences prefs) {
+        String picture = prefs.getString(SetupActivity.PICTURE_PREF, "balanced");
+        return "smooth".equals(picture) ? 0.25 : "sharp".equals(picture) ? 0.6 : 0.4;
+    }
+
     /** A share of the measured speed that depends on the Smoother/Sharper answer in setup. */
     static int suggestMbps(SharedPreferences prefs, int measuredMbps) {
         String picture = prefs.getString(SetupActivity.PICTURE_PREF, "balanced");

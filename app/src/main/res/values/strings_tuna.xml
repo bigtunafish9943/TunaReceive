@@ -368,4 +368,31 @@
     <string name="button_home">Home</string>
     <string name="button_share">Share</string>
     <string name="button_touchpad">Touchpad</string>
+
+    <!-- The check before each game -->
+    <string name="checkup_setting">Check settings before each game</string>
+    <string name="checkup_setting_summary">Measures the connection to the PC for about a second and suggests settings that would play better on this TV. You choose which to use.</string>
+    <string name="checkup_title">Checking before the game</string>
+    <string name="checkup_measuring">Measuring the connection to the PC\'s and looking at this TV…</string>
+    <string name="checkup_skip">Skip</string>
+    <plurals name="checkup_found">
+        <item quantity="one">One setting would play better</item>
+        <item quantity="other">%1$d settings would play better</item>
+    </plurals>
+    <string name="checkup_use_checked">Use checked</string>
+    <string name="checkup_use_all">Use all</string>
+    <string name="checkup_keep_mine">Keep mine</string>
+    <plurals name="checkup_changed">
+        <item quantity="one">One setting changed</item>
+        <item quantity="other">%1$d settings changed</item>
+    </plurals>
+    <string name="checkup_size_tv">Picture size %1$s → %2$s: the TV can\'t show %1$s, so the extra detail is wasted.</string>
+    <string name="checkup_size_up">Picture size %1$s → %2$s: this TV can show %2$s, and the connection (%3$d Mbps) can carry it.</string>
+    <string name="checkup_size_down">Picture size %1$s → %2$s: the connection measured %3$d Mbps, too little for a steady %1$s.</string>
+    <string name="checkup_fps_tv">Frame rate %1$d → %2$s fps: the TV shows at most %2$s.</string>
+    <string name="checkup_bitrate_down">Bitrate %1$d → %2$d Mbps: the connection measured %3$d Mbps; leaving room stops stutter.</string>
+    <string name="checkup_bitrate_up">Bitrate %1$d → %2$d Mbps: the connection measured %3$d Mbps, room for a sharper picture.</string>
+    <string name="checkup_adaptive">Turn on Adjust picture quality to the Wi-Fi: the last stream lost video often; this softens the picture briefly instead.</string>
+    <string name="checkup_hdr_off">Turn off HDR: this TV doesn\'t report HDR, so colours would look washed out.</string>
+    <string name="checkup_10bit_off">Turn off 10-bit picture: this device can\'t decode it, which can show a black or green picture.</string>
 </resources>

@@ -29,6 +29,12 @@
             android:summary="@string/tuna_open_only_pc_summary"
             app:iconSpaceReserved="false" />
         <CheckBoxPreference
+            android:key="tuna_checkup_before_game"
+            android:defaultValue="true"
+            android:title="@string/checkup_setting"
+            android:summary="@string/checkup_setting_summary"
+            app:iconSpaceReserved="false" />
+        <CheckBoxPreference
             android:key="tuna_adaptive_quality"
             android:defaultValue="true"
             android:title="@string/tuna_adaptive_quality"

@@ -825,6 +825,15 @@ public class NvHTTP {
         return (int) (bytes * 8 / 1000 / ms);
     }
 
+    /** A shorter measurement (about a second on good Wi-Fi), for the check before each game. */
+    public int measureDownloadMbpsQuick() throws IOException {
+        readAndCount(openHttpConnection(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/speedtest", "bytes=1048576", null));
+        long start = android.os.SystemClock.elapsedRealtime();
+        long bytes = readAndCount(openHttpConnection(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/speedtest", "bytes=12582912", null));
+        long ms = Math.max(1, android.os.SystemClock.elapsedRealtime() - start);
+        return (int) (bytes * 8 / 1000 / ms);
+    }
+
     /** TunaStream only: JSON {"ok","repairing"} about the PC's virtual display driver. */
     public String getTunaVdisplay() throws IOException {
         return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/vdisplay");

@@ -149,11 +149,14 @@ public class ServerHelper {
             Toast.makeText(parent, parent.getString(R.string.pair_pc_offline), Toast.LENGTH_SHORT).show();
             return;
         }
-        // The games list puts recently played games first
-        RecentGames.recordPlayed(parent, computer.uuid, app.getAppId());
+        // A quick check of the connection and this TV first, with any settings worth changing
+        StreamCheckup.beforeStart(parent, computer, managerBinder != null ? managerBinder.getUniqueId() : null, () -> {
+            // The games list puts recently played games first
+            RecentGames.recordPlayed(parent, computer.uuid, app.getAppId());
 
-        Intent intent = createStartIntent(parent, app, computer, managerBinder, withVDisplay);
-        parent.startActivity(intent);
+            Intent intent = createStartIntent(parent, app, computer, managerBinder, withVDisplay);
+            parent.startActivity(intent);
+        });
     }
 
     public static void doNetworkTest(final Activity parent) {
