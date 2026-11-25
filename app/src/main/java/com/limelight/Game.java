@@ -3584,6 +3584,11 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                             dialogText += "\n\n" + getResources().getString(R.string.error_msg_timeout);
                             break;
                         }
+                        case 429: {
+                            // TunaStream's daily play-time limit
+                            dialogText = getResources().getString(R.string.error_play_time_up);
+                            break;
+                        }
                         default: {
                             // do nothing
                         }

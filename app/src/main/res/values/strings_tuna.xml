@@ -285,4 +285,5 @@
     <string name="milestone_smooth_10">Ten streams in a row without lost video</string>
     <string name="milestone_smooth_hour">An hour without lost video</string>
     <string name="milestone_full_rate_4k">Half an hour of 4K at full frame rate</string>
+    <string name="error_play_time_up">Play time is up for today on this TV. More time can be given on the PC\'s TunaStream page, or from the phone page.</string>
 </resources>
