@@ -24,11 +24,18 @@ adjusts while you play instead of freezing when the Wi-Fi gets busy.
 - **Sound that doesn't drop out.** The sound buffer starts as small as it can and grows a little each time a
   packet arrives late, so a clean connection keeps the lowest delay and an uneven one stops going silent.
 - **Even frame pacing** by default, and a dropped stream reconnects by itself.
-- **How the last stream went**, in plain words, from the PC's menu: frame rate, frames that arrived late, lost
+- **A check before each game.** About a second measuring the connection to the PC, then suggestions that would
+  play better on this TV: picture size, frame rate, bitrate, adjusting to the Wi-Fi, and HDR or 10-bit off where
+  the TV can't use them. Each is a tick box: *Use checked*, *Use all* or *Keep mine*; *Skip* starts at once. A
+  suggestion turned down isn't repeated for a week. Settings > Check settings before each game.
+- **Stream details over the game.** View + R3 (or the quick menu) shows picture size and codec, frame rate set,
+  now and on average and what the game draws on the PC, delay, how steady the stream is, bitrate, the TV's Wi-Fi
+  and the PC's side, updated every second. TunaStream's phone page shows the same.
+- **How the last stream went**, in plain words, from *PC tools*: frame rate, frames that arrived late, lost
   video, delay, and the PC's side of the same stream. The last five streams are kept. TunaStream's home page shows
   the TV's view of the stream next to its own figures.
 
-Needs TunaStream 0.1.105 or later; split-frame encoding and the rest of the PC's side are described in
+Works with TunaStream; everything above needs TunaStream 0.1.161 or later. Split-frame encoding and the rest of the PC's side are described in
 [TunaStream's README](https://github.com/bigtunafish9943/TunaStream#smooth-on-wi-fi).
 
 ### Rumble that works
@@ -48,6 +55,9 @@ Needs TunaStream 0.1.105 or later; split-frame encoding and the rest of the PC's
 
 - **Screenshots and instant replay.** View + R1 saves a screenshot, here in Pictures/TunaReceive and on the PC.
   View + L1 asks the PC to save the last 30 seconds as a clip. Both are in the quick menu too.
+- **Controller shortcuts your way.** Settings > Controller shortcuts: pick one and press the buttons you want on
+  your controller, any of them (triggers, Home, Share and paddles included), put it back as it came, or turn it
+  off. The quick menu, screenshot, replay, stream details and ending the stream are all there.
 - **Messages and sounds from the PC.** What's typed on TunaStream's home page or its phone page pops up over the
   game, and sound-board sounds play.
 - **Continue.** The game you played last is first, marked Continue; the one running is marked Playing.
@@ -56,7 +66,8 @@ Needs TunaStream 0.1.105 or later; split-frame encoding and the rest of the PC's
   appears a few seconds into the next stream. Nothing is changed for you.
 - **Screen saver.** Your game covers drifting by, with the time. Settings > Screen saver opens the TV's screen
   saver settings, where you pick TunaReceive game covers.
-- **Seasonal themes** (Halloween, autumn, winter, summer), following the PC or picked here.
+- **Nine colour themes**, the seasonal ones (Halloween, Autumn, Winter, Summer) included, following the PC or
+  picked here.
 
 ### Easy from the couch
 
@@ -66,11 +77,16 @@ Needs TunaStream 0.1.105 or later; split-frame encoding and the rest of the PC's
 - **Straight to the games.** With one paired PC it opens that PC's games on start, waking the PC if it's asleep.
 - **Connection test.** After pairing, it measures how fast the PC can send to the device and suggests a picture
   quality with headroom.
-- **Couch menu.** Hold the controller's Home button for the quick menu.
-- **From the couch:** repair the PC's virtual screen, and receive files sent with TunaStream's *Send to device*.
+- **Couch menu.** Hold the controller's Home button for the quick menu (or set your own buttons).
+- **PC tools and Settings** at the top of the games: your week, how the last stream went, fitting the picture
+  quality to the connection, repairing the PC's virtual screen, and backup and restore, all in one place.
+- **Settings from the PC.** TunaStream's Devices > TV settings changes this TV's settings from the PC, where
+  there's room to explain each one; the TV picks them up within 15 seconds and says what changed.
+- **Files from the PC** sent with TunaStream's *Send to device* arrive in Downloads by themselves.
 - **Pop-ups you can read**, with clear Yes and No buttons on the Shield.
-- **Five colour themes** (Deep Sea, Coral Reef, Kelp Forest, Midnight, Golden Hour). By default TunaReceive wears
-  whichever one the PC uses; turn that off in Settings to pick its own.
+- **TunaStream's look.** The fish mark and name in every header, a home screen tile that sits cleanly in the
+  launcher's row, and by default whichever colour theme the PC uses (TunaStream's own Desktop and Steam tiles
+  included); turn that off in Settings to pick its own.
 - **Backup and restore.** From the PC's menu, back up TunaReceive's settings (and, if you tick it, its pairings)
   to that PC, and restore them later or on a new TV.
 - **Updates itself** from this repo's releases: only the APK for the device, only when its SHA-256 matches
