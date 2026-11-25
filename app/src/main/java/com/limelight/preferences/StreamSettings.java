@@ -97,7 +97,10 @@ public class StreamSettings extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        setTheme(R.style.AppTheme);
-        super.onCreate(savedInstanceState);
+        // The settings are built afresh in reloadSettings() each time, so don't let Android
+        // rebuild the old ones when the screen is recreated (a theme change does that); it
+        // would fail and close the settings
+        super.onCreate(null);
 
         previousPrefs = PreferenceConfiguration.readPreferences(this);
 
@@ -213,6 +216,10 @@ public class StreamSettings extends AppCompatActivity {
 
         public SettingsFragment(PreferenceConfiguration prefCfg) {
             prevPrefConfig = prefCfg;
+        }
+
+        /** Android needs this one when it rebuilds the screen by itself. */
+        public SettingsFragment() {
         }
 
         protected SharedPreferences getPrefs() {
@@ -373,6 +380,9 @@ public class StreamSettings extends AppCompatActivity {
 
         @Override
         public void onCreatePreferences(Bundle bundle, String s) {
+            if (prevPrefConfig == null) {
+                prevPrefConfig = PreferenceConfiguration.readPreferences(requireContext());
+            }
             initializePreferences();
         }
 
