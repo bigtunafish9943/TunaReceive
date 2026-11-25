@@ -346,6 +346,9 @@ public class AppView extends AppCompatActivity implements AdapterFragmentCallbac
 
         String computerName = getIntent().getStringExtra(NAME_EXTRA);
 
+        TextView brandVersion = findViewById(R.id.brandVersion);
+        brandVersion.setText(getString(R.string.home_version, BuildConfig.VERSION_NAME));
+
         TextView label = findViewById(R.id.appListText);
         setTitle(computerName);
         label.setText(computerName);

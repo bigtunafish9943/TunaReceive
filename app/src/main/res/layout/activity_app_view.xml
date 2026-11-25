@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- A PC's games: the TunaStream mark and the PC's name across the top, the games below -->
+<!-- A PC's games: TunaReceive's name and the PC tools across the top, the PC's name, the games below -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -21,33 +21,12 @@
         android:paddingBottom="8dp"
         android:preferKeepClear="true">
 
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ts_mark"
-            android:contentDescription="@null"
-            android:importantForAccessibility="no" />
+        <include layout="@layout/ts_brand" />
 
-        <LinearLayout
+        <Space
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="16dp"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/appListText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/ts_text"
-                android:textSize="26sp"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/apps_choose_game"
-                android:textColor="@color/ts_text_secondary"
-                android:textSize="14sp" />
-        </LinearLayout>
+            android:layout_height="1dp"
+            android:layout_weight="1" />
 
         <!-- Everything to do with this PC in one place, and the settings, without leaving the games -->
         <Button
@@ -80,11 +59,37 @@
             android:text="@string/settings_button" />
     </LinearLayout>
 
+    <!-- Which PC these games are on -->
+    <LinearLayout
+        android:id="@+id/appPcRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appHeader"
+        android:orientation="vertical"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
+        <TextView
+            android:id="@+id/appListText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/ts_text"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/apps_choose_game"
+            android:textColor="@color/ts_text_secondary"
+            android:textSize="14sp" />
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/appFragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/appHeader"
+        android:layout_below="@+id/appPcRow"
         android:paddingStart="16dp"
         android:paddingEnd="16dp" />
 

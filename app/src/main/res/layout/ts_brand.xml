@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TunaReceive's name as TunaStream shows its own: the mark, "Tuna" with "Receive" in the
+     theme's accent, and the version underneath -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/brand"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:importantForAccessibility="no">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ts_logo_mark"
+        android:contentDescription="@null"
+        android:importantForAccessibility="no" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:contentDescription="@string/app_label">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/brand_tuna"
+                android:textColor="@color/ts_text"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:letterSpacing="-0.01"
+                android:includeFontPadding="false" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/brand_receive"
+                android:textColor="@color/ts_accent"
+                android:textSize="26sp"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="-0.01"
+                android:includeFontPadding="false" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/brandVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/ts_accent_soft"
+            android:alpha="0.85"
+            android:textSize="13sp" />
+    </LinearLayout>
+</LinearLayout>

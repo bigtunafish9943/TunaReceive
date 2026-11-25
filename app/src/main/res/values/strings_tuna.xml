@@ -348,4 +348,8 @@
 
     <!-- Settings changed on TunaStream's page -->
     <string name="remote_settings_applied">Changed from the PC: %1$s. Used from the next game.</string>
+
+    <!-- The name in the headers, split so "Receive" can wear the accent colour -->
+    <string name="brand_tuna" translatable="false">Tuna</string>
+    <string name="brand_receive" translatable="false">Receive</string>
 </resources>

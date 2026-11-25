@@ -29,16 +29,24 @@ public class DiskAssetLoader {
     // Pictures are fetched again after a few days, and once after TunaReceive starts asking for
     // new ones, so covers TunaStream finds later (such as Steam's) replace the plain box
     private static final long REFRESH_AFTER_MS = 3L * 24 * 60 * 60 * 1000;
-    private static final String PREF_REFRESH_SINCE = "tuna_boxart_refresh_since";
+    static final String PREF_REFRESH_SINCE = "tuna_boxart_refresh_since";
+    private static final String PREF_THEMED_PICTURES = "tuna_boxart_themed";
+
+    /** Fetch every picture again (the PC's theme changed, and its own pictures with it). */
+    public static void refreshAll(Context context) {
+        android.preference.PreferenceManager.getDefaultSharedPreferences(context).edit()
+                .putLong(PREF_REFRESH_SINCE, System.currentTimeMillis()).apply();
+    }
     private final long refreshSince;
 
     public DiskAssetLoader(Context context) {
         this.cacheDir = context.getCacheDir();
         android.content.SharedPreferences prefs = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
         long since = prefs.getLong(PREF_REFRESH_SINCE, 0);
-        if (since == 0) {
+        // Once: TunaStream's own pictures (Desktop, Steam, ...) now wear the PC's theme
+        if (since == 0 || !prefs.getBoolean(PREF_THEMED_PICTURES, false)) {
             since = System.currentTimeMillis();
-            prefs.edit().putLong(PREF_REFRESH_SINCE, since).apply();
+            prefs.edit().putLong(PREF_REFRESH_SINCE, since).putBoolean(PREF_THEMED_PICTURES, true).apply();
         }
         this.refreshSince = since;
         this.isLowRamDevice =

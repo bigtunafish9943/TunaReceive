@@ -150,6 +150,8 @@ public final class TunaTheme {
         }
         prefs.edit().putString(PREF_PC, id).apply();
         LimeLog.info("PC theme is now " + id);
+        // The PC's own pictures (Desktop, Steam, ...) wear its theme too
+        com.limelight.grid.assets.DiskAssetLoader.refreshAll(showing);
         if (prefs.getBoolean(PREF_MATCH_PC, true)) {
             changed(showing);
         }

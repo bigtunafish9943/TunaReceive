@@ -107,6 +107,8 @@ public class StreamSettings extends AppCompatActivity {
         UiHelper.setLocale(this);
 
         setContentView(R.layout.activity_stream_settings);
+        android.widget.TextView brandVersion = findViewById(R.id.brandVersion);
+        brandVersion.setText(getString(R.string.home_version, com.limelight.BuildConfig.VERSION_NAME));
 
 //        UiHelper.notifyNewRootView(this);
     }
