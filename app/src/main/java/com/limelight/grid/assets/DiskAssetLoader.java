@@ -26,14 +26,33 @@ public class DiskAssetLoader {
     private final boolean isLowRamDevice;
     private final File cacheDir;
 
+    // Pictures are fetched again after a few days, and once after TunaReceive starts asking for
+    // new ones, so covers TunaStream finds later (such as Steam's) replace the plain box
+    private static final long REFRESH_AFTER_MS = 3L * 24 * 60 * 60 * 1000;
+    private static final String PREF_REFRESH_SINCE = "tuna_boxart_refresh_since";
+    private final long refreshSince;
+
     public DiskAssetLoader(Context context) {
         this.cacheDir = context.getCacheDir();
+        android.content.SharedPreferences prefs = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
+        long since = prefs.getLong(PREF_REFRESH_SINCE, 0);
+        if (since == 0) {
+            since = System.currentTimeMillis();
+            prefs.edit().putLong(PREF_REFRESH_SINCE, since).apply();
+        }
+        this.refreshSince = since;
         this.isLowRamDevice =
                 ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).isLowRamDevice();
     }
 
+    /** Whether the picture is on disk and recent enough not to be fetched again. */
     public boolean checkCacheExists(CachedAppAssetLoader.LoaderTuple tuple) {
-        return CacheHelper.cacheFileExists(cacheDir, "boxart", tuple.computer.uuid, tuple.app.getAppId() + ".png");
+        File file = getFile(tuple.computer.uuid, tuple.app.getAppId());
+        if (!file.exists()) {
+            return false;
+        }
+        long modified = file.lastModified();
+        return modified >= refreshSince && System.currentTimeMillis() - modified < REFRESH_AFTER_MS;
     }
 
     // https://developer.android.com/topic/performance/graphics/load-bitmap.html
@@ -158,19 +177,27 @@ public class DiskAssetLoader {
     }
 
     public void populateCacheWithStream(CachedAppAssetLoader.LoaderTuple tuple, InputStream input) {
+        // Written beside the old picture and swapped in once complete, so a failed refresh
+        // keeps the picture there was
+        final String partName = tuple.app.getAppId() + ".png.part";
         boolean success = false;
         try (final OutputStream out = CacheHelper.openCacheFileForOutput(
-                cacheDir, "boxart", tuple.computer.uuid, tuple.app.getAppId() + ".png")
+                cacheDir, "boxart", tuple.computer.uuid, partName)
         ) {
             CacheHelper.writeInputStreamToOutputStream(input, out, MAX_ASSET_SIZE);
             success = true;
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (!success) {
-                LimeLog.warning("Unable to populate cache with tuple: "+tuple);
-                CacheHelper.deleteCacheFile(cacheDir, "boxart", tuple.computer.uuid, tuple.app.getAppId() + ".png");
-            }
+        }
+        File part = CacheHelper.openPath(false, cacheDir, "boxart", tuple.computer.uuid, partName);
+        File file = getFile(tuple.computer.uuid, tuple.app.getAppId());
+        if (success && part.length() > 0) {
+            file.delete();
+            success = part.renameTo(file);
+        }
+        if (!success) {
+            LimeLog.warning("Unable to populate cache with tuple: "+tuple);
+            part.delete();
         }
     }
 }
