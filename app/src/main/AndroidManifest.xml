@@ -236,6 +236,18 @@
             android:name=".binding.input.driver.UsbDriverService"
             android:label="Usb Driver Service" />
 
+        <!-- Screensaver: game covers drifting by, picked in the TV's screen saver settings -->
+        <service
+            android:name=".screensaver.CoverDream"
+            android:label="@string/screensaver_name"
+            android:exported="true"
+            android:permission="android.permission.BIND_DREAM_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.dreams.DreamService" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".HelpActivity"
             android:resizeableActivity="true"

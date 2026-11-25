@@ -63,6 +63,14 @@
             android:entryValues="@array/tuna_theme_ids"
             android:summary="%s"
             app:iconSpaceReserved="false" />
+        <!-- Opens the TV's own screen saver settings, where TunaReceive's covers can be picked -->
+        <Preference
+            android:key="tuna_screensaver"
+            android:title="@string/tuna_screensaver"
+            android:summary="@string/tuna_screensaver_summary"
+            app:iconSpaceReserved="false">
+            <intent android:action="android.settings.DREAM_SETTINGS" />
+        </Preference>
         <CheckBoxPreference
             android:key="tuna_tv_game_mode"
             android:defaultValue="true"

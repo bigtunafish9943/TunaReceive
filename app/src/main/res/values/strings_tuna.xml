@@ -244,4 +244,7 @@
     <string name="tip_game_fps">Tip: last time %1$s ran at %2$d fps, below %3$d. In the game, turn off V-Sync and turn on DLSS or FSR (Performance) or frame generation.</string>
     <string name="tip_smaller">Tip: last time %1$s had to drop below 4K for %2$d%% of the game to keep up with the Wi-Fi. 1440p in Settings would stay sharp and steady.</string>
     <string name="tip_reduced">Tip: last time %1$s ran at lower picture quality for %2$d%% of the game to keep up with the Wi-Fi. A lower quality setting, or a cable for the PC, would be steadier.</string>
+    <string name="screensaver_name">TunaReceive game covers</string>
+    <string name="tuna_screensaver">Screen saver</string>
+    <string name="tuna_screensaver_summary">Your game covers drifting by, with the time. Opens the TV\'s screen saver settings: pick TunaReceive game covers there.</string>
 </resources>
