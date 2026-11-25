@@ -21,35 +21,12 @@
         android:paddingTop="24dp"
         android:paddingBottom="8dp">
 
-        <ImageView
-            android:id="@+id/brandMark"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:src="@drawable/ts_mark"
-            android:contentDescription="@null"
-            android:importantForAccessibility="no" />
+        <include layout="@layout/ts_brand" />
 
-        <LinearLayout
+        <Space
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="16dp"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/app_label"
-                android:textColor="@color/ts_text"
-                android:textSize="26sp"
-                android:textStyle="bold"
-                android:letterSpacing="0.01" />
-            <TextView
-                android:id="@+id/brandVersion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/ts_accent_soft"
-                android:textSize="14sp" />
-        </LinearLayout>
+            android:layout_height="1dp"
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/updateButton"
@@ -119,9 +96,10 @@
             android:paddingStart="@dimen/activity_horizontal_margin"
             android:paddingEnd="@dimen/activity_horizontal_margin">
             <ImageView
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:src="@drawable/ts_mark"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ts_logo_mark"
                 android:contentDescription="@null"
                 android:importantForAccessibility="no" />
             <LinearLayout
