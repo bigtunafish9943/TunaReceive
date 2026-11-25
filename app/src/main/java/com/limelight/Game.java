@@ -272,6 +272,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     private long connectedAtMs;
     private AdaptiveQuality adaptiveQuality;
     private StreamReport streamReport;
+    private com.limelight.utils.StreamDetailsOverlay streamDetails;
     private com.limelight.utils.TvMessageBanner tvMessageBanner;
     public static final String EXTRA_PC_UUID = "UUID";
     public static final String EXTRA_PC_NAME = "PcName";
@@ -3502,6 +3503,10 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     }
 
     private void stopConnection() {
+        if (streamDetails != null) {
+            streamDetails.close();
+            streamDetails = null;
+        }
         if (tvMessageBanner != null) {
             tvMessageBanner.close();
         }
@@ -4403,6 +4408,18 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     @Override
     public void saveReplay() {
         com.limelight.utils.Replays.save(this, httpConn);
+    }
+
+    @Override
+    public void toggleStreamDetails() {
+        if (streamReport == null) {
+            return;
+        }
+        if (streamDetails == null) {
+            streamDetails = new com.limelight.utils.StreamDetailsOverlay(this, findViewById(R.id.tunaDetails),
+                    streamReport, decoderRenderer);
+        }
+        streamDetails.toggle();
     }
 
     @Override

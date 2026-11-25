@@ -12,4 +12,7 @@ public interface GameGestures {
 
     /** View + L1: save the last 30 seconds on the PC. */
     default void saveReplay() {}
+
+    /** Show or hide the stream details (resolution, frame rate, delay, Wi-Fi) over the game. */
+    default void toggleStreamDetails() {}
 }

@@ -325,6 +325,12 @@
             app:iconSpaceReserved="false" />
     </PreferenceCategory>
 
+    <!-- Filled in by StreamSettings from utils/Shortcuts -->
+    <PreferenceCategory
+        android:key="category_tuna_shortcuts"
+        android:title="@string/shortcuts_category"
+        app:iconSpaceReserved="false" />
+
     <PreferenceCategory
         android:key="category_gamepad_settings"
         android:title="@string/category_gamepad_settings"

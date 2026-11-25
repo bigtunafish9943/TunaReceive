@@ -235,8 +235,8 @@
     <string name="replay_off">Instant replay is turned off on the PC. Turn it on in TunaStream\'s settings.</string>
     <string name="replay_failed">The replay couldn\'t be saved</string>
     <string name="replay_needs_newer_pc">Replays need a newer TunaStream on the PC</string>
-    <string name="game_menu_screenshot">Take a screenshot (View + R1)</string>
-    <string name="game_menu_replay">Save the last 30 seconds (View + L1)</string>
+    <string name="game_menu_screenshot">Take a screenshot (%1$s)</string>
+    <string name="game_menu_replay">Save the last 30 seconds (%1$s)</string>
     <string name="grid_badge_continue">Continue</string>
     <string name="grid_badge_playing">Playing</string>
     <string name="player_joined">Player %1$d: %2$s</string>
@@ -286,4 +286,57 @@
     <string name="milestone_smooth_hour">An hour without lost video</string>
     <string name="milestone_full_rate_4k">Half an hour of 4K at full frame rate</string>
     <string name="error_play_time_up">Play time is up for today on this TV. More time can be given on the PC\'s TunaStream page, or from the phone page.</string>
+
+    <!-- Stream details overlay -->
+    <string name="game_menu_details">Stream details (%1$s)</string>
+    <string name="game_menu_details_plain">Stream details</string>
+    <string name="details_title">Stream details</string>
+    <string name="details_picture_label">Picture</string>
+    <string name="details_picture">%1$d × %2$d, %3$s</string>
+    <string name="details_picture_scaled"> (drawn at %1$d × %2$d to keep up)</string>
+    <string name="details_fps_label">Frame rate</string>
+    <string name="details_fps">set to %1$d · now </string>
+    <string name="details_fps_average"> · average %1$.1f</string>
+    <string name="details_fps_pc"> · game on the PC %1$.1f</string>
+    <string name="details_delay_label">Delay</string>
+    <string name="details_delay">decoding %1$.1f ms · PC to screen %2$d ms</string>
+    <string name="details_delay_network"> · network %1$d ms (± %2$d)</string>
+    <string name="details_steady_label">How steady</string>
+    <string name="details_steady_good">Steady</string>
+    <string name="details_steady_fair">A few hiccups</string>
+    <string name="details_steady_poor">Choppy</string>
+    <string name="details_steady">: %1$.1f%% of frames late in the last 30 s, %2$d s with lost video</string>
+    <string name="details_bitrate_label">Bitrate</string>
+    <string name="details_bitrate">%1$d Mbps now, up to %2$d Mbps</string>
+    <string name="details_tv_network_label">TV network</string>
+    <string name="details_wired">Wired (Ethernet)</string>
+    <string name="details_unknown_network">Unknown</string>
+    <string name="details_wifi">Wi-Fi %1$s, signal %2$d%% (%3$d dBm), link %4$d Mbps</string>
+    <string name="details_pc_label">PC</string>
+    <string name="details_pc">encoding %1$.1f ms, %2$d%% repair data</string>
+    <string name="details_pc_split"> · split frames on</string>
+    <string name="details_hint">%1$s hides this</string>
+
+    <!-- Controller shortcuts -->
+    <string name="shortcuts_category">Controller shortcuts</string>
+    <string name="shortcuts_note">Hold the buttons together during a stream. The game doesn\'t see the buttons of a shortcut.</string>
+    <string name="shortcut_menu_title">Quick menu</string>
+    <string name="shortcut_menu_summary">%1$s</string>
+    <string name="shortcut_screenshot_title">Screenshot</string>
+    <string name="shortcut_screenshot_summary">%1$s saves a picture of the stream</string>
+    <string name="shortcut_replay_title">Instant replay</string>
+    <string name="shortcut_replay_summary">%1$s saves the last 30 seconds on the PC</string>
+    <string name="shortcut_stats_title">Stream details</string>
+    <string name="shortcut_stats_summary">%1$s shows or hides resolution, frame rate, delay and Wi-Fi</string>
+    <string name="shortcut_quit_title">End the stream</string>
+    <string name="shortcut_quit_summary">%1$s leaves the game (it keeps running on the PC)</string>
+    <string name="shortcut_taken">%1$s is already used for %2$s. Change that one first.</string>
+    <string name="shortcut_off">Off</string>
+    <string name="shortcut_home_hold">Hold Home</string>
+    <string name="button_view">View</string>
+    <string name="button_menu">Menu</string>
+    <string name="button_up">Up</string>
+    <string name="button_down">Down</string>
+    <string name="button_left">Left</string>
+    <string name="button_right">Right</string>
 </resources>

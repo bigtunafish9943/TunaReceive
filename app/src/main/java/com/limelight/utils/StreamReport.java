@@ -125,11 +125,68 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
         this.lastKbps = settingKbps;
     }
 
+    // ---------- Live figures, for the stream details overlay ----------
+    private final float[] lateHistory = new float[30];
+    private int lateHistoryCount;
+    private volatile float liveFps, liveLoss, liveSlow, liveDecode;
+    private double fpsSum;
+    private int fpsSeconds;
+    private int lossSeconds;
+    private volatile JSONObject latestPc;
+
+    /** Figures for the overlay: now, the stream's average, the last 30 seconds and the PC's latest. */
+    public static final class Live {
+        public float fps, averageFps, lossPct, latePct, latePct30, decodeMs;
+        public int targetFps, width, height, lossSeconds, kbps, settingKbps, scalePercent;
+        public JSONObject pc;
+    }
+
+    public synchronized Live live() {
+        Live l = new Live();
+        l.fps = liveFps;
+        l.averageFps = fpsSeconds > 0 ? (float) (fpsSum / fpsSeconds) : 0;
+        l.lossPct = liveLoss;
+        l.latePct = liveSlow;
+        float sum = 0;
+        int n = Math.min(lateHistoryCount, lateHistory.length);
+        for (int i = 0; i < n; i++) {
+            sum += lateHistory[i];
+        }
+        l.latePct30 = n > 0 ? sum / n : 0;
+        l.decodeMs = liveDecode;
+        l.targetFps = fps;
+        l.width = width;
+        l.height = height;
+        l.lossSeconds = lossSeconds;
+        l.kbps = quality != null ? quality.currentKbps() : settingKbps;
+        l.settingKbps = settingKbps;
+        l.scalePercent = quality != null ? quality.scalePercent() : 100;
+        l.pc = latestPc;
+        return l;
+    }
+
+    private synchronized void keepLive(float lossPct, float receivedFps, float slowFramePct, float decodeMs) {
+        liveFps = receivedFps;
+        liveLoss = lossPct;
+        liveSlow = slowFramePct;
+        liveDecode = decodeMs;
+        if (receivedFps > 0) {
+            fpsSum += receivedFps;
+            fpsSeconds++;
+        }
+        if (lossPct > 0) {
+            lossSeconds++;
+        }
+        lateHistory[lateHistoryCount % lateHistory.length] = slowFramePct;
+        lateHistoryCount++;
+    }
+
     @Override
     public void onStreamHealth(float lossPct, float receivedFps, float slowFramePct, float decodeMs) {
         if (next != null) {
             next.onStreamHealth(lossPct, receivedFps, slowFramePct, decodeMs);
         }
+        keepLive(lossPct, receivedFps, slowFramePct, decodeMs);
         tally(lossPct, slowFramePct);
         tellPc(lossPct, receivedFps, slowFramePct, decodeMs);
     }
@@ -249,6 +306,7 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
     }
 
     private synchronized void keepPc(JSONObject pc) {
+        latestPc = pc;
         if (finished) {
             return;
         }

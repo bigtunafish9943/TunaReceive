@@ -50,6 +50,23 @@
         android:preferKeepClear="true"
         android:visibility="gone" />
 
+    <!-- Stream details, toggled with a controller shortcut (View + R3 unless changed) -->
+    <TextView
+        android:id="@+id/tunaDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_margin="28dp"
+        android:padding="18dp"
+        android:maxWidth="640dp"
+        android:background="@drawable/ts_details_bg"
+        android:fontFamily="sans-serif"
+        android:lineSpacingExtra="4dp"
+        android:textColor="#F2F7FF"
+        android:textSize="15sp"
+        android:elevation="6dp"
+        android:visibility="gone" />
+
     <!-- Messages sent from TunaStream's home page -->
     <TextView
         android:id="@+id/tunaMessage"

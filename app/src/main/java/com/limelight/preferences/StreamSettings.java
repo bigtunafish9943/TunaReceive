@@ -368,9 +368,84 @@ public class StreamSettings extends AppCompatActivity {
             initializePreferences();
         }
 
+        /**
+         * One list per controller shortcut (Settings > Controller shortcuts). A combination
+         * already used by another shortcut is refused, so two actions never share buttons.
+         */
+        private void addShortcutSettings() {
+            PreferenceCategory category = findPreference("category_tuna_shortcuts");
+            if (category == null) {
+                return;
+            }
+            Context c = requireContext();
+            int[][] names = {
+                    {R.string.shortcut_menu_title, R.string.shortcut_menu_summary},
+                    {R.string.shortcut_screenshot_title, R.string.shortcut_screenshot_summary},
+                    {R.string.shortcut_replay_title, R.string.shortcut_replay_summary},
+                    {R.string.shortcut_stats_title, R.string.shortcut_stats_summary},
+                    {R.string.shortcut_quit_title, R.string.shortcut_quit_summary},
+            };
+            for (int i = 0; i < com.limelight.utils.Shortcuts.ACTIONS.length; i++) {
+                final String action = com.limelight.utils.Shortcuts.ACTIONS[i][0];
+                java.util.List<String> values = new java.util.ArrayList<>();
+                if (com.limelight.utils.Shortcuts.MENU.equals(action)) {
+                    values.add(com.limelight.utils.Shortcuts.HOME_HOLD);
+                }
+                java.util.Collections.addAll(values, com.limelight.utils.Shortcuts.CHOICES);
+                String[] labels = new String[values.size()];
+                for (int j = 0; j < labels.length; j++) {
+                    labels[j] = com.limelight.utils.Shortcuts.label(c, values.get(j));
+                }
+                ListPreference pref = new ListPreference(c);
+                pref.setKey(action);
+                pref.setIconSpaceReserved(false);
+                pref.setPersistent(true);
+                pref.setTitle(names[i][0]);
+                pref.setDialogTitle(names[i][0]);
+                pref.setEntries(labels);
+                pref.setEntryValues(values.toArray(new String[0]));
+                pref.setDefaultValue(com.limelight.utils.Shortcuts.defaultFor(action));
+                final int summary = names[i][1];
+                pref.setSummaryProvider(p -> getString(summary,
+                        com.limelight.utils.Shortcuts.label(c, ((ListPreference) p).getValue() != null
+                                ? ((ListPreference) p).getValue()
+                                : com.limelight.utils.Shortcuts.defaultFor(action))));
+                pref.setOnPreferenceChangeListener((p, value) -> {
+                    String other = com.limelight.utils.Shortcuts.usedBy(c, (String) value, action);
+                    if (other != null) {
+                        android.widget.Toast.makeText(c, getString(R.string.shortcut_taken,
+                                com.limelight.utils.Shortcuts.label(c, (String) value),
+                                getString(titleOf(other))), android.widget.Toast.LENGTH_LONG).show();
+                        return false;
+                    }
+                    return true;
+                });
+                category.addPreference(pref);
+                if (pref.getValue() == null) {
+                    pref.setValue(com.limelight.utils.Shortcuts.defaultFor(action));
+                }
+            }
+            Preference note = new Preference(c);
+            note.setIconSpaceReserved(false);
+            note.setSelectable(false);
+            note.setSummary(R.string.shortcuts_note);
+            category.addPreference(note);
+        }
+
+        private static int titleOf(String action) {
+            switch (action) {
+                case com.limelight.utils.Shortcuts.MENU: return R.string.shortcut_menu_title;
+                case com.limelight.utils.Shortcuts.SCREENSHOT: return R.string.shortcut_screenshot_title;
+                case com.limelight.utils.Shortcuts.REPLAY: return R.string.shortcut_replay_title;
+                case com.limelight.utils.Shortcuts.STATS: return R.string.shortcut_stats_title;
+                default: return R.string.shortcut_quit_title;
+            }
+        }
+
         public void initializePreferences() {
             addPreferencesFromResource(R.xml.preferences);
             PreferenceScreen screen = getPreferenceScreen();
+            addShortcutSettings();
 
             AppCompatActivity activity = (AppCompatActivity) requireActivity();
             PackageManager pm = activity.getPackageManager();

@@ -134,6 +134,10 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
     private boolean stopped = false;
 
     private final PreferenceConfiguration prefConfig;
+    // The controller shortcuts chosen in Settings, read when the stream starts
+    private final com.limelight.utils.Shortcuts.Active shortcuts;
+    // Holding Home opens the quick menu (when the menu is on, and is set to the Home hold)
+    private final boolean homeHoldMenu;
     private short currentControllers, initialControllers;
 
     public ControllerHandler(Activity activityContext, NvConnection conn, GameGestures gestures, PreferenceConfiguration prefConfig) {
@@ -141,6 +145,8 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
         this.conn = conn;
         this.gestures = gestures;
         this.prefConfig = prefConfig;
+        this.shortcuts = new com.limelight.utils.Shortcuts.Active(activityContext);
+        this.homeHoldMenu = prefConfig.enableBackMenu && shortcuts.menuOnHomeHold;
         this.deviceVibrator = (Vibrator) activityContext.getSystemService(Context.VIBRATOR_SERVICE);
         this.deviceSensorManager = (SensorManager) activityContext.getSystemService(Context.SENSOR_SERVICE);
         this.inputManager = (InputManager) activityContext.getSystemService(Context.INPUT_SERVICE);
@@ -1371,31 +1377,60 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
     }
 
     /**
-     * View + R1 saves a screenshot and View + L1 saves a replay. The two buttons are kept from the
-     * game until both are let go, so the game doesn't also see R1 or L1.
+     * The controller shortcuts (Settings > Controller shortcuts): by default View + R1 saves a
+     * screenshot, View + L1 a replay, View + R3 shows the stream details, and Menu + View + L1 + R1
+     * ends the stream. The buttons of a shortcut are kept from the game until all are let go, so
+     * the game doesn't also see R1 or L1.
      */
     private int handleShortcuts(GenericControllerContext context, int inputMap) {
         if (context.shortcutHeld != 0) {
             if ((inputMap & context.shortcutHeld) == 0) {
                 context.shortcutHeld = 0;
+                if (context.quitWhenReleased) {
+                    // Every button of the quit shortcut is up: end the stream now
+                    context.quitWhenReleased = false;
+                    activityContext.runOnUiThread(activityContext::finish);
+                }
             } else {
                 return inputMap & ~context.shortcutHeld;
             }
         }
         // Select + LB is the touchpad when a PlayStation controller is being emulated
         boolean clickpad = context instanceof InputDeviceContext && ((InputDeviceContext) context).needsClickpadEmulation;
-        if ((inputMap & ControllerPacket.BACK_FLAG) == 0 || (clickpad && (inputMap & ControllerPacket.LB_FLAG) != 0)) {
-            return inputMap;
-        }
-        if ((inputMap & ControllerPacket.RB_FLAG) != 0) {
-            context.shortcutHeld = ControllerPacket.BACK_FLAG | ControllerPacket.RB_FLAG;
-            activityContext.runOnUiThread(gestures::takeScreenshot);
-            return inputMap & ~context.shortcutHeld;
-        }
-        if ((inputMap & ControllerPacket.LB_FLAG) != 0) {
-            context.shortcutHeld = ControllerPacket.BACK_FLAG | ControllerPacket.LB_FLAG;
-            activityContext.runOnUiThread(gestures::saveReplay);
-            return inputMap & ~context.shortcutHeld;
+
+        // Shortcuts with more buttons first, so View + L1 doesn't fire on the way to the quit shortcut
+        int[] masks = {shortcuts.quit, shortcuts.menu, shortcuts.screenshot, shortcuts.replay, shortcuts.stats};
+        Integer[] order = {0, 1, 2, 3, 4};
+        java.util.Arrays.sort(order, (a, b) -> Integer.bitCount(masks[b]) - Integer.bitCount(masks[a]));
+        for (int i : order) {
+            int mask = masks[i];
+            if (mask == 0 || (inputMap & mask) != mask) {
+                continue;
+            }
+            if (clickpad && mask == (ControllerPacket.BACK_FLAG | ControllerPacket.LB_FLAG)) {
+                continue;
+            }
+            context.shortcutHeld = mask;
+            switch (i) {
+                case 0:
+                    context.quitWhenReleased = true;
+                    break;
+                case 1: {
+                    final GenericControllerContext menuContext = context;
+                    activityContext.runOnUiThread(() -> gestures.showGameMenu(menuContext));
+                    break;
+                }
+                case 2:
+                    activityContext.runOnUiThread(gestures::takeScreenshot);
+                    break;
+                case 3:
+                    activityContext.runOnUiThread(gestures::saveReplay);
+                    break;
+                default:
+                    activityContext.runOnUiThread(gestures::toggleStreamDetails);
+                    break;
+            }
+            return inputMap & ~mask;
         }
         return inputMap;
     }
@@ -2784,7 +2819,7 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
         switch (keyCode) {
         case KeyEvent.KEYCODE_BUTTON_MODE:
             context.hasMode = true;
-            if (prefConfig.enableBackMenu) {
+            if (homeHoldMenu) {
                 // Wait for the release: a long hold opens the quick menu, a press goes to the PC
                 if (event.getRepeatCount() == 0) {
                     context.guideDownTime = event.getEventTime();
@@ -2945,12 +2980,7 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
             return false;
         }
 
-        // Start+Back+LB+RB is the quit combo
-        if (context.inputMap == (ControllerPacket.BACK_FLAG | ControllerPacket.PLAY_FLAG |
-                                 ControllerPacket.LB_FLAG | ControllerPacket.RB_FLAG)) {
-            // Wait for the combo to lift and then finish the activity
-            context.pendingExit = true;
-        }
+        // The quit combination is one of the controller shortcuts now (see handleShortcuts)
 
         // Start+LB acts like select for controllers with one button
         if (!context.hasSelect) {
@@ -3062,7 +3092,7 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
 
         // Holding Home opens the quick menu, as it does for Bluetooth controllers; a normal
         // press goes to the PC when Home is released
-        if (prefConfig.enableBackMenu) {
+        if (homeHoldMenu) {
             boolean guide = (buttonFlags & ControllerPacket.SPECIAL_BUTTON_FLAG) != 0;
             if (guide) {
                 if (context.guideDownTime == 0) {
@@ -3138,6 +3168,8 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
         public long guideDownTime;
         // Buttons of a shortcut (View + R1, View + L1) kept from the game until they are let go
         public int shortcutHeld = 0;
+        // The quit shortcut was pressed: end the stream once its buttons are up
+        public boolean quitWhenReleased;
 
         public int id;
         public boolean external;

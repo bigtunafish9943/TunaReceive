@@ -71,6 +71,10 @@ public class GameMenu implements Game.GameMenuCallbacks {
         this.dialogScreenContext = game;
     }
 
+    private String getString(int id, Object... args) {
+        return game.getResources().getString(id, args);
+    }
+
     private String getString(int id) {
         return game.getResources().getString(id);
     }
@@ -287,6 +291,15 @@ public class GameMenu implements Game.GameMenuCallbacks {
         showMenuDialog(getString(R.string.game_menu_server_cmd), options.toArray(new MenuOption[options.size()]));
     }
 
+    /** "Take a screenshot (View + R1)", or just the action when its shortcut is off. */
+    private String menuLabel(int withShortcut, String action, int plain) {
+        String combo = com.limelight.utils.Shortcuts.get(game, action);
+        if (com.limelight.utils.Shortcuts.OFF.equals(combo)) {
+            return getString(plain);
+        }
+        return getString(withShortcut, com.limelight.utils.Shortcuts.label(game, combo));
+    }
+
     public void showMenu(GameInputDevice device) {
         List<MenuOption> options = new ArrayList<>();
 
@@ -294,8 +307,12 @@ public class GameMenu implements Game.GameMenuCallbacks {
 
         options.add(new MenuOption(getString(R.string.game_menu_quit_session), game::quit));
 
-        options.add(new MenuOption(getString(R.string.game_menu_screenshot), true, game::takeScreenshot));
-        options.add(new MenuOption(getString(R.string.game_menu_replay), true, game::saveReplay));
+        options.add(new MenuOption(menuLabel(R.string.game_menu_screenshot, com.limelight.utils.Shortcuts.SCREENSHOT,
+                R.string.shortcut_screenshot_title), true, game::takeScreenshot));
+        options.add(new MenuOption(menuLabel(R.string.game_menu_replay, com.limelight.utils.Shortcuts.REPLAY,
+                R.string.shortcut_replay_title), true, game::saveReplay));
+        options.add(new MenuOption(menuLabel(R.string.game_menu_details, com.limelight.utils.Shortcuts.STATS,
+                R.string.game_menu_details_plain), true, game::toggleStreamDetails));
 
         options.add(new MenuOption(getString(R.string.game_menu_upload_clipboard), true,
                 () -> game.sendClipboard(true)));
