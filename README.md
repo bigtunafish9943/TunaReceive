@@ -44,6 +44,20 @@ Needs TunaStream 0.1.105 or later; split-frame encoding and the rest of the PC's
   with the fix when something's wrong. On the PC, *Rumble now* on TunaStream's Troubleshooting page buzzes it
   directly.
 
+### Fun on the couch
+
+- **Screenshots and instant replay.** View + R1 saves a screenshot, here in Pictures/TunaReceive and on the PC.
+  View + L1 asks the PC to save the last 30 seconds as a clip. Both are in the quick menu too.
+- **Messages and sounds from the PC.** What's typed on TunaStream's home page or its phone page pops up over the
+  game, and sound-board sounds play.
+- **Continue.** The game you played last is first, marked Continue; the one running is marked Playing.
+- **Player numbers.** Each controller that joins says which player it is.
+- **A tip per game.** If a game ran below full frame rate or had to drop quality last time, a one-line suggestion
+  appears a few seconds into the next stream. Nothing is changed for you.
+- **Screen saver.** Your game covers drifting by, with the time. Settings > Screen saver opens the TV's screen
+  saver settings, where you pick TunaReceive game covers.
+- **Seasonal themes** (Halloween, autumn, winter, summer), following the PC or picked here.
+
 ### Easy from the couch
 
 - **Setup on first start.** A few questions, answered with the controller, choose the picture size, frame rate,
@@ -57,6 +71,8 @@ Needs TunaStream 0.1.105 or later; split-frame encoding and the rest of the PC's
 - **Pop-ups you can read**, with clear Yes and No buttons on the Shield.
 - **Five colour themes** (Deep Sea, Coral Reef, Kelp Forest, Midnight, Golden Hour). By default TunaReceive wears
   whichever one the PC uses; turn that off in Settings to pick its own.
+- **Backup and restore.** From the PC's menu, back up TunaReceive's settings (and, if you tick it, its pairings)
+  to that PC, and restore them later or on a new TV.
 - **Updates itself** from this repo's releases: only the APK for the device, only when its SHA-256 matches
   GitHub's published checksum, and Android only installs it when it is signed with the same key.
 - **Game covers** on the tiles: TunaStream finds Steam's cover for each Steam game, and the pictures refresh by
