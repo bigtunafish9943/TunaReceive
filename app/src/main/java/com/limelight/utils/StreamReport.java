@@ -251,25 +251,34 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
         return troubled;
     }
 
-    /** Shows the most recent report, from the PC's menu. */
+    /** Shows the most recent report, from the PC's menu, with a button to the one before. */
     public static void show(Activity activity) {
-        JSONObject r = null;
+        JSONArray all = new JSONArray();
         try {
-            JSONArray all = new JSONArray(PreferenceManager.getDefaultSharedPreferences(activity).getString(PREF, "[]"));
-            if (all.length() > 0) {
-                r = all.getJSONObject(0);
-            }
+            all = new JSONArray(PreferenceManager.getDefaultSharedPreferences(activity).getString(PREF, "[]"));
         } catch (JSONException e) {
-            LimeLog.warning("Couldn't read the stream report: " + e);
+            LimeLog.warning("Couldn't read the stream reports: " + e);
         }
+        show(activity, all, 0);
+    }
 
+    /** Shows report number index (0 is the newest). Earlier and Later step through the rest. */
+    private static void show(Activity activity, JSONArray all, int index) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(activity)
-                .setTitle(R.string.report_title)
                 .setPositiveButton(android.R.string.ok, null);
+        JSONObject r = all.optJSONObject(index);
         if (r == null) {
-            dialog.setMessage(R.string.report_none);
+            dialog.setTitle(R.string.report_title).setMessage(R.string.report_none);
         } else {
-            dialog.setMessage(describe(activity, r));
+            dialog.setTitle(index == 0 ? activity.getString(R.string.report_title)
+                    : activity.getString(R.string.report_title_older, index + 1, all.length()))
+                    .setMessage(describe(activity, r));
+            if (index + 1 < all.length()) {
+                dialog.setNeutralButton(R.string.report_earlier, (d, w) -> show(activity, all, index + 1));
+            }
+            if (index > 0) {
+                dialog.setNegativeButton(R.string.report_later, (d, w) -> show(activity, all, index - 1));
+            }
         }
         UiHelper.styleDialog(dialog.show());
     }

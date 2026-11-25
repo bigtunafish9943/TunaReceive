@@ -358,7 +358,9 @@ public class SetupActivity extends AppCompatActivity {
                 if (maxWidth >= 3840 && maxHeight >= 2160) {
                     options.add(new Option("3840x2160", getString(R.string.setup_res_4k), getString(R.string.setup_res_4k_detail)));
                 }
-                if (maxWidth >= 2560 && maxHeight >= 1440 && maxWidth < 3840) {
+                // The stream is scaled to fill the screen, so 1440p suits a 4K TV too: a quarter
+                // less sharp than 4K, for under half the data
+                if (maxWidth >= 2560 && maxHeight >= 1440) {
                     options.add(new Option("2560x1440", getString(R.string.setup_res_1440), getString(R.string.setup_res_1440_detail)));
                 }
                 if (maxHeight >= 1080) {
@@ -367,6 +369,8 @@ public class SetupActivity extends AppCompatActivity {
                 options.add(new Option("1280x720", getString(R.string.setup_res_720), getString(R.string.setup_res_720_detail)));
                 if (wired() && maxWidth >= 3840 && maxHeight >= 2160) {
                     recommended = "3840x2160";
+                } else if (maxWidth >= 2560 && maxHeight >= 1440 && ("wifi5".equals(connection) || "wifi6".equals(connection))) {
+                    recommended = "2560x1440";
                 } else {
                     recommended = maxHeight >= 1080 ? "1920x1080" : "1280x720";
                 }

@@ -101,6 +101,9 @@
     <string name="report_menu">How the last stream went</string>
     <string name="report_title">How the last stream went</string>
     <string name="report_hint">That stream had some trouble. Hold the select button on the PC and choose How the last stream went to see what happened.</string>
+    <string name="report_title_older">An earlier stream (%1$d of %2$d)</string>
+    <string name="report_earlier">Earlier</string>
+    <string name="report_later">Later</string>
     <string name="report_none">No stream to report on yet. Play for at least ten seconds and look again.</string>
     <string name="report_a_game">A game</string>
     <string name="report_header">%1$s on %2$s, %3$s, for %4$s.</string>
@@ -142,7 +145,7 @@
     <string name="setup_res_4k">4K</string>
     <string name="setup_res_4k_detail">3840 × 2160. The sharpest, and needs a strong connection.</string>
     <string name="setup_res_1440">1440p</string>
-    <string name="setup_res_1440_detail">2560 × 1440. Sharper than 1080p, lighter than 4K.</string>
+    <string name="setup_res_1440_detail">2560 × 1440, stretched to fill the screen. Sharper than 1080p, and under half the data of 4K: the best fit for 4K TVs on 5 GHz Wi-Fi.</string>
     <string name="setup_res_1080">1080p</string>
     <string name="setup_res_1080_detail">1920 × 1080. The best fit for most Wi-Fi.</string>
     <string name="setup_res_720">720p</string>
@@ -174,7 +177,7 @@
     <string name="setup_controller_body">Rumble will be turned on for it.</string>
     <string name="setup_controller_found">Connected now: %1$s.\n\nRumble will be turned on for it.</string>
     <string name="setup_pad_8bitdo">8BitDo Ultimate 2</string>
-    <string name="setup_pad_8bitdo_detail">Wireless, connected to this device in Bluetooth (D) mode.</string>
+    <string name="setup_pad_8bitdo_detail">Through its 2.4G adapter plugged into this device, which gives rumble. Bluetooth works too, without rumble.</string>
     <string name="setup_pad_xbox">Xbox controller</string>
     <string name="setup_pad_xbox_detail">Xbox One, Series or 360.</string>
     <string name="setup_pad_playstation">PlayStation controller</string>
@@ -194,7 +197,7 @@
     <string name="setup_sound_71_detail">Eight speakers, including the subwoofer.</string>
 
     <string name="setup_done_title">All set</string>
-    <string name="setup_done_body">Picture: %1$s at %2$s frames a second, %3$d Mbps.\nController: %4$s, with rumble.\nSound: %5$s.\n\nYou can change any of this in Settings, or run setup again from there.</string>
+    <string name="setup_done_body">Picture: %1$s at %2$s frames a second, %3$d Mbps.\nController: %4$s, with rumble.\nSound: %5$s.\n\nFor the least delay, turn on auto low latency mode (ALLM) in the TV\'s HDMI settings: the TV then switches to game mode by itself while you play.\n\nYou can change any of this in Settings, or run setup again from there.</string>
     <string name="setup_done_start">Start playing</string>
     <string name="setup_done_start_detail">Pick your PC and a game.</string>
     <string name="setup_done_again">Change my answers</string>
