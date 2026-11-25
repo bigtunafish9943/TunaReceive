@@ -127,6 +127,47 @@ public class NvConnection {
         }
     }
 
+    /**
+     * True when the PC is directly reachable (no router in between) on a network other than a VPN,
+     * such as the home Wi-Fi or Ethernet while Tailscale is also running.
+     */
+    private boolean onLinkOutsideVpn(ConnectivityManager connMgr) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            return false;
+        }
+        InetAddress serverAddress;
+        try {
+            serverAddress = resolveServerAddress();
+        } catch (IOException e) {
+            return false;
+        }
+        // Tailscale's own addresses (100.64.0.0/10) always go through the VPN
+        byte[] raw = serverAddress.getAddress();
+        if (raw.length == 4 && (raw[0] & 0xFF) == 100 && (raw[1] & 0xC0) == 64) {
+            return false;
+        }
+        for (Network network : connMgr.getAllNetworks()) {
+            NetworkCapabilities caps = connMgr.getNetworkCapabilities(network);
+            if (caps == null || caps.hasTransport(NetworkCapabilities.TRANSPORT_VPN) ||
+                    caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                continue;
+            }
+            LinkProperties props = connMgr.getLinkProperties(network);
+            if (props == null) {
+                continue;
+            }
+            for (RouteInfo route : props.getRoutes()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && route.getType() != RouteInfo.RTN_UNICAST) {
+                    continue;
+                }
+                if (route.matches(serverAddress) && !route.hasGateway()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private int detectServerConnectionType() {
         ConnectivityManager connMgr = (ConnectivityManager) appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -136,7 +177,14 @@ public class NvConnection {
                 if (netCaps != null) {
                     if (netCaps.hasTransport(NetworkCapabilities.TRANSPORT_VPN) ||
                             !netCaps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN)) {
-                        // VPNs are treated as remote connections
+                        // A VPN such as Tailscale can be running while the PC is on the same home
+                        // network. Traffic to the home network then goes around the VPN, so the
+                        // stream is local and can use full-size packets. Anything else through a
+                        // VPN, a Tailscale address included, is remote: small packets fit the
+                        // VPN's smaller packet limit.
+                        if (onLinkOutsideVpn(connMgr)) {
+                            return StreamConfiguration.STREAM_CFG_LOCAL;
+                        }
                         return StreamConfiguration.STREAM_CFG_REMOTE;
                     }
                     else if (netCaps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
