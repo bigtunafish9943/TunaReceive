@@ -339,4 +339,10 @@
     <string name="button_down">Down</string>
     <string name="button_left">Left</string>
     <string name="button_right">Right</string>
+
+    <!-- Game screen header -->
+    <string name="pc_tools_button">PC tools</string>
+    <string name="settings_button">Settings</string>
+    <string name="pc_tools_title">%1$s</string>
+    <string name="pc_tools_not_ready">Still connecting to the PC. Try again in a moment.</string>
 </resources>

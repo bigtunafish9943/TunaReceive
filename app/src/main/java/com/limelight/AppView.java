@@ -329,6 +329,11 @@ public class AppView extends AppCompatActivity implements AdapterFragmentCallbac
         findViewById(R.id.profilesButton)
             .setOnClickListener(v -> startActivity(new Intent(this, ProfilesActivity.class)));
 
+        // PC tools and Settings, at the top of the games
+        findViewById(R.id.pcToolsButton).setOnClickListener(v -> showPcTools());
+        findViewById(R.id.appSettingsButton).setOnClickListener(v ->
+                startActivity(new Intent(this, com.limelight.preferences.StreamSettings.class)));
+
         showHiddenApps = getIntent().getBooleanExtra(SHOW_HIDDEN_APPS_EXTRA, false);
         uuidString = getIntent().getStringExtra(UUID_EXTRA);
 
@@ -399,6 +404,48 @@ public class AppView extends AppCompatActivity implements AdapterFragmentCallbac
         if (managerBinder != null) {
             unbindService(serviceConnection);
         }
+    }
+
+    /**
+     * Everything to do with this PC in one list: your week, the last stream, fitting the quality to
+     * the connection, repairing the virtual screen, and backing up or restoring TunaReceive.
+     */
+    private void showPcTools() {
+        if (computer == null || managerBinder == null) {
+            Toast.makeText(this, R.string.pc_tools_not_ready, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        final String uniqueId = managerBinder.getUniqueId();
+        final ComputerDetails pc = computer;
+        String[] items = {
+                getString(R.string.week_menu),
+                getString(R.string.report_menu),
+                getString(R.string.tuner_menu),
+                getString(R.string.repair_menu),
+                getString(R.string.backup_menu),
+                getString(R.string.restore_menu),
+                getString(R.string.shortcuts_category),
+        };
+        android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(this)
+                .setTitle(getString(R.string.pc_tools_title, pc.name))
+                .setItems(items, (d, which) -> {
+                    switch (which) {
+                        case 0: com.limelight.utils.WeekRecap.show(this, pc, uniqueId); break;
+                        case 1: com.limelight.utils.StreamReport.show(this); break;
+                        case 2: com.limelight.utils.ConnectionTuner.run(this, pc, uniqueId, false, null); break;
+                        case 3: com.limelight.utils.ScreenRepair.run(this, pc, uniqueId); break;
+                        case 4: com.limelight.utils.ReceiverBackup.backUp(this, pc, uniqueId); break;
+                        case 5: com.limelight.utils.ReceiverBackup.restoreFromPc(this, pc, uniqueId); break;
+                        default:
+                            startActivity(new Intent(this, com.limelight.preferences.StreamSettings.class)
+                                    .putExtra(com.limelight.preferences.StreamSettings.EXTRA_JUMP_TO, "category_tuna_shortcuts"));
+                            break;
+                    }
+                })
+                .setNegativeButton(R.string.game_menu_cancel, null)
+                .create();
+        dialog.show();
+        UiHelper.styleDialog(dialog);
     }
 
     @Override

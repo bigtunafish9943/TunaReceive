@@ -69,6 +69,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class StreamSettings extends AppCompatActivity {
+    /** Open the settings at this preference or section (its key), e.g. "category_tuna_shortcuts". */
+    public static final String EXTRA_JUMP_TO = "jump_to";
+
     private PreferenceConfiguration previousPrefs;
     private int previousDisplayPixelCount;
 
@@ -181,6 +184,11 @@ public class StreamSettings extends AppCompatActivity {
                 "checkbox_enable_perf_overlay",
                 "list_languages"));
 
+        private static boolean isEveryday(String key) {
+            // The controller shortcuts are all everyday settings
+            return key != null && (EVERYDAY_KEYS.contains(key) || key.startsWith("tuna_shortcut"));
+        }
+
         private void showEverydayOrAll(boolean all) {
             PreferenceScreen screen = getPreferenceScreen();
             for (int i = 0; i < screen.getPreferenceCount(); i++) {
@@ -190,7 +198,7 @@ public class StreamSettings extends AppCompatActivity {
                     int shown = 0;
                     for (int j = 0; j < group.getPreferenceCount(); j++) {
                         Preference child = group.getPreference(j);
-                        boolean show = all || EVERYDAY_KEYS.contains(child.getKey());
+                        boolean show = all || isEveryday(child.getKey());
                         child.setVisible(show);
                         if (show) {
                             shown++;
@@ -198,7 +206,7 @@ public class StreamSettings extends AppCompatActivity {
                     }
                     group.setVisible(shown > 0);
                 } else {
-                    item.setVisible(all || EVERYDAY_KEYS.contains(item.getKey()));
+                    item.setVisible(all || isEveryday(item.getKey()));
                 }
             }
         }
@@ -368,6 +376,16 @@ public class StreamSettings extends AppCompatActivity {
             initializePreferences();
         }
 
+        @Override
+        public void onViewCreated(@NonNull android.view.View view, Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+            // Opened for one section (PC tools > Controller shortcuts): go straight to it
+            String jump = requireActivity().getIntent().getStringExtra(EXTRA_JUMP_TO);
+            if (jump != null && savedInstanceState == null && findPreference(jump) != null) {
+                view.post(() -> scrollToPreference(jump));
+            }
+        }
+
         /**
          * One list per controller shortcut (Settings > Controller shortcuts). A combination
          * already used by another shortcut is refused, so two actions never share buttons.
@@ -426,6 +444,7 @@ public class StreamSettings extends AppCompatActivity {
                 }
             }
             Preference note = new Preference(c);
+            note.setKey("tuna_shortcuts_note");
             note.setIconSpaceReserved(false);
             note.setSelectable(false);
             note.setSummary(R.string.shortcuts_note);
