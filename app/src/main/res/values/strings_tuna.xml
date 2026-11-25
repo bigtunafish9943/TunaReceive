@@ -450,4 +450,5 @@
     <string name="watch_ended">The stream ended. Watching starts again by itself when someone plays.</string>
     <string name="watch_failed">Couldn\'t reach the PC to watch.</string>
     <string name="watch_not_available">Watching needs the latest TunaStream on the PC.</string>
+    <string name="watch_cheer_failed">The cheer didn't go through.</string>
 </resources>

@@ -438,4 +438,5 @@
     <string name="watch_ended">La transmisión terminó. Se vuelve a ver solo cuando alguien juegue.</string>
     <string name="watch_failed">No se pudo conectar con el PC para ver.</string>
     <string name="watch_not_available">Para ver, el PC necesita la última versión de TunaStream.</string>
+    <string name="watch_cheer_failed">No se pudo enviar el ánimo.</string>
 </resources>

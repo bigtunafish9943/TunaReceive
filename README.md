@@ -81,7 +81,7 @@ Works with TunaStream; everything above needs TunaStream 1.0. Split-frame encodi
 - **Screen saver.** Your game covers drifting by, with the time. Settings > Screen saver opens the TV's screen
   saver settings, where you pick TunaReceive game covers.
 - **Watch on this TV.** Press and hold the PC, then *Watch*, to see what's playing on another TV (or the PC's
-  screen while it's shared), with sound, view only. Cheers from people watching pop up in the corner. Needs the
+  screen while it's shared), with sound, view only. Cheers from people watching pop up in the corner, and OK on the remote sends one of your own. Needs the
   latest TunaStream.
 - **Your games on TunaHome.** [TunaHome](https://github.com/bigtunafish9943/TunaHome) can show your PC's games
   as a row on the TV's home screen, box art and all, most recently played first; select one to start it. Hidden

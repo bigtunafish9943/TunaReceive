@@ -948,6 +948,28 @@ public class NvHTTP {
         throw new HostHttpResponseException(response.code(), reason);
     }
 
+    /** TunaStream only: a cheer ("fire", "clap"...) while watching. Returns the PC's reason when it says no. */
+    public String sendWatchCheer(int port, String key, String kind) throws IOException {
+        HttpUrl url = new HttpUrl.Builder().scheme("https").host(baseUrlHttp.host()).port(port)
+                .addPathSegments("api/watch/cheer").build();
+        RequestBody body = RequestBody.create("{\"cheer\":\"" + kind.replaceAll("[^a-z]", "") + "\"}", MediaType.parse("application/json"));
+        Request request = new Request.Builder().url(url).header("Authorization", "Bearer " + key).post(body).build();
+        try (Response response = performAndroidTlsHack(httpClientLongConnectTimeout).newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                return null;
+            }
+            String reason = response.message();
+            ResponseBody b = response.body();
+            if (b != null) {
+                try {
+                    reason = new org.json.JSONObject(b.string()).optString("error", reason);
+                } catch (Exception ignored) {
+                }
+            }
+            return reason;
+        }
+    }
+
     /** TunaStream only: send a screenshot (JPEG or PNG) to be kept on the PC. */
     public boolean sendTunaScreenshot(byte[] image) throws IOException {
         RequestBody body = RequestBody.create(image, okhttp3.MediaType.parse("image/jpeg"));

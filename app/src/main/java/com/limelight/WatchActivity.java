@@ -14,6 +14,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
+import android.widget.LinearLayout;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -73,6 +75,16 @@ public class WatchActivity extends Activity implements SurfaceHolder.Callback {
     private volatile boolean stopped;
     private Thread reader;
     private volatile ResponseBody current;
+    private volatile NvHTTP http;
+    private volatile String watchKey;
+    private volatile int watchPort;
+    private LinearLayout cheerBar;
+    private long lastCheer;
+
+    private static final String[][] CHEERS = {
+            {"thumbs", "\uD83D\uDC4D"}, {"heart", "\u2764\uFE0F"}, {"laugh", "\uD83D\uDE02"}, {"fire", "\uD83D\uDD25"},
+            {"clap", "\uD83D\uDC4F"}, {"wow", "\uD83D\uDE2E"}, {"gg", "GG"},
+    };
 
     // Video
     private MediaCodec video;
@@ -112,6 +124,28 @@ public class WatchActivity extends Activity implements SurfaceHolder.Callback {
         FrameLayout.LayoutParams cheerParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.END | Gravity.BOTTOM);
         cheerParams.setMargins(48, 48, 48, 64);
         root.addView(cheer, cheerParams);
+
+        // Cheers: OK on the remote shows them, OK again sends the chosen one, Back hides them
+        cheerBar = new LinearLayout(this);
+        cheerBar.setOrientation(LinearLayout.HORIZONTAL);
+        cheerBar.setBackgroundColor(0xD9041431);
+        cheerBar.setPadding(16, 12, 16, 12);
+        cheerBar.setVisibility(View.GONE);
+        for (String[] c : CHEERS) {
+            TextView b = new TextView(this);
+            b.setText(c[1]);
+            b.setTextColor(Color.WHITE);
+            b.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+            b.setPadding(28, 8, 28, 8);
+            b.setFocusable(true);
+            b.setBackgroundResource(android.R.drawable.list_selector_background);
+            final String kind = c[0];
+            b.setOnClickListener(v -> sendCheer(kind));
+            cheerBar.addView(b);
+        }
+        FrameLayout.LayoutParams barParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
+        barParams.setMargins(0, 0, 0, 48);
+        root.addView(cheerBar, barParams);
 
         setContentView(root);
         surfaceView.getHolder().addCallback(this);
@@ -163,6 +197,52 @@ public class WatchActivity extends Activity implements SurfaceHolder.Callback {
     }
 
     private final Runnable hideCheer = () -> cheer.setVisibility(View.GONE);
+
+    private final Runnable hideCheerBar = () -> cheerBar.setVisibility(View.GONE);
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (cheerBar.getVisibility() != View.VISIBLE && watchKey != null && (keyCode == KeyEvent.KEYCODE_DPAD_CENTER
+                || keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_BUTTON_A
+                || keyCode == KeyEvent.KEYCODE_DPAD_UP)) {
+            cheerBar.setVisibility(View.VISIBLE);
+            cheerBar.getChildAt(3).requestFocus();
+            ui.removeCallbacks(hideCheerBar);
+            ui.postDelayed(hideCheerBar, 8000);
+            return true;
+        }
+        if (cheerBar.getVisibility() == View.VISIBLE && (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B)) {
+            cheerBar.setVisibility(View.GONE);
+            return true;
+        }
+        if (cheerBar.getVisibility() == View.VISIBLE) {
+            ui.removeCallbacks(hideCheerBar);
+            ui.postDelayed(hideCheerBar, 8000);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void sendCheer(final String kind) {
+        final long now = System.currentTimeMillis();
+        if (now - lastCheer < 2000 || http == null || watchKey == null) {
+            return;
+        }
+        lastCheer = now;
+        cheerBar.setVisibility(View.GONE);
+        final NvHTTP h = http;
+        final String key = watchKey;
+        final int port = watchPort;
+        new Thread(() -> {
+            try {
+                String why = h.sendWatchCheer(port, key, kind);
+                if (why != null) {
+                    showCheer(why);
+                }
+            } catch (Exception e) {
+                showCheer(getString(R.string.watch_cheer_failed));
+            }
+        }).start();
+    }
 
     private synchronized void start() {
         if (reader != null) {
@@ -216,7 +296,6 @@ public class WatchActivity extends Activity implements SurfaceHolder.Callback {
     private void watchLoop() {
         String key = null;
         int webPort = 0;
-        NvHTTP http;
         try {
             http = connect();
         } catch (Exception e) {
@@ -229,6 +308,8 @@ public class WatchActivity extends Activity implements SurfaceHolder.Callback {
                     JSONObject watch = new JSONObject(http.getTunaWatch());
                     key = watch.getString("key");
                     webPort = watch.getInt("port");
+                    watchKey = key;
+                    watchPort = webPort;
                 }
                 try (ResponseBody body = http.openWatchStream(webPort, key)) {
                     current = body;
@@ -243,6 +324,7 @@ public class WatchActivity extends Activity implements SurfaceHolder.Callback {
             } catch (HostHttpResponseException e) {
                 if (e.getErrorCode() == 401) {
                     key = null;  // a new key next time
+                    watchKey = null;
                 }
                 setStatus(e.getErrorCode() == 409 && e.getErrorMessage() != null ? e.getErrorMessage() : getString(R.string.watch_waiting));
             } catch (Exception e) {
