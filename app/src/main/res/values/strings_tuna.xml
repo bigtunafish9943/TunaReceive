@@ -263,4 +263,26 @@
     <string name="restore_button">Restore</string>
     <string name="restore_done">Restored. TunaReceive closes now; open it again.</string>
     <string name="restore_failed">The backup couldn\'t be restored.</string>
+    <string name="week_menu">Your week</string>
+    <string name="week_title">Your last seven days</string>
+    <string name="week_needs_tunastream">Your week needs a newer TunaStream on the PC.</string>
+    <string name="week_failed">Your week couldn\'t be fetched. Check the PC is on and try again.</string>
+    <string name="week_nothing">Nothing played in the last seven days.</string>
+    <string name="week_total">%1$s played, in %2$d streams.</string>
+    <string name="week_minutes">%1$d min</string>
+    <string name="week_hours">%1$d h %2$d min</string>
+    <string name="week_most_played">Most played</string>
+    <string name="week_desktop">Desktop</string>
+    <string name="week_smooth">%1$d%% of the minutes played were smooth.</string>
+    <string name="week_fps_reminder">To fix: %1$s ran at %2$d fps last time, below %3$d. In the game, turn off V-Sync and turn on DLSS or FSR or frame generation.</string>
+    <string name="week_milestones">Milestones this week</string>
+    <string name="milestone_first_stream">First stream</string>
+    <string name="milestone_first_hour">First hour played</string>
+    <string name="milestone_hours">%1$s hours played</string>
+    <string name="milestone_streams">%1$s streams</string>
+    <string name="milestone_first_4k">First 4K stream</string>
+    <string name="milestone_marathon">A three-hour session</string>
+    <string name="milestone_smooth_10">Ten streams in a row without lost video</string>
+    <string name="milestone_smooth_hour">An hour without lost video</string>
+    <string name="milestone_full_rate_4k">Half an hour of 4K at full frame rate</string>
 </resources>

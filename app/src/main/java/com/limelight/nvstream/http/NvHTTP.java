@@ -869,6 +869,11 @@ public class NvHTTP {
         openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/file/done", "id=" + id);
     }
 
+    /** TunaStream only: the last seven days of play, counted in this time zone (minutes east of UTC). */
+    public String getTunaRecap(int tzMinutes) throws IOException {
+        return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/recap", "tz=" + tzMinutes);
+    }
+
     /** TunaStream only: keep this backup of TunaReceive's settings on the PC. JSON {"saved", "name"}. */
     public String sendTunaBackup(String json) throws IOException {
         RequestBody body = RequestBody.create(json, MediaType.parse("application/json"));
