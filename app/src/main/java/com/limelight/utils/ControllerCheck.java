@@ -122,6 +122,11 @@ public final class ControllerCheck {
                         .append(activity.getString(R.string.controller_check_usb_id, ids, iface)).append('\n')
                         .append(activity.getString(rumbleTakeover ? R.string.controller_check_usb_8bitdo
                                 : ours ? R.string.controller_check_usb_ours : R.string.controller_check_usb_not_ours));
+                // 8BitDo's adapter picks its mode from the device it was last plugged into; after a PC
+                // it can stay in its Xbox mode, which works but without the Android mode's extras
+                if (device.getVendorId() == 0x2dc8 && !rumbleTakeover && Xbox360Controller.canClaimDevice(device)) {
+                    text.append('\n').append(activity.getString(R.string.controller_check_8bitdo_xbox_mode));
+                }
                 if (rumbleTakeover && EightBitDoController.batteryPercent >= 0) {
                     text.append('\n').append(activity.getString(EightBitDoController.batteryCharging
                             ? R.string.controller_battery_charging : R.string.controller_battery, EightBitDoController.batteryPercent));

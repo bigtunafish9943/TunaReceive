@@ -36,6 +36,7 @@
     <string name="controller_check_usb">USB: %1$s</string>
     <string name="controller_check_usb_device">a USB device</string>
     <string name="controller_check_usb_id">ID %1$s, type %2$s</string>
+    <string name="controller_check_8bitdo_xbox_mode">This 8BitDo adapter is in its Xbox (PC) mode, probably from being plugged into a PC. To put it back in its Android mode, which also reports battery and motion: unplug it, wait 10 seconds, turn the controller off, plug the adapter back in here, then turn the controller on without holding any button.</string>
     <string name="controller_check_usb_ours">During a stream, TunaReceive drives this itself, rumble included.</string>
     <string name="controller_check_usb_not_ours">TunaReceive doesn\'t recognise this as a controller yet. Send these numbers to whoever maintains TunaReceive.</string>
     <string name="controller_check_usb_8bitdo">Android runs this controller, but can\'t rumble it. During a stream TunaReceive takes it over and rumbles it itself (needs controller firmware 1.03 or later).</string>

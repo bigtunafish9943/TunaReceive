@@ -140,6 +140,18 @@ public class Xbox360Controller extends AbstractXboxController {
 
     @Override
     protected boolean doInit() {
+        // Windows' own Xbox 360 driver reads 20 bytes with this vendor request when a controller
+        // starts, and some third-party controllers and adapters (8BitDo's in their Xbox mode among
+        // them) send no input until it arrives. Linux has sent it to every Xbox 360 controller
+        // since 2023 for the same reason. Genuine controllers just answer it; a failure is ignored.
+        byte[] dummy = new byte[20];
+        int res = connection.controlTransfer(
+                UsbConstants.USB_DIR_IN | UsbConstants.USB_TYPE_VENDOR | 0x01 /* recipient: interface */,
+                0x01, 0x100, 0x00, dummy, dummy.length, 100);
+        if (res < 0) {
+            LimeLog.info("Xbox 360 start-up request not answered (fine for most controllers): " + res);
+        }
+
         // Turn the LED on corresponding to our device ID
         sendLedCommand((byte)(2 + (getControllerId() % 4)));
 
