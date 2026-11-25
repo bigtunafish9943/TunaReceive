@@ -100,6 +100,7 @@
         <item>Kelp Forest</item>
         <item>Midnight</item>
         <item>Golden Hour</item>
+        <item>Seasonal (Halloween, autumn, winter, summer)</item>
     </string-array>
     <string-array name="tuna_theme_ids" translatable="false">
         <item>deepsea</item>
@@ -107,6 +108,7 @@
         <item>kelp</item>
         <item>midnight</item>
         <item>gold</item>
+        <item>seasonal</item>
     </string-array>
     <string name="tuna_tv_game_mode">Switch the TV to game mode</string>
     <string name="tuna_tv_game_mode_summary">While a game is on screen, ask the TV to skip its picture processing, which takes away a lot of delay. The TV goes back to normal afterwards. Needs a TV with auto low latency mode (ALLM).</string>

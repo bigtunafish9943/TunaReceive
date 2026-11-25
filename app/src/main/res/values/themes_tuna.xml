@@ -56,4 +56,49 @@
         <item name="tsText">#FCF7EA</item>
         <item name="tsTextSecondary">#CABD9E</item>
     </style>
+    <!-- Seasonal themes, worn when the PC wears them (or when Seasonal is picked here) -->
+    <style name="TunaPaletteHalloween">
+        <item name="tsNavy">#120818</item>
+        <item name="tsDeep">#2E1238</item>
+        <item name="tsSurface">#1E0D26</item>
+        <item name="tsSurfaceBorder">#3D1A47</item>
+        <item name="tsAccent">#FF8A1F</item>
+        <item name="tsAccentSoft">#FFC48F</item>
+        <item name="tsBlue">#9B5CFF</item>
+        <item name="tsText">#FBF2FF</item>
+        <item name="tsTextSecondary">#C4AFCC</item>
+    </style>
+    <style name="TunaPaletteAutumn">
+        <item name="tsNavy">#140B05</item>
+        <item name="tsDeep">#3A1F0C</item>
+        <item name="tsSurface">#24140A</item>
+        <item name="tsSurfaceBorder">#4A2A14</item>
+        <item name="tsAccent">#FF9F43</item>
+        <item name="tsAccentSoft">#FFD3A6</item>
+        <item name="tsBlue">#C0502B</item>
+        <item name="tsText">#FCF3EA</item>
+        <item name="tsTextSecondary">#CFB49C</item>
+    </style>
+    <style name="TunaPaletteWinter">
+        <item name="tsNavy">#06121F</item>
+        <item name="tsDeep">#15304A</item>
+        <item name="tsSurface">#0C1E31</item>
+        <item name="tsSurfaceBorder">#22405E</item>
+        <item name="tsAccent">#BDE8FF</item>
+        <item name="tsAccentSoft">#E6F6FF</item>
+        <item name="tsBlue">#6FB6E8</item>
+        <item name="tsText">#F3FAFF</item>
+        <item name="tsTextSecondary">#A9C1D6</item>
+    </style>
+    <style name="TunaPaletteSummer">
+        <item name="tsNavy">#03222A</item>
+        <item name="tsDeep">#0B4552</item>
+        <item name="tsSurface">#06323C</item>
+        <item name="tsSurfaceBorder">#145866</item>
+        <item name="tsAccent">#FFD23F</item>
+        <item name="tsAccentSoft">#FFE995</item>
+        <item name="tsBlue">#FF7A59</item>
+        <item name="tsText">#F2FCFF</item>
+        <item name="tsTextSecondary">#A7CCD3</item>
+    </style>
 </resources>

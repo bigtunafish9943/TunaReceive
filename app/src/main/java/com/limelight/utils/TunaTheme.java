@@ -30,11 +30,16 @@ public final class TunaTheme {
     public static final String DEFAULT = "deepsea";
 
     /** Theme ids, as TunaStream names them. */
-    public static final String[] IDS = {"deepsea", "reef", "kelp", "midnight", "gold"};
+    public static final String[] IDS = {"deepsea", "reef", "kelp", "midnight", "gold",
+            "halloween", "autumn", "winter", "summer"};
     private static final int[] STYLES = {
             R.style.TunaPaletteDeepSea, R.style.TunaPaletteReef, R.style.TunaPaletteKelp,
             R.style.TunaPaletteMidnight, R.style.TunaPaletteGold,
+            R.style.TunaPaletteHalloween, R.style.TunaPaletteAutumn, R.style.TunaPaletteWinter,
+            R.style.TunaPaletteSummer,
     };
+    /** Picked in Settings: the season's theme in its season, Deep Sea otherwise (as on the PC). */
+    public static final String SEASONAL = "seasonal";
 
     // Bumped whenever the theme in use changes; screens built before that are rebuilt
     private static int generation;
@@ -53,7 +58,30 @@ public final class TunaTheme {
         String id = prefs.getBoolean(PREF_MATCH_PC, true)
                 ? prefs.getString(PREF_PC, DEFAULT)
                 : prefs.getString(PREF_OWN, DEFAULT);
+        if (SEASONAL.equals(id)) {
+            id = season();
+        }
         return styleOf(id) != 0 ? id : DEFAULT;
+    }
+
+    /** The same seasons TunaStream uses. */
+    static String season() {
+        java.util.Calendar now = java.util.Calendar.getInstance();
+        int month = now.get(java.util.Calendar.MONTH) + 1;
+        int day = now.get(java.util.Calendar.DAY_OF_MONTH);
+        if (month == 10) {
+            return "halloween";
+        }
+        if (month == 11) {
+            return "autumn";
+        }
+        if (month == 12 || (month == 1 && day <= 15)) {
+            return "winter";
+        }
+        if ((month == 6 && day >= 21) || month == 7 || month == 8) {
+            return "summer";
+        }
+        return DEFAULT;
     }
 
     private static int styleOf(String id) {
