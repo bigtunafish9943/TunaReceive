@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Spanish text for TunaReceive's own screens, from values/strings_tuna.xml. -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- Home screen -->
+    <string name="home_version">Versión %1$s</string>
+    <string name="apps_choose_game">Elige un juego. Mantén pulsado Seleccionar sobre uno para ver más opciones.</string>
+    <string name="home_searching_hint">TunaStream debe estar en marcha en el PC, en la misma red que este dispositivo.</string>
+    <string name="tuna_settings_button">Configuración</string>
+
+    <!-- Settings page -->
+    <string name="tuna_settings_category">TunaReceive</string>
+    <string name="tuna_run_setup">Volver a configurar</string>
+    <string name="tuna_run_setup_summary">Responde unas preguntas y TunaReceive elige la configuración adecuada para esta tele.</string>
+    <string name="tuna_open_only_pc">Ir directamente a los juegos de mi PC</string>
+    <string name="tuna_open_only_pc_summary">Con un solo PC, TunaReceive abre sus juegos nada más iniciarse y antes despierta el PC si está suspendido.</string>
+    <string name="tuna_show_expert">Mostrar toda la configuración</string>
+    <string name="tuna_show_expert_summary">Para expertos. La mayoría nunca la necesita.</string>
+
+    <!-- Repair the PC's virtual screen -->
+    <string name="repair_menu">Reparar la pantalla virtual del PC</string>
+    <string name="repair_title">La pantalla virtual del PC</string>
+    <string name="repair_running">TunaStream está reinstalando el controlador de la pantalla virtual del PC. Puede tardar un minuto.</string>
+    <string name="repair_done">Arreglado: las transmisiones vuelven a tener su propia pantalla.</string>
+    <string name="repair_still_broken">La pantalla virtual sigue sin funcionar. Reinicia el PC y vuelve a intentarlo.</string>
+    <string name="repair_refused">TunaStream no inició la reparación.</string>
+    <string name="repair_needs_tunastream">El PC necesita un TunaStream más reciente para esto. TunaStream se actualiza desde su página de inicio.</string>
+
+    <!-- Check my controller -->
+    <string name="controller_check_title">Comprobar mi mando</string>
+    <string name="controller_check_summary">Comprueba si este dispositivo puede hacer vibrar tu mando y pruébalo.</string>
+    <string name="controller_check_id">ID %1$s</string>
+    <string name="controller_check_rumble_yes">Vibración: funciona en este dispositivo. Pulsa Probar vibración.</string>
+    <string name="controller_check_rumble_no">Vibración: este dispositivo no ofrece vibración para este mando</string>
+    <string name="controller_check_no_rumble_explained">Por Bluetooth, Android solo deja que las apps hagan vibrar mandos que entienden sus propios controladores. Si no, ninguna app puede hacer vibrar ese mando en ese modo. Otro modo de conexión del mando, o un adaptador USB, puede aparecer distinto aquí.</string>
+    <string name="controller_check_usb">USB: %1$s</string>
+    <string name="controller_check_usb_device">un dispositivo USB</string>
+    <string name="controller_check_usb_id">ID %1$s, tipo %2$s</string>
+    <string name="controller_check_8bitdo_xbox_mode">Este adaptador 8BitDo está en su modo Xbox (PC), seguramente por haberlo conectado a un PC. Para volver al modo Android, que también informa de la batería y el movimiento: desconéctalo, espera 10 segundos, apaga el mando, vuelve a conectar el adaptador aquí y enciende el mando sin pulsar ningún botón.</string>
+    <string name="controller_check_usb_ours">Durante una transmisión, TunaReceive lo controla él mismo, vibración incluida.</string>
+    <string name="controller_check_usb_not_ours">TunaReceive aún no reconoce esto como un mando. Envía estos números a quien mantiene TunaReceive.</string>
+    <string name="controller_check_usb_8bitdo">Android maneja este mando, pero no puede hacerlo vibrar. Durante una transmisión, TunaReceive lo controla y lo hace vibrar él mismo (necesita firmware del mando 1.03 o posterior).</string>
+    <string name="controller_check_8bitdo_fw_ok">Su firmware admite vibración a través del adaptador.</string>
+    <string name="controller_check_8bitdo_fw_old">Su firmware es demasiado antiguo para vibrar a través del adaptador. Actualízalo con 8BitDo Ultimate Software en un PC.</string>
+    <string name="controller_battery">Batería: %1$d%%</string>
+    <string name="controller_battery_charging">Batería: %1$d%%, cargando</string>
+    <string name="controller_battery_low">Batería del mando al %1$d%%. Ponlo pronto en la base.</string>
+    <string name="controller_check_none">No hay ningún mando conectado. Enciéndelo, espera a que controle la tele y vuelve a intentarlo.</string>
+    <string name="controller_check_test">Probar vibración</string>
+
+    <!-- Help, shown in the app -->
+    <string name="help_setup_title">Primeros pasos</string>
+    <string name="help_setup_body">1. En tu PC, instala TunaStream y déjalo en marcha. Su icono está junto al reloj.\n\n2. Conecta este dispositivo a la misma red que el PC, por cable o Wi-Fi de 5 GHz si puedes.\n\n3. Tu PC aparece aquí solo. Si no, elige Añadir PC manualmente y escribe la dirección que muestra la página de inicio de TunaStream.\n\n4. Elige el PC. Aparece un PIN: en el PC, abre TunaStream, ve a la página del PIN, escríbelo y pulsa Enviar.\n\n5. Elige un juego. Se abre en su propia pantalla en el PC, del tamaño de esta tele.</string>
+    <string name="help_trouble_title">Si algo no funciona</string>
+    <string name="help_trouble_body">El PC no aparece: comprueba que TunaStream está en marcha y que ambos están en la misma red (el Wi-Fi de invitados suele bloquearlo). O elige Añadir PC manualmente y escribe la dirección de la página de inicio de TunaStream.\n\nLa vinculación falla: escribe el PIN en la página del PIN de TunaStream en más o menos un minuto y vuelve a intentarlo.\n\nLa imagen da tirones: en el menú de este PC, elige Ajustar la calidad de imagen a esta conexión. Un cable, o Wi-Fi de 5 GHz, es lo que más ayuda. La calidad y el tamaño de la imagen también se ajustan solos mientras juegas; después, Cómo fue la última transmisión, en el menú del PC, dice qué pasó.\n\nLa tele responde con retraso: activa el modo automático de baja latencia (ALLM) en la configuración HDMI de la tele para que pase sola al modo juego, o elige su modo Juego a mano.\n\nNo vibra: en el PC, abre la página Solución de problemas de TunaStream durante una transmisión y pulsa Vibrar ahora. Si el mando vibra, hay que activar la vibración en el juego; si no, revisa Vibración en la configuración de esta app.\n\nEl juego se abre en el monitor del PC: actualiza TunaStream desde su página de inicio; mueve el juego a la pantalla de la transmisión.\n\nHay más ayuda en la página Ayuda de TunaStream en el PC.</string>
+
+    <!-- Connection test -->
+    <string name="tuner_menu">Ajustar la calidad de imagen a esta conexión</string>
+    <string name="tuner_measuring_title">Probando la conexión con %1$s</string>
+    <string name="tuner_measuring_body">Midiendo lo rápido que el PC puede enviar a este dispositivo. Tarda unos segundos.</string>
+    <string name="tuner_result_title">Medido: %1$d Mbps</string>
+    <string name="tuner_result_lower">Es lo rápido que %1$s puede enviar a este dispositivo. Una calidad de imagen de %2$d Mbps (tienes %3$d) deja margen para que el Wi-Fi baje sin que la transmisión dé tirones.</string>
+    <string name="tuner_result_higher">Es lo rápido que %1$s puede enviar a este dispositivo. Hay margen para una imagen más nítida: %2$d Mbps en lugar de %3$d.</string>
+    <string name="tuner_pc_wifi">%1$s también está en Wi-Fi (señal %2$d%%), así que cada imagen viaja por el aire dos veces. Un cable de red del PC al router ayudaría más que cualquier ajuste de aquí.</string>
+    <string name="tuner_result_same">Es lo rápido que %1$s puede enviar a este dispositivo. Tu calidad de imagen de %2$d Mbps ya encaja.</string>
+    <string name="tuner_use">Usar %1$d Mbps</string>
+    <string name="tuner_keep">Mantener %1$d Mbps</string>
+    <string name="tuner_failed_title">La prueba de conexión no se hizo</string>
+    <string name="tuner_failed">TunaReceive no pudo conectar con el PC. Comprueba que está encendido y que TunaStream se está ejecutando, y vuelve a intentarlo.</string>
+    <string name="tuner_needs_tunastream">El PC necesita un TunaStream más reciente para esta prueba. TunaStream se actualiza desde su página de inicio.</string>
+    <string name="tuner_stream_running">Hay una transmisión en curso en el PC. Termínala y vuelve a intentarlo.</string>
+
+    <!-- Send to device: files from the PC -->
+    <plurals name="files_received_title">
+        <item quantity="one">Un archivo de %2$s</item>
+        <item quantity="other">%1$d archivos de %2$s</item>
+        <item quantity="many">%1$d archivos de %2$s</item>
+    </plurals>
+    <string name="files_received_body">Guardado en Descargas de este dispositivo:%1$s</string>
+    <string name="files_install">Instalar</string>
+    <string name="files_open">Abrir</string>
+    <string name="files_no_app">Ninguna app de este dispositivo puede abrir ese archivo. Está en Descargas.</string>
+    <string name="files_gave_up">%1$s no llegó tras varios intentos. Vuelve a enviarlo desde TunaStream en el PC.</string>
+    <string name="files_failed">%1$s no llegó. TunaReceive lo intentará de nuevo en un momento.</string>
+
+    <!-- Reconnecting by itself after a drop -->
+    <string name="tuna_reconnecting">Se cortó la conexión. Reconectando… (%1$d de %2$d)</string>
+    <string name="tuna_adaptive_quality">Ajustar la calidad de imagen al Wi-Fi</string>
+    <string name="tuna_adaptive_quality_summary">Vigila cómo llega cada imagen. Cuando el Wi-Fi se llena, suaviza un poco la imagen antes de que haya tirones y luego vuelve a la calidad completa.</string>
+    <string name="tuna_adaptive_size">Ajustar también el tamaño de imagen</string>
+    <string name="tuna_adaptive_size_summary">Cuando el Wi-Fi cae mucho, envía una imagen más pequeña y deja que la tele la estire, lo que se ve más limpio que una imagen completa con bloques. Vuelve sola al tamaño completo. Necesita Ajustar la calidad de imagen al Wi-Fi.</string>
+    <string name="tuna_size_test">Probar una imagen más pequeña (10 segundos)</string>
+    <string name="tuna_size_test_started">Enviando una imagen más pequeña durante 10 segundos. Debería seguir a pantalla completa, verse algo más suave y luego volver a ser nítida.</string>
+    <string name="tuna_size_test_unavailable">No se puede probar aquí. Activa las dos opciones de Ajustar en Configuración y actualiza TunaStream en el PC.</string>
+    <string name="tuna_match_pc_theme">Usar el tema de mi PC</string>
+    <string name="tuna_match_pc_theme_summary">Usa el tema de colores elegido en TunaStream en el PC. Desactívalo para elegir uno para esta tele abajo.</string>
+    <string name="tuna_theme">Tema</string>
+    <string-array name="tuna_theme_names">
+        <item>Mar profundo</item>
+        <item>Arrecife de coral</item>
+        <item>Bosque de algas</item>
+        <item>Medianoche</item>
+        <item>Hora dorada</item>
+        <item>De temporada (Halloween, otoño, invierno, verano)</item>
+    </string-array>
+    <string name="tuna_tv_game_mode">Poner la tele en modo juego</string>
+    <string name="tuna_tv_game_mode_summary">Mientras hay un juego en pantalla, pide a la tele que se salte su procesado de imagen, lo que quita mucho retraso. Después, la tele vuelve a la normalidad. Necesita una tele con modo automático de baja latencia (ALLM).</string>
+    <string name="tuna_10bit">Imagen de 10 bits (experimental)</string>
+    <string name="tuna_10bit_summary">Degradados de color más suaves y un uso algo mejor del Wi-Fi, sin HDR. Desactívalo si los juegos muestran una imagen negra o verde.</string>
+    <string name="tuna_auto_reconnect">Reconectar automáticamente</string>
+    <string name="tuna_auto_reconnect_summary">Si una transmisión se corta en mitad del juego, se vuelve a iniciar sola. El juego sigue en el PC mientras tanto.</string>
+
+    <!-- How the last stream went (PC's long-press menu) -->
+    <string name="report_menu">Cómo fue la última transmisión</string>
+    <string name="report_title">Cómo fue la última transmisión</string>
+    <string name="report_hint">Esa transmisión tuvo problemas. Mantén pulsado Seleccionar sobre el PC y elige Cómo fue la última transmisión para ver qué pasó.</string>
+    <string name="report_title_older">Una transmisión anterior (%1$d de %2$d)</string>
+    <string name="report_earlier">Anterior</string>
+    <string name="report_later">Posterior</string>
+    <string name="report_none">Aún no hay ninguna transmisión que mostrar. Juega al menos diez segundos y vuelve a mirar.</string>
+    <string name="report_a_game">Un juego</string>
+    <string name="report_header">%1$s en %2$s, %3$s, durante %4$s.</string>
+    <string name="report_seconds">%1$d segundos</string>
+    <string name="report_minutes">%1$d minutos</string>
+    <string name="report_smooth">Fluido todo el rato: la imagen llegó completa y a tiempo.</string>
+    <string name="report_dropped">Terminó porque se cortó la conexión con el PC. Normalmente el Wi-Fi no pudo seguir el ritmo un momento.</string>
+    <string name="report_error">Terminó con un error (%1$s).</string>
+    <string name="report_losing">El Wi-Fi perdió partes de la imagen en el %1$d%% de los segundos jugados. Eso se ve como tirones o manchas. Un cable hasta el PC, o una calidad de imagen más baja, es lo que más ayuda.</string>
+    <string name="report_reduced">La calidad de imagen bajó sola durante %1$s de %2$s para mantener la fluidez, hasta %3$d Mbps (tu ajuste es %4$d). Si pasa a menudo, una calidad más baja en Configuración da una imagen más estable.</string>
+    <string name="report_smaller">Durante %1$s la imagen se envió más pequeña (hasta el %2$d%% del tamaño completo) y se estiró para llenar la pantalla, porque el Wi-Fi no podía con el tamaño completo.</string>
+    <string name="report_decode">Este dispositivo tardó %1$d ms en decodificar cada imagen, más de lo que dura una imagen. Un tamaño de imagen menor ayudaría.</string>
+    <string name="report_slow">La conexión estuvo casi llena en el %1$d%% de los segundos jugados: las imágenes llegaban despacio, aunque no se perdió ninguna. Una calidad de imagen algo más baja le daría margen.</string>
+    <string name="report_figures">Las cifras: %1$s a %2$d FPS. Calidad de imagen ajustada a %3$d Mbps, %4$d Mbps de media; bajó %5$d veces y volvió a subir %6$d veces. Imagen perdida: %7$s%% de media. Retraso en este dispositivo: %8$d ms, de los que %9$d ms de decodificación.</string>
+    <string name="report_pc_slow">El PC fue la parte lenta: tardó %1$d ms en capturar y codificar cada imagen, casi todo el tiempo de una imagen. Cierra otros programas en el PC o elige un tamaño de imagen menor.</string>
+    <string name="report_pc_figures">En el PC: %1$s ms para capturar y codificar una imagen (peor %2$s ms), con %3$d%% de protección contra pérdida de paquetes.</string>
+    <string name="report_pc_figures_split">En el PC: %1$s ms para capturar y codificar una imagen (peor %2$s ms), repartida entre los dos codificadores de la tarjeta gráfica, con %3$d%% de protección contra pérdida de paquetes.</string>
+    <string name="report_reconnected">Esta transmisión empezó después de que se cortara la conexión y TunaReceive se reconectara solo.</string>
+
+    <!-- When a stream's connection drops (error -1) -->
+    <string name="conn_dropped_msg">Se cortó la conexión con el PC.\n\nNormalmente el Wi-Fi no pudo seguir el ritmo un momento. Baja la calidad de imagen en Configuración, o mantén pulsado tu PC y elige Ajustar la calidad de imagen a esta conexión. Un tamaño de imagen menor (1080p en lugar de 4K) es lo que más ayuda.\n\nSi TunaStream se estaba actualizando o reiniciando en el PC, vuelve a iniciar el juego.</string>
+
+    <!-- Shown when a stream starts, the first three times -->
+    <string name="tuna_menu_hint">Mantén pulsado un segundo el botón Inicio del mando para abrir el menú rápido.</string>
+
+    <!-- First line of the stream stats, in plain words -->
+    <string name="perf_verdict_good">Va fluido</string>
+    <string name="perf_verdict_loss">El Wi-Fi está perdiendo partes de la imagen. Baja la calidad de imagen o acerca el router y este dispositivo.</string>
+    <string name="perf_verdict_decode">Este dispositivo no da abasto. Prueba un tamaño de imagen menor.</string>
+    <string name="perf_verdict_host">El PC envía %1$.0f de %2$d imágenes por segundo. Normal con la imagen quieta; en un juego, significa que el juego va lento en el PC.</string>
+    <string name="perf_overlay_adjusted">Calidad de imagen: %1$d de %2$d Mbps, bajada por el Wi-Fi</string>
+    <string name="perf_verdict_strain">La conexión está casi llena: las imágenes llegan despacio. Baja un poco la calidad de imagen.</string>
+    <string name="perf_verdict_jitter">El retraso del Wi-Fi sube y baja. Puede que otra cosa esté usando el Wi-Fi.</string>
+
+    <!-- Setup -->
+    <string name="setup_progress">Paso %1$d de %2$d</string>
+    <string name="setup_recommended">Recomendado</string>
+    <string name="setup_back_hint">Pulsa Atrás para cambiar una respuesta anterior.</string>
+
+    <string name="setup_screen_title">¿De qué tamaño es la imagen?</string>
+    <string name="setup_screen_body">Vamos a preparar TunaReceive para esta tele. Tarda un minuto y luego puedes cambiar lo que quieras en Configuración.\n\nTunaStream da a cada transmisión su propia pantalla en el PC exactamente de este tamaño.</string>
+    <string name="setup_res_4k">4K</string>
+    <string name="setup_res_4k_detail">3840 × 2160. La más nítida; necesita una conexión potente.</string>
+    <string name="setup_res_1440">1440p</string>
+    <string name="setup_res_1440_detail">2560 × 1440, estirada para llenar la pantalla. Más nítida que 1080p y con menos de la mitad de datos que 4K: lo mejor para teles 4K con Wi-Fi de 5 GHz.</string>
+    <string name="setup_res_1080">1080p</string>
+    <string name="setup_res_1080_detail">1920 × 1080. Lo mejor para la mayoría de redes Wi-Fi.</string>
+    <string name="setup_res_720">720p</string>
+    <string name="setup_res_720_detail">1280 × 720. Para una conexión débil.</string>
+
+    <string name="setup_fps_title">¿Cuánta fluidez?</string>
+    <string name="setup_fps_body">Esta pantalla puede mostrar hasta 120 imágenes por segundo. 120 se nota más fluido en juegos rápidos, y el PC tiene que dibujar el doble de imágenes.</string>
+    <string name="setup_fps_120">120 imágenes por segundo</string>
+    <string name="setup_fps_120_detail">Lo más fluido. Mejor con cable o un Wi-Fi de 5 GHz potente.</string>
+    <string name="setup_fps_60">60 imágenes por segundo</string>
+    <string name="setup_fps_60_detail">Fluido, y ligero para el PC y la conexión.</string>
+
+    <string name="setup_picture_title">¿Más fluido o más nítido?</string>
+    <string name="setup_picture_body">%1$s\n\nLos tirones con una conexión limpia suelen significar que la imagen pide algo más de lo que el Wi-Fi puede llevar, así que deja algo de margen.</string>
+    <string name="setup_net_ethernet">Este dispositivo está conectado con un cable de red, la mejor conexión para transmitir.</string>
+    <string name="setup_net_wifi5">Este dispositivo está en Wi-Fi de 5 GHz, que va bien para transmitir.</string>
+    <string name="setup_net_wifi6">Este dispositivo está en Wi-Fi de 6 GHz, muy bueno para transmitir.</string>
+    <string name="setup_net_wifi24">Este dispositivo está en Wi-Fi de 2,4 GHz, que es lento y está saturado. Conéctate a la red de 5 GHz de tu router si la tiene.</string>
+    <string name="setup_net_wifi">Este dispositivo está en Wi-Fi.</string>
+    <string name="setup_net_unknown">TunaReceive no pudo saber cómo está conectado este dispositivo.</string>
+    <string name="setup_pic_smooth">Lo más fluido</string>
+    <string name="setup_pic_smooth_detail">%1$d Mbps. Menos tropiezos; los detalles finos se ven algo más suaves.</string>
+    <string name="setup_pic_balanced">Equilibrado</string>
+    <string name="setup_pic_balanced_detail">%1$d Mbps. Nítido y con margen.</string>
+    <string name="setup_pic_sharp">Lo más nítido</string>
+    <string name="setup_pic_sharp_detail">%1$d Mbps. El máximo detalle; puede dar tirones si el Wi-Fi está ocupado.</string>
+
+    <string name="setup_controller_title">¿Qué mando?</string>
+    <string name="setup_controller_body">Se activará la vibración para él.</string>
+    <string name="setup_controller_found">Conectado ahora: %1$s.\n\nSe activará la vibración para él.</string>
+    <string name="setup_pad_8bitdo">8BitDo Ultimate 2</string>
+    <string name="setup_pad_8bitdo_detail">Con su adaptador 2,4G conectado a este dispositivo, que permite la vibración. También funciona por Bluetooth, sin vibración.</string>
+    <string name="setup_pad_xbox">Mando de Xbox</string>
+    <string name="setup_pad_xbox_detail">Xbox One, Series o 360.</string>
+    <string name="setup_pad_playstation">Mando de PlayStation</string>
+    <string name="setup_pad_playstation_detail">DualSense o DualShock 4. También se activan los controles de movimiento.</string>
+    <string name="setup_pad_switch">Nintendo Switch Pro</string>
+    <string name="setup_pad_switch_detail">Los botones quedan donde el juego los espera.</string>
+    <string name="setup_pad_other">Otro</string>
+    <string name="setup_pad_other_detail">Incluidos el mando de Shield y el mando a distancia.</string>
+
+    <string name="setup_sound_title">¿Con qué escuchas?</string>
+    <string name="setup_sound_body">Elige envolvente solo si tienes los altavoces. Si no, los juegos suenan pobres.</string>
+    <string name="setup_sound_stereo">Altavoces de la tele, barra de sonido o auriculares</string>
+    <string name="setup_sound_stereo_detail">Estéreo.</string>
+    <string name="setup_sound_51">Envolvente 5.1</string>
+    <string name="setup_sound_51_detail">Seis altavoces, incluido el subwoofer.</string>
+    <string name="setup_sound_71">Envolvente 7.1</string>
+    <string name="setup_sound_71_detail">Ocho altavoces, incluido el subwoofer.</string>
+
+    <string name="setup_done_title">Todo listo</string>
+    <string name="setup_done_body">Imagen: %1$s a %2$s imágenes por segundo, %3$d Mbps.\nMando: %4$s, con vibración.\nSonido: %5$s.\n\nPara el menor retraso, activa el modo automático de baja latencia (ALLM) en la configuración HDMI de la tele: así pasará sola al modo juego mientras juegas.\n\nPuedes cambiar todo esto en Configuración o volver a configurar desde allí.</string>
+    <string name="setup_done_start">Empezar a jugar</string>
+    <string name="setup_done_start_detail">Elige tu PC y un juego.</string>
+    <string name="setup_done_again">Cambiar mis respuestas</string>
+    <string name="setup_done_again_detail">Volver a la primera pregunta.</string>
+    <string name="setup_skipped">Configuración omitida. Puedes hacerla cuando quieras desde Configuración.</string>
+    <string name="report_game_slow">El propio juego iba a unas %1$d imágenes por segundo, por debajo de las %2$d que puede llevar esta transmisión, así que el límite no era la transmisión. Para arreglarlo en el juego: desactiva la V-Sync, activa DLSS o FSR (el modo Rendimiento va bien en 4K) y la generación de fotogramas si la tiene, y pon cualquier límite de frecuencia en %2$d.</string>
+    <string name="screenshot_saved_both">Captura guardada aquí y en el PC</string>
+    <string name="screenshot_saved_here">Captura guardada en Imágenes/TunaReceive</string>
+    <string name="screenshot_failed">No se pudo guardar la captura</string>
+    <string name="replay_saving">Guardando los últimos 30 segundos en el PC…</string>
+    <string name="replay_saved">Repetición guardada en el PC, en Vídeos\\TunaStream</string>
+    <string name="replay_off">La repetición instantánea está desactivada en el PC. Actívala en la configuración de TunaStream.</string>
+    <string name="replay_failed">No se pudo guardar la repetición</string>
+    <string name="replay_needs_newer_pc">Las repeticiones necesitan un TunaStream más reciente en el PC</string>
+    <string name="game_menu_screenshot">Hacer una captura (%1$s)</string>
+    <string name="game_menu_replay">Guardar los últimos 30 segundos (%1$s)</string>
+    <string name="grid_badge_continue">Continuar</string>
+    <string name="grid_badge_playing">Jugando</string>
+    <string name="player_joined">Jugador %1$d: %2$s</string>
+    <string name="player_joined_unnamed">Se unió el jugador %1$d</string>
+    <string name="tip_game_fps">Consejo: la última vez %1$s fue a %2$d fps, por debajo de %3$d. En el juego, desactiva la V-Sync y activa DLSS o FSR (Rendimiento) o la generación de fotogramas.</string>
+    <string name="tip_smaller">Consejo: la última vez %1$s tuvo que bajar de 4K durante el %2$d%% de la partida para seguir el ritmo del Wi-Fi. 1440p en Configuración se mantendría nítida y estable.</string>
+    <string name="tip_reduced">Consejo: la última vez %1$s fue con menos calidad de imagen durante el %2$d%% de la partida para seguir el ritmo del Wi-Fi. Una calidad más baja, o un cable para el PC, sería más estable.</string>
+    <string name="screensaver_name">Portadas de juegos de TunaReceive</string>
+    <string name="tuna_screensaver">Salvapantallas</string>
+    <string name="tuna_screensaver_summary">Tus portadas de juegos pasando, con la hora. Abre la configuración del salvapantallas de la tele: elige allí Portadas de juegos de TunaReceive.</string>
+    <string name="backup_menu">Copiar TunaReceive en este PC</string>
+    <string name="restore_menu">Restaurar TunaReceive desde este PC</string>
+    <string name="backup_title">Copia de TunaReceive</string>
+    <string name="backup_desc">Guarda la configuración de TunaReceive en %1$s, para poder restaurarla aquí o en una tele nueva.</string>
+    <string name="backup_include_pairings">Incluir vinculaciones</string>
+    <string name="backup_pairings_note">Con las vinculaciones, una tele restaurada funciona con tus PC al momento, sin volver a vincular. La copia contiene entonces las claves de esta tele, así que solo se devuelve a dispositivos que pueden iniciar juegos.</string>
+    <string name="backup_save">Guardar copia</string>
+    <string name="backup_saved">Copia guardada. Está en el PC; la página Solución de problemas de TunaStream la muestra.</string>
+    <string name="backup_failed">No se pudo guardar la copia. Comprueba que el PC está encendido y vuelve a intentarlo.</string>
+    <string name="backup_needs_tunastream">Las copias necesitan un TunaStream más reciente en el PC.</string>
+    <string name="restore_title">Restaurar TunaReceive</string>
+    <string name="restore_none">Todavía no hay copias de TunaReceive en este PC.</string>
+    <string name="restore_confirm">¿Restaurar esta copia? Su configuración sustituye a la de aquí y luego TunaReceive se cierra. Vuelve a abrirlo para seguir.</string>
+    <string name="restore_button">Restaurar</string>
+    <string name="restore_done">Restaurado. TunaReceive se cierra ahora; vuelve a abrirlo.</string>
+    <string name="restore_failed">No se pudo restaurar la copia.</string>
+    <string name="week_menu">Tu semana</string>
+    <string name="week_title">Tus últimos siete días</string>
+    <string name="week_needs_tunastream">Tu semana necesita un TunaStream más reciente en el PC.</string>
+    <string name="week_failed">No se pudo cargar Tu semana. Comprueba que el PC está encendido y vuelve a intentarlo.</string>
+    <string name="week_nothing">No se ha jugado nada en los últimos siete días.</string>
+    <string name="week_total">%1$s jugados, en %2$d transmisiones.</string>
+    <string name="week_minutes">%1$d min</string>
+    <string name="week_hours">%1$d h %2$d min</string>
+    <string name="week_most_played">Lo más jugado</string>
+    <string name="week_desktop">Escritorio</string>
+    <string name="week_smooth">El %1$d%% de los minutos jugados fueron fluidos.</string>
+    <string name="week_fps_reminder">Por arreglar: %1$s fue a %2$d fps la última vez, por debajo de %3$d. En el juego, desactiva la V-Sync y activa DLSS o FSR o la generación de fotogramas.</string>
+    <string name="week_milestones">Hitos de esta semana</string>
+    <string name="milestone_first_stream">Primera transmisión</string>
+    <string name="milestone_first_hour">Primera hora jugada</string>
+    <string name="milestone_hours">%1$s horas jugadas</string>
+    <string name="milestone_streams">%1$s transmisiones</string>
+    <string name="milestone_first_4k">Primera transmisión en 4K</string>
+    <string name="milestone_marathon">Una sesión de tres horas</string>
+    <string name="milestone_smooth_10">Diez transmisiones seguidas sin vídeo perdido</string>
+    <string name="milestone_smooth_hour">Una hora sin vídeo perdido</string>
+    <string name="milestone_full_rate_4k">Media hora en 4K a frecuencia completa</string>
+    <string name="error_play_time_up">Se acabó el tiempo de juego de hoy en esta tele. Se puede dar más tiempo desde la página de TunaStream del PC o desde la página del móvil.</string>
+
+    <!-- Stream details overlay -->
+    <string name="game_menu_details">Detalles de la transmisión (%1$s)</string>
+    <string name="game_menu_details_plain">Detalles de la transmisión</string>
+    <string name="details_title">Detalles de la transmisión</string>
+    <string name="details_picture_label">Imagen</string>
+    <string name="details_picture">%1$d × %2$d, %3$s</string>
+    <string name="details_picture_scaled"> (dibujado a %1$d × %2$d para seguir el ritmo)</string>
+    <string name="details_fps_label">Frecuencia de imagen</string>
+    <string name="details_fps">ajustada a %1$d · ahora </string>
+    <string name="details_fps_average"> · media %1$.1f</string>
+    <string name="details_fps_pc"> · juego en el PC %1$.1f</string>
+    <string name="details_delay_label">Retraso</string>
+    <string name="details_delay">decodificación %1$.1f ms · del PC a la pantalla %2$d ms</string>
+    <string name="details_delay_network"> · red %1$d ms (± %2$d)</string>
+    <string name="details_steady_label">Estabilidad</string>
+    <string name="details_steady_good">Estable</string>
+    <string name="details_steady_fair">Algunos tropiezos</string>
+    <string name="details_steady_poor">A tirones</string>
+    <string name="details_steady">: %1$.1f%% de imágenes con retraso en los últimos 30 s, %2$d s con vídeo perdido</string>
+    <string name="details_bitrate_label">Tasa de bits</string>
+    <string name="details_bitrate">%1$d Mbps ahora, hasta %2$d Mbps</string>
+    <string name="details_tv_network_label">Red de la tele</string>
+    <string name="details_wired">Por cable (Ethernet)</string>
+    <string name="details_unknown_network">Desconocido</string>
+    <string name="details_wifi">Wi-Fi %1$s, señal %2$d%% (%3$d dBm), enlace %4$d Mbps</string>
+    <string name="details_pc_label">PC</string>
+    <string name="details_pc">codificación %1$.1f ms, %2$d%% de datos de reparación</string>
+    <string name="details_pc_split"> · imágenes divididas activadas</string>
+    <string name="details_hint">%1$s oculta esto</string>
+
+    <!-- Controller shortcuts -->
+    <string name="shortcuts_category">Atajos del mando</string>
+    <string name="shortcuts_note">Elige un atajo para asignarle botones nuevos de tu mando (cualquiera, gatillos y palas incluidos), dejarlo como venía o desactivarlo. El juego no ve los botones de un atajo mientras se mantienen pulsados.</string>
+    <string name="shortcut_menu_title">Menú rápido</string>
+    <string name="shortcut_menu_summary">%1$s</string>
+    <string name="shortcut_screenshot_title">Captura de pantalla</string>
+    <string name="shortcut_screenshot_summary">%1$s guarda una imagen de la transmisión</string>
+    <string name="shortcut_replay_title">Repetición instantánea</string>
+    <string name="shortcut_replay_summary">%1$s guarda los últimos 30 segundos en el PC</string>
+    <string name="shortcut_stats_title">Detalles de la transmisión</string>
+    <string name="shortcut_stats_summary">%1$s muestra u oculta la resolución, la frecuencia, el retraso y el Wi-Fi</string>
+    <string name="shortcut_quit_title">Terminar la transmisión</string>
+    <string name="shortcut_quit_summary">%1$s sale del juego (sigue en el PC)</string>
+    <string name="shortcut_taken">%1$s ya se usa para %2$s. Cambia primero ese.</string>
+    <string name="shortcut_off">Desactivado</string>
+    <string name="shortcut_home_hold">Mantener Inicio</string>
+    <string name="button_view">Vista</string>
+    <string name="button_menu">Menú</string>
+    <string name="button_up">Arriba</string>
+    <string name="button_down">Abajo</string>
+    <string name="button_left">Izquierda</string>
+    <string name="button_right">Derecha</string>
+
+    <!-- Game screen header -->
+    <string name="pc_tools_button">Herramientas del PC</string>
+    <string name="settings_button">Configuración</string>
+    <string name="pc_tools_title">%1$s</string>
+    <string name="pc_tools_not_ready">Aún conectando con el PC. Vuelve a intentarlo en un momento.</string>
+
+    <!-- Settings changed on TunaStream's page -->
+    <string name="remote_settings_applied">Cambiado desde el PC: %1$s. Se aplica a partir del siguiente juego.</string>
+
+    <!-- The name in the headers, split so "Receive" can wear the accent colour -->
+    
+
+    <!-- Pressing in a controller shortcut -->
+    <string name="shortcut_choose_title">%1$s: %2$s</string>
+    <string name="shortcut_record">Pulsar botones nuevos</string>
+    <string name="shortcut_reset">Volver al original (%1$s)</string>
+    <string name="shortcut_turn_off">Desactivar</string>
+    <string name="shortcut_record_hint">Mantén pulsados a la vez los botones que quieras en tu mando y luego suéltalos.</string>
+    <string name="shortcut_record_cancel">Pulsa Atrás en el mando a distancia, o espera, para dejarlo como está.</string>
+    <string name="shortcut_saved">%1$s: %2$s</string>
+    <string name="shortcut_moved">%1$s eran los botones de otro atajo; ese está ahora desactivado.</string>
+    <string name="shortcut_problem_unknown">Ese botón no se puede usar para un atajo. Prueba otros.</string>
+    <string name="shortcut_problem_one_button">Los juegos perderían ese botón. Mantén dos o más a la vez o usa un botón que los juegos no usen, como Compartir, Inicio o una pala.</string>
+    <string name="shortcut_problem_home">Inicio abre el menú rápido al mantenerlo. Elige otros botones o cambia antes el atajo del menú rápido.</string>
+    <string name="button_home">Inicio</string>
+    <string name="button_share">Compartir</string>
+    <string name="button_touchpad">Panel táctil</string>
+
+    <!-- The check before each game -->
+    <string name="checkup_setting">Comprobar la configuración antes de cada juego</string>
+    <string name="checkup_setting_summary">Mide la conexión con el PC durante un segundo más o menos y sugiere ajustes que irían mejor en esta tele. Tú eliges cuáles usar.</string>
+    <string name="checkup_title">Comprobación antes del juego</string>
+    <string name="checkup_measuring">Midiendo la conexión con el PC y revisando esta tele…</string>
+    <string name="checkup_skip">Saltar</string>
+    <plurals name="checkup_found">
+        <item quantity="one">Un ajuste iría mejor</item>
+        <item quantity="other">%1$d ajustes irían mejor</item>
+        <item quantity="many">%1$d ajustes irían mejor</item>
+    </plurals>
+    <string name="checkup_use_checked">Usar las marcadas</string>
+    <string name="checkup_use_all">Usar todas</string>
+    <string name="checkup_keep_mine">Mantener las mías</string>
+    <plurals name="checkup_changed">
+        <item quantity="one">Se cambió un ajuste</item>
+        <item quantity="other">Se cambiaron %1$d ajustes</item>
+        <item quantity="many">Se cambiaron %1$d ajustes</item>
+    </plurals>
+    <string name="checkup_size_tv">Tamaño de imagen %1$s → %2$s: la tele no puede mostrar %1$s, así que el detalle extra se desperdicia.</string>
+    <string name="checkup_size_up">Tamaño de imagen %1$s → %2$s: esta tele puede mostrar %2$s y la conexión (%3$d Mbps) puede con ello.</string>
+    <string name="checkup_size_up_tv">Tamaño de imagen %1$s → %2$s: esta tele puede mostrar %2$s. Esta vez no se midió la conexión, así que pruébalo.</string>
+    <string name="checkup_size_down">Tamaño de imagen %1$s → %2$s: la conexión midió %3$d Mbps, poco para %1$s estable.</string>
+    <string name="checkup_fps_tv">Frecuencia %1$d → %2$s fps: la tele muestra como mucho %2$s.</string>
+    <string name="checkup_bitrate_down">Tasa de bits %1$d → %2$d Mbps: la conexión midió %3$d Mbps; dejar margen evita tirones.</string>
+    <string name="checkup_bitrate_up">Tasa de bits %1$d → %2$d Mbps: la conexión midió %3$d Mbps, con margen para una imagen más nítida.</string>
+    <string name="checkup_adaptive">Activar Ajustar la calidad de imagen al Wi-Fi: la última transmisión perdió vídeo a menudo; así la imagen se suaviza un momento en su lugar.</string>
+    <string name="checkup_hdr_off">Desactivar HDR: esta tele no indica HDR, así que los colores se verían apagados.</string>
+    <string name="checkup_10bit_off">Desactivar la imagen de 10 bits: este dispositivo no puede decodificarla, lo que puede dar una imagen negra o verde.</string>
+
+    <!-- Send logs to PC -->
+    <string name="send_logs_menu">Enviar registros al PC</string>
+    <string name="send_logs_title">Enviar registros al PC</string>
+    <string name="send_logs_sending">Enviando el registro reciente de TunaReceive…</string>
+    <string name="send_logs_done">Enviado. En %1$s, abre la página web de TunaStream y luego Solución de problemas &gt; Registros de las teles.</string>
+    <string name="send_logs_failed">No se pudo enviar el registro. Comprueba que el PC está encendido y que TunaStream se está ejecutando, y vuelve a intentarlo.</string>
+    <string name="send_logs_needs_update">El TunaStream de este PC es demasiado antiguo para guardar registros. Actualízalo y vuelve a intentarlo.</string>
+
+    <!-- Per-game settings -->
+    <string name="game_profile_menu">Configuración para este juego</string>
+    <string name="game_profile_title">Configuración para %1$s</string>
+    <string name="game_profile_usual">Mi configuración habitual</string>
+    <string name="game_profile_none_yet">Un juego puede usar su propia configuración, como 4K con HDR para un juego tranquilo y 1080p a 120 FPS para uno rápido. Guarda primero esa configuración como perfil y luego elígelo aquí.</string>
+    <string name="game_profile_make">Crear un perfil</string>
+    <string name="game_profile_edit">Perfiles</string>
+    <string name="game_profile_saved">%1$s usará %2$s</string>
+    <string name="game_profile_saved_usual">%1$s usará tu configuración habitual</string>
+    <string name="game_profile_using">Usando %1$s para este juego</string>
+
+    <!-- TV-matched frame rates -->
+    <string name="fps_5994">59,94 FPS (frecuencia de tele)</string>
+    <string name="fps_11988">119,88 FPS (frecuencia de tele)</string>
+    <string name="checkup_fps_ntsc">Usar %2$s FPS en lugar de %1$s: esta tele funciona a %2$s Hz, así que con %1$s habría un breve tirón cada pocos segundos.</string>
+
+    <!-- Anti-drift -->
+    <string name="anti_drift_title">Corregir la deriva de los sticks</string>
+    <string name="anti_drift_summary">Para mandos desgastados con los que el personaje o la cámara se mueven solos. Cuando un stick está en reposo, su posición de reposo pasa a ser el nuevo centro. Los movimientos pequeños siguen contando, a diferencia de una zona muerta mayor.</string>
+
+    <!-- Sharpening -->
+    <string name="sharpen_title">Enfocar la imagen (experimental)</string>
+    <string name="sharpen_summary">Hace que las transmisiones por debajo de 4K se vean menos suaves en una tele grande. Añade algo de retraso y no se usa con HDR. Desactivado salvo que lo actives.</string>
+    <string-array name="sharpen_names">
+        <item>Desactivado</item>
+        <item>Suave</item>
+        <item>Medio</item>
+        <item>Fuerte</item>
+    </string-array>
+
+    <!-- What's new after an update -->
+    <string name="whatsnew_title">Novedades de TunaReceive %1$s</string>
+    <string name="whatsnew_ok">Entendido</string>
+</resources>
