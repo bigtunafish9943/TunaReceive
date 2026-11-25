@@ -74,6 +74,7 @@ public final class RemoteSettings {
             bool("picture", "tuna_adaptive_size", R.string.tuna_adaptive_size, true),
             bool("picture", "checkbox_enable_hdr", R.string.title_enable_hdr, false),
             bool("picture", "tuna_10bit", R.string.tuna_10bit, true),
+            list("picture", "tuna_sharpen", R.string.sharpen_title, "off", R.array.sharpen_names, R.array.sharpen_values),
             bool("picture", "checkbox_use_virtual_display", R.string.title_checkbox_use_virtual_display, true),
             list("sound", "list_audio_config", R.string.title_audio_config_list, "2", R.array.audio_config_names, R.array.audio_config_values),
             bool("sound", "checkbox_host_audio", R.string.title_checkbox_host_audio, false),
@@ -187,6 +188,7 @@ public final class RemoteSettings {
             case "tuna_adaptive_size": return R.string.tuna_adaptive_size_summary;
             case "checkbox_enable_hdr": return R.string.summary_enable_hdr;
             case "tuna_10bit": return R.string.tuna_10bit_summary;
+            case "tuna_sharpen": return R.string.sharpen_summary;
             case "checkbox_use_virtual_display": return R.string.summary_checkbox_use_virtual_display;
             case "list_audio_config": return R.string.summary_audio_config_list;
             case "checkbox_host_audio": return R.string.summary_checkbox_host_audio;

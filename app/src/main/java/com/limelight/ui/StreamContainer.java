@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import com.limelight.Game;
 import com.limelight.LimeLog;
 import com.limelight.preferences.PreferenceConfiguration;
+import com.limelight.utils.SharpenRenderer;
 import com.limelight.utils.Stereo3DRenderer;
 
 /**
@@ -23,7 +24,8 @@ import com.limelight.utils.Stereo3DRenderer;
  * handles all input callbacks, aspect ratio scaling, and a robust surface lifecycle.
  * It uses SurfaceView for 2D and GLSurfaceView for both 3D modes.
  */
-public class StreamContainer extends FrameLayout implements SurfaceHolder.Callback, Stereo3DRenderer.OnSurfaceReadyListener {
+public class StreamContainer extends FrameLayout implements SurfaceHolder.Callback, Stereo3DRenderer.OnSurfaceReadyListener,
+        SharpenRenderer.Listener {
 
     public interface InputCallbacks {
         boolean handleKeyUp(KeyEvent event);
@@ -42,6 +44,9 @@ public class StreamContainer extends FrameLayout implements SurfaceHolder.Callba
     private Game game;
     private PreferenceConfiguration prefConfig;
     private Stereo3DRenderer mStereoRenderer;
+    // Optional sharpening of the 2D picture: drawn through OpenGL instead of straight to the screen
+    private SharpenRenderer mSharpenRenderer;
+    private SurfaceView mPlainSurfaceView;
 
     private SurfaceView mSurfaceView;
     private Surface mCurrentSurface;
@@ -91,6 +96,23 @@ public class StreamContainer extends FrameLayout implements SurfaceHolder.Callba
             glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
             mSurfaceView = glSurfaceView;
             addView(mSurfaceView, childParams);
+        } else {
+            float strength = SharpenRenderer.strengthOf(prefConfig.sharpen);
+            if (SharpenRenderer.appliesTo(prefConfig)) {
+                mPlainSurfaceView = mSurfaceView;
+                // Kept in the layout but without a surface of its own, so it can't cover the picture
+                mPlainSurfaceView.setVisibility(INVISIBLE);
+                GLSurfaceView glSurfaceView = new GLSurfaceView(context);
+                glSurfaceView.setEGLContextClientVersion(2);
+                mSharpenRenderer = new SharpenRenderer(glSurfaceView, this, prefConfig.width, prefConfig.height, strength);
+                glSurfaceView.setRenderer(mSharpenRenderer);
+                glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+                // Draw at the stream's own size; the TV scales the sharpened picture to the screen
+                glSurfaceView.getHolder().setFixedSize(prefConfig.width, prefConfig.height);
+                mSurfaceView = glSurfaceView;
+                addView(mSurfaceView, childParams);
+                LimeLog.info("Sharpening the picture (" + prefConfig.sharpen + ")");
+            }
         }
 
         mSurfaceView.getHolder().addCallback(this);
@@ -238,7 +260,7 @@ public class StreamContainer extends FrameLayout implements SurfaceHolder.Callba
     }
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        if (renderMode == StreamMode.MODE_2D && width > 0 && height > 0) {
+        if (renderMode == StreamMode.MODE_2D && mSharpenRenderer == null && width > 0 && height > 0) {
             mCurrentSurface = holder.getSurface();
             notifySurfaceReady();
         }
@@ -247,7 +269,15 @@ public class StreamContainer extends FrameLayout implements SurfaceHolder.Callba
     }
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        if (renderMode == StreamMode.MODE_2D) {
+        if (holder != mSurfaceView.getHolder()) {
+            // The sharpening view being taken away after it failed
+            return;
+        }
+        if (mSharpenRenderer != null) {
+            isSurfaceReady = false;
+            mCurrentSurface = null;
+            mSharpenRenderer.release();
+        } else if (renderMode == StreamMode.MODE_2D) {
             isSurfaceReady = false;
             mCurrentSurface = null;
         } else if (mStereoRenderer != null) {
@@ -265,7 +295,40 @@ public class StreamContainer extends FrameLayout implements SurfaceHolder.Callba
         }
     }
 
+    @Override
+    public void onSharpenSurfaceReady(final Surface surface) {
+        // Called on the drawing thread
+        post(() -> {
+            if (mSharpenRenderer != null) {
+                mCurrentSurface = surface;
+                notifySurfaceReady();
+            }
+        });
+    }
+
+    @Override
+    public void onSharpenFailed() {
+        // This device can't run the filter: show the picture the ordinary way instead
+        post(() -> {
+            if (mSharpenRenderer == null || mPlainSurfaceView == null) {
+                return;
+            }
+            SurfaceView glView = mSurfaceView;
+            mSharpenRenderer = null;
+            mSurfaceView = mPlainSurfaceView;
+            mPlainSurfaceView = null;
+            glView.getHolder().removeCallback(this);
+            removeView(glView);
+            // Showing it creates its surface, which starts the stream as usual
+            mSurfaceView.getHolder().addCallback(this);
+            mSurfaceView.setVisibility(VISIBLE);
+        });
+    }
+
     public void onDestroy() {
+        if (mSharpenRenderer != null) {
+            mSharpenRenderer.release();
+        }
         if (mStereoRenderer != null) {
             mStereoRenderer.onSurfaceDestroyed();
         }

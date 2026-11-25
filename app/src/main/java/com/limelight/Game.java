@@ -840,7 +840,9 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 .setEnableUltraLowLatency(prefConfig.enableUltraLowLatency)
                 .setBitrate(isMetered ? prefConfig.meteredBitrate: prefConfig.bitrate)
                 .setEnableSops(prefConfig.enableSops)
-                .setTunaSdr10Bit(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("tuna_10bit", true))
+                // Sharpening reads ordinary 8-bit frames, which every TV's graphics chip can draw
+                .setTunaSdr10Bit(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("tuna_10bit", true)
+                        && !com.limelight.utils.SharpenRenderer.appliesTo(prefConfig))
                 .enableLocalAudioPlayback(prefConfig.playHostAudio)
                 .setMaxPacketSize(1392)
                 .setRemoteConfiguration(StreamConfiguration.STREAM_CFG_AUTO) // NvConnection will perform LAN and VPN detection

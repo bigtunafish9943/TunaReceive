@@ -46,6 +46,14 @@
             android:title="@string/tuna_10bit"
             android:summary="@string/tuna_10bit_summary"
             app:iconSpaceReserved="false" />
+        <ListPreference
+            android:key="tuna_sharpen"
+            android:defaultValue="off"
+            android:title="@string/sharpen_title"
+            android:summary="@string/sharpen_summary"
+            android:entries="@array/sharpen_names"
+            android:entryValues="@array/sharpen_values"
+            app:iconSpaceReserved="false" />
         <CheckBoxPreference
             android:key="tuna_adaptive_size"
             android:defaultValue="true"
