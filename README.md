@@ -16,6 +16,16 @@ The app id is `com.tunastream.receive`, so it installs next to Moonlight and Art
 - **Connection test.** After pairing, it measures how fast the PC can send to the device and suggests a picture
   quality with headroom (needs TunaStream's `/tuna/speedtest`).
 - **Couch menu.** Hold the controller's Home button for the quick menu.
+- **A stream that fits itself to the connection.** Picture quality steps down as soon as frames start arriving
+  slowly, before any are lost, and back up when the connection clears; the picture size follows when quality has
+  dropped a long way (4K to 1440p or 1080p, stretched to fill the screen, switched between two frames). A stream
+  that drops reconnects by itself. Needs TunaStream 0.1.105 or later.
+- **TV game mode.** While a game is on screen the TV is asked to skip its picture processing (HDMI ALLM).
+- **How the last stream went**, in plain words, from the PC's menu; and the TV's view of the stream shown on
+  TunaStream's home page next to the PC's own figures.
+- **8BitDo Ultimate 2 Wireless through its 2.4G adapter**, with rumble, motion and battery level, driving the
+  menus as well as games.
+- **From the couch:** repair the PC's virtual screen, and receive files sent with TunaStream's *Send to device*.
 - **Stream stats in plain words**, and TunaStream's look: navy, cyan, the tuna mark.
 
 ## Build
