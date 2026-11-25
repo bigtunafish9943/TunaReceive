@@ -59,6 +59,9 @@ Needs TunaStream 0.1.105 or later; split-frame encoding and the rest of the PC's
   whichever one the PC uses; turn that off in Settings to pick its own.
 - **Updates itself** from this repo's releases: only the APK for the device, only when its SHA-256 matches
   GitHub's published checksum, and Android only installs it when it is signed with the same key.
+- **Game covers** on the tiles: TunaStream finds Steam's cover for each Steam game, and the pictures refresh by
+  themselves every few days.
+- **Controller battery** in the quick menu's title, and on TunaStream's home page.
 - **Stream stats in plain words.**
 
 ## Build
