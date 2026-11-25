@@ -869,6 +869,19 @@ public class NvHTTP {
         openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/file/done", "id=" + id);
     }
 
+    /** TunaStream only: send a screenshot (JPEG or PNG) to be kept on the PC. */
+    public boolean sendTunaScreenshot(byte[] image) throws IOException {
+        RequestBody body = RequestBody.create(image, okhttp3.MediaType.parse("image/jpeg"));
+        try (ResponseBody response = openHttpConnection(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/screenshot", null, body)) {
+            return response != null;
+        }
+    }
+
+    /** TunaStream only: save the last 30 seconds of the stream on the PC. JSON {"saved", "name", "reason"}. */
+    public String saveTunaReplay() throws IOException {
+        return openHttpConnectionToString(httpClientLongConnectNoReadTimeout, getHttpsUrl(true), "tuna/replay");
+    }
+
     /** TunaStream only: a sound from the PC's sound board. The caller reads and closes it. */
     public ResponseBody openTunaSound(String name) throws IOException {
         return openHttpConnection(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/sound",

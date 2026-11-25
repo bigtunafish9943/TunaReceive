@@ -1351,12 +1351,43 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
                     (short)0, (byte)0, (byte)0, (short)0, (short)0, (short)0, (short)0);
         }
         else {
+            inputMap = handleShortcuts(originalContext, inputMap);
             conn.sendControllerInput(controllerNumber, getActiveControllerMask(),
                     inputMap,
                     leftTrigger, rightTrigger,
                     leftStickX, leftStickY,
                     rightStickX, rightStickY);
         }
+    }
+
+    /**
+     * View + R1 saves a screenshot and View + L1 saves a replay. The two buttons are kept from the
+     * game until both are let go, so the game doesn't also see R1 or L1.
+     */
+    private int handleShortcuts(GenericControllerContext context, int inputMap) {
+        if (context.shortcutHeld != 0) {
+            if ((inputMap & context.shortcutHeld) == 0) {
+                context.shortcutHeld = 0;
+            } else {
+                return inputMap & ~context.shortcutHeld;
+            }
+        }
+        // Select + LB is the touchpad when a PlayStation controller is being emulated
+        boolean clickpad = context instanceof InputDeviceContext && ((InputDeviceContext) context).needsClickpadEmulation;
+        if ((inputMap & ControllerPacket.BACK_FLAG) == 0 || (clickpad && (inputMap & ControllerPacket.LB_FLAG) != 0)) {
+            return inputMap;
+        }
+        if ((inputMap & ControllerPacket.RB_FLAG) != 0) {
+            context.shortcutHeld = ControllerPacket.BACK_FLAG | ControllerPacket.RB_FLAG;
+            activityContext.runOnUiThread(gestures::takeScreenshot);
+            return inputMap & ~context.shortcutHeld;
+        }
+        if ((inputMap & ControllerPacket.LB_FLAG) != 0) {
+            context.shortcutHeld = ControllerPacket.BACK_FLAG | ControllerPacket.LB_FLAG;
+            activityContext.runOnUiThread(gestures::saveReplay);
+            return inputMap & ~context.shortcutHeld;
+        }
+        return inputMap;
     }
 
     private final int REMAP_IGNORE = -1;
@@ -3095,6 +3126,8 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
     class GenericControllerContext implements GameInputDevice{
         // When the Home (Guide) button went down, while we wait to see if it's held for the menu
         public long guideDownTime;
+        // Buttons of a shortcut (View + R1, View + L1) kept from the game until they are let go
+        public int shortcutHeld = 0;
 
         public int id;
         public boolean external;

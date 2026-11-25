@@ -225,4 +225,14 @@
     <string name="setup_done_again_detail">Go back to the first question.</string>
     <string name="setup_skipped">Setup skipped. You can run it any time from Settings.</string>
     <string name="report_game_slow">The game itself ran at about %1$d frames a second, below the %2$d this stream can carry, so the stream wasn\'t the limit. To fix it in the game: turn off V-Sync, turn on DLSS or FSR (Performance mode suits 4K) and frame generation if it has it, and set any frame-rate limit to %2$d.</string>
+    <string name="screenshot_saved_both">Screenshot saved here and on the PC</string>
+    <string name="screenshot_saved_here">Screenshot saved in Pictures/TunaReceive</string>
+    <string name="screenshot_failed">The screenshot couldn\'t be saved</string>
+    <string name="replay_saving">Saving the last 30 seconds on the PC…</string>
+    <string name="replay_saved">Replay saved on the PC, in Videos\\TunaStream</string>
+    <string name="replay_off">Instant replay is turned off on the PC. Turn it on in TunaStream\'s settings.</string>
+    <string name="replay_failed">The replay couldn\'t be saved</string>
+    <string name="replay_needs_newer_pc">Replays need a newer TunaStream on the PC</string>
+    <string name="game_menu_screenshot">Take a screenshot (View + R1)</string>
+    <string name="game_menu_replay">Save the last 30 seconds (View + L1)</string>
 </resources>

@@ -4380,6 +4380,17 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     }
 
     @Override
+    public void takeScreenshot() {
+        com.limelight.utils.Screenshots.take(this, streamContainer != null ? streamContainer.getSurfaceView() : null,
+                httpConn, appName);
+    }
+
+    @Override
+    public void saveReplay() {
+        com.limelight.utils.Replays.save(this, httpConn);
+    }
+
+    @Override
     public void showGameMenu(GameInputDevice device) {
         if(isOnExternalDisplay()) {
             ExternalDisplayControlActivity.toggleGameMenu();

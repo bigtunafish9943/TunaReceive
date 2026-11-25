@@ -294,6 +294,9 @@ public class GameMenu implements Game.GameMenuCallbacks {
 
         options.add(new MenuOption(getString(R.string.game_menu_quit_session), game::quit));
 
+        options.add(new MenuOption(getString(R.string.game_menu_screenshot), true, game::takeScreenshot));
+        options.add(new MenuOption(getString(R.string.game_menu_replay), true, game::saveReplay));
+
         options.add(new MenuOption(getString(R.string.game_menu_upload_clipboard), true,
                 () -> game.sendClipboard(true)));
 
