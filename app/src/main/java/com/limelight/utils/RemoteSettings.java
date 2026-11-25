@@ -80,6 +80,7 @@ public final class RemoteSettings {
             bool("sound", "checkbox_host_audio", R.string.title_checkbox_host_audio, false),
             bool("controller", "checkbox_enable_rumble", R.string.title_enable_rumble, true),
             bool("controller", "checkbox_flip_face_buttons", R.string.title_checkbox_flip_face_buttons, false),
+            bool("controller", "tuna_anti_drift", R.string.anti_drift_title, false),
             list("controller", Shortcuts.MENU, R.string.shortcut_menu_title, null, 0, 0),
             list("controller", Shortcuts.SCREENSHOT, R.string.shortcut_screenshot_title, null, 0, 0),
             list("controller", Shortcuts.REPLAY, R.string.shortcut_replay_title, null, 0, 0),
@@ -189,6 +190,7 @@ public final class RemoteSettings {
             case "checkbox_enable_hdr": return R.string.summary_enable_hdr;
             case "tuna_10bit": return R.string.tuna_10bit_summary;
             case "tuna_sharpen": return R.string.sharpen_summary;
+            case "tuna_anti_drift": return R.string.anti_drift_summary;
             case "checkbox_use_virtual_display": return R.string.summary_checkbox_use_virtual_display;
             case "list_audio_config": return R.string.summary_audio_config_list;
             case "checkbox_host_audio": return R.string.summary_checkbox_host_audio;

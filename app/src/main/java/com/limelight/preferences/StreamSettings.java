@@ -180,7 +180,7 @@ public class StreamSettings extends AppCompatActivity {
 
         /** The settings most people need; the rest appear with "Show all settings". */
         private static final java.util.Set<String> EVERYDAY_KEYS = new java.util.HashSet<>(Arrays.asList(
-                "tuna_run_setup", "tuna_controller_check", "tuna_checkup_before_game", "tuna_open_only_pc", "tuna_adaptive_quality", "tuna_adaptive_size", "tuna_10bit", "tuna_sharpen", "tuna_match_pc_theme", "tuna_theme", "tuna_tv_game_mode", "tuna_auto_reconnect", "tuna_show_expert", "tuna_check_updates",
+                "tuna_run_setup", "tuna_controller_check", "tuna_anti_drift", "tuna_checkup_before_game", "tuna_open_only_pc", "tuna_adaptive_quality", "tuna_adaptive_size", "tuna_10bit", "tuna_sharpen", "tuna_match_pc_theme", "tuna_theme", "tuna_tv_game_mode", "tuna_auto_reconnect", "tuna_show_expert", "tuna_check_updates",
                 "list_resolution", "list_fps", "seekbar_bitrate_kbps", "checkbox_use_virtual_display",
                 "checkbox_enable_hdr",
                 "list_audio_config",

@@ -397,6 +397,10 @@
     <string name="checkup_hdr_off">Turn off HDR: this TV doesn\'t report HDR, so colours would look washed out.</string>
     <string name="checkup_10bit_off">Turn off 10-bit picture: this device can\'t decode it, which can show a black or green picture.</string>
 
+    <!-- Anti-drift -->
+    <string name="anti_drift_title">Fix stick drift</string>
+    <string name="anti_drift_summary">For worn controllers whose character or camera creeps on its own. When a stick rests, its resting spot becomes the new centre. Small movements still count, unlike a bigger deadzone.</string>
+
     <!-- Sharpening -->
     <string name="sharpen_title">Sharpen the picture (experimental)</string>
     <string name="sharpen_summary">Makes streams below 4K look less soft on a big TV. Adds a little delay, and is skipped with HDR. Off unless you turn it on.</string>

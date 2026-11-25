@@ -23,6 +23,12 @@
             android:summary="@string/controller_check_summary"
             app:iconSpaceReserved="false" />
         <CheckBoxPreference
+            android:key="tuna_anti_drift"
+            android:defaultValue="false"
+            android:title="@string/anti_drift_title"
+            android:summary="@string/anti_drift_summary"
+            app:iconSpaceReserved="false" />
+        <CheckBoxPreference
             android:key="tuna_open_only_pc"
             android:defaultValue="true"
             android:title="@string/tuna_open_only_pc"

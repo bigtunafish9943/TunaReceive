@@ -120,6 +120,8 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
     private final NvConnection conn;
     private final Activity activityContext;
     private final double stickDeadzone;
+    // Settings > Anti-drift for worn sticks
+    private final boolean antiDrift;
     private final InputDeviceContext defaultContext = new InputDeviceContext();
     private final GameGestures gestures;
     private final InputManager inputManager;
@@ -189,6 +191,7 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
         }
 
         this.stickDeadzone = (double)deadzonePercentage / 100.0;
+        this.antiDrift = androidx.preference.PreferenceManager.getDefaultSharedPreferences(activityContext).getBoolean("tuna_anti_drift", false);
 
         // Initialize the default context for events with no device
         defaultContext.leftStickXAxis = MotionEvent.AXIS_X;
@@ -1788,25 +1791,45 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
         }
     }
 
+    /** One stick's position into the controller state, after anti-drift and the deadzone. */
+    private void setStick(GenericControllerContext context, boolean left, float x, float y) {
+        if (antiDrift) {
+            StickDrift drift = left ? context.leftDrift : context.rightDrift;
+            drift.feed(x, y, SystemClock.uptimeMillis());
+            x = drift.x();
+            y = drift.y();
+            if (left) {
+                context.leftDriftUsed = true;
+            } else {
+                context.rightDriftUsed = true;
+            }
+            // See whether the stick has come to rest once it has been still for a moment
+            mainThreadHandler.removeCallbacks(context.driftCheck);
+            mainThreadHandler.postDelayed(context.driftCheck, StickDrift.SETTLE_MS + 50);
+        }
+        applyStick(context, left, populateCachedVector(x, y));
+    }
+
+    private void applyStick(GenericControllerContext context, boolean left, Vector2d stick) {
+        handleDeadZone(stick, left ? context.leftStickDeadzoneRadius : context.rightStickDeadzoneRadius);
+        if (left) {
+            context.leftStickX = (short) (stick.getX() * 0x7FFE);
+            context.leftStickY = (short) (-stick.getY() * 0x7FFE);
+        } else {
+            context.rightStickX = (short) (stick.getX() * 0x7FFE);
+            context.rightStickY = (short) (-stick.getY() * 0x7FFE);
+        }
+    }
+
     private void handleAxisSet(InputDeviceContext context, float lsX, float lsY, float rsX,
                                float rsY, float lt, float rt, float hatX, float hatY) {
 
         if (context.leftStickXAxis != -1 && context.leftStickYAxis != -1) {
-            Vector2d leftStickVector = populateCachedVector(lsX, lsY);
-
-            handleDeadZone(leftStickVector, context.leftStickDeadzoneRadius);
-
-            context.leftStickX = (short) (leftStickVector.getX() * 0x7FFE);
-            context.leftStickY = (short) (-leftStickVector.getY() * 0x7FFE);
+            setStick(context, true, lsX, lsY);
         }
 
         if (context.rightStickXAxis != -1 && context.rightStickYAxis != -1) {
-            Vector2d rightStickVector = populateCachedVector(rsX, rsY);
-
-            handleDeadZone(rightStickVector, context.rightStickDeadzoneRadius);
-
-            context.rightStickX = (short) (rightStickVector.getX() * 0x7FFE);
-            context.rightStickY = (short) (-rightStickVector.getY() * 0x7FFE);
+            setStick(context, false, rsX, rsY);
         }
 
         if (context.leftTriggerAxis != -1 && context.rightTriggerAxis != -1) {
@@ -3078,19 +3101,8 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
             return;
         }
 
-        Vector2d leftStickVector = populateCachedVector(leftStickX, leftStickY);
-
-        handleDeadZone(leftStickVector, context.leftStickDeadzoneRadius);
-
-        context.leftStickX = (short) (leftStickVector.getX() * 0x7FFE);
-        context.leftStickY = (short) (-leftStickVector.getY() * 0x7FFE);
-
-        Vector2d rightStickVector = populateCachedVector(rightStickX, rightStickY);
-
-        handleDeadZone(rightStickVector, context.rightStickDeadzoneRadius);
-
-        context.rightStickX = (short) (rightStickVector.getX() * 0x7FFE);
-        context.rightStickY = (short) (-rightStickVector.getY() * 0x7FFE);
+        setStick(context, true, leftStickX, leftStickY);
+        setStick(context, false, rightStickX, rightStickY);
 
         if (leftTrigger <= context.triggerDeadzone) {
             leftTrigger = 0;
@@ -3176,6 +3188,31 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
     }
 
     class GenericControllerContext implements GameInputDevice{
+        // Anti-drift: each stick's learned resting position
+        final StickDrift leftDrift = new StickDrift();
+        final StickDrift rightDrift = new StickDrift();
+        boolean leftDriftUsed, rightDriftUsed;
+        final Runnable driftCheck = () -> {
+            long now = SystemClock.uptimeMillis();
+            boolean left = leftDriftUsed && leftDrift.settle(now);
+            boolean right = rightDriftUsed && rightDrift.settle(now);
+            if (left) {
+                // Its own vector: USB controllers report from another thread
+                Vector2d v = new Vector2d();
+                v.initialize(leftDrift.x(), leftDrift.y());
+                applyStick(this, true, v);
+            }
+            if (right) {
+                Vector2d v = new Vector2d();
+                v.initialize(rightDrift.x(), rightDrift.y());
+                applyStick(this, false, v);
+            }
+            if (left || right) {
+                // The stick is resting: tell the game it's centred
+                sendControllerInputPacket(this);
+            }
+        };
+
         // When the Home (Guide) button went down, while we wait to see if it's held for the menu
         public long guideDownTime;
         // Buttons of a shortcut (View + R1, View + L1) kept from the game until they are let go
