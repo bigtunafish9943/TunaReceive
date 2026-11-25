@@ -272,6 +272,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     private long connectedAtMs;
     private AdaptiveQuality adaptiveQuality;
     private StreamReport streamReport;
+    private com.limelight.utils.TvMessageBanner tvMessageBanner;
     public static final String EXTRA_PC_UUID = "UUID";
     public static final String EXTRA_PC_NAME = "PcName";
     public static final String EXTRA_APP_HDR = "HDR";
@@ -702,6 +703,9 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 prefConfig.width, prefConfig.height, Math.round(prefConfig.fps), prefConfig.bitrate,
                 getIntent().getIntExtra(EXTRA_TUNA_RECONNECT, 0));
         streamReport.setDecoder(decoderRenderer);
+        // Messages and sounds sent from TunaStream's home page
+        tvMessageBanner = new com.limelight.utils.TvMessageBanner(this, findViewById(R.id.tunaMessage), httpConn);
+        streamReport.setPcMessageListener(tvMessageBanner);
         decoderRenderer.setStreamHealthListener(streamReport);
         decoderRenderer.setBitrateSource(adaptiveQuality);
 
@@ -3488,6 +3492,9 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     }
 
     private void stopConnection() {
+        if (tvMessageBanner != null) {
+            tvMessageBanner.close();
+        }
         if (streamReport != null && streamReport.finish(this, decoderRenderer)) {
             // A rough game that was closed normally: say where to see what happened
             Toast.makeText(getApplicationContext(), R.string.report_hint, Toast.LENGTH_LONG).show();

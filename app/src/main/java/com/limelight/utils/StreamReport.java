@@ -49,6 +49,19 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
     private final ExecutorService sender = Executors.newSingleThreadExecutor();
     private volatile boolean hostListens = true;
 
+    /** Messages and sounds sent from TunaStream's home page, carried by the answers to the reports. */
+    public interface PcMessageListener {
+        /** Called on the report thread. text may be empty when only a sound was sent. */
+        void onPcMessage(long id, String text, String sound);
+    }
+
+    private volatile PcMessageListener messageListener;
+    private long lastMessageId;
+
+    public void setPcMessageListener(PcMessageListener listener) {
+        this.messageListener = listener;
+    }
+
     // The last few seconds, for the report to the PC
     private int recentSeconds;
     private float recentLoss;
@@ -147,9 +160,27 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
             sender.execute(() -> {
                 try {
                     String answer = http.sendTunaReport(query);
-                    JSONObject pc = answer != null ? new JSONObject(answer).optJSONObject("pc") : null;
+                    JSONObject json = answer != null ? new JSONObject(answer) : null;
+                    JSONObject pc = json != null ? json.optJSONObject("pc") : null;
                     if (pc != null) {
                         keepPc(pc);
+                    }
+                    org.json.JSONArray messages = json != null ? json.optJSONArray("messages") : null;
+                    PcMessageListener listener = messageListener;
+                    if (messages != null && listener != null) {
+                        for (int i = 0; i < messages.length(); i++) {
+                            JSONObject m = messages.optJSONObject(i);
+                            if (m == null) {
+                                continue;
+                            }
+                            long id = m.optLong("id", 0);
+                            // Shown once each, even if the PC sends one again
+                            if (id != 0 && id <= lastMessageId) {
+                                continue;
+                            }
+                            lastMessageId = Math.max(lastMessageId, id);
+                            listener.onPcMessage(id, m.optString("text", ""), m.optString("sound", ""));
+                        }
                     }
                 } catch (FileNotFoundException e) {
                     hostListens = false;

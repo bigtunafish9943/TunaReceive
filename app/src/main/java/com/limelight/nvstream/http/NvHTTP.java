@@ -869,6 +869,12 @@ public class NvHTTP {
         openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/file/done", "id=" + id);
     }
 
+    /** TunaStream only: a sound from the PC's sound board. The caller reads and closes it. */
+    public ResponseBody openTunaSound(String name) throws IOException {
+        return openHttpConnection(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/sound",
+                "name=" + java.net.URLEncoder.encode(name, "UTF-8"), null);
+    }
+
     private static long readAndCount(ResponseBody body) throws IOException {
         long total = 0;
         try (InputStream in = body.byteStream()) {

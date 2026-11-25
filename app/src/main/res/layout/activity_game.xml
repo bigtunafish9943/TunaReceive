@@ -50,6 +50,29 @@
         android:preferKeepClear="true"
         android:visibility="gone" />
 
+    <!-- Messages sent from TunaStream's home page -->
+    <TextView
+        android:id="@+id/tunaMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="48dp"
+        android:maxWidth="760dp"
+        android:paddingLeft="28dp"
+        android:paddingRight="28dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:background="@drawable/ts_tv_message_bg"
+        android:drawableLeft="@drawable/ic_tv_message"
+        android:drawablePadding="16dp"
+        android:gravity="center_vertical"
+        android:textColor="#FFFFFF"
+        android:textSize="26sp"
+        android:elevation="8dp"
+        android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/performanceOverlay"
         android:orientation="vertical"
