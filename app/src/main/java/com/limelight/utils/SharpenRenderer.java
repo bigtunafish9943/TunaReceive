@@ -78,7 +78,7 @@ public class SharpenRenderer implements GLSurfaceView.Renderer, SurfaceTexture.O
     private final FloatBuffer tex;
     private final float[] st = new float[16];
     private final Object lock = new Object();
-    private boolean frameWaiting;
+    private int framesWaiting;
     private boolean failed;
 
     private int program;
@@ -165,7 +165,7 @@ public class SharpenRenderer implements GLSurfaceView.Renderer, SurfaceTexture.O
     @Override
     public void onFrameAvailable(SurfaceTexture st) {
         synchronized (lock) {
-            frameWaiting = true;
+            framesWaiting++;
         }
         view.requestRender();
     }
@@ -175,14 +175,19 @@ public class SharpenRenderer implements GLSurfaceView.Renderer, SurfaceTexture.O
         if (failed || surfaceTexture == null) {
             return;
         }
+        int waiting;
         synchronized (lock) {
-            if (!frameWaiting) {
-                return;
-            }
-            frameWaiting = false;
+            waiting = framesWaiting;
+            framesWaiting = 0;
+        }
+        if (waiting == 0) {
+            return;
         }
         try {
-            surfaceTexture.updateTexImage();
+            // Several frames since the last draw: skip to the newest so the picture never lags
+            for (int i = 0; i < waiting; i++) {
+                surfaceTexture.updateTexImage();
+            }
         } catch (RuntimeException e) {
             return;
         }
