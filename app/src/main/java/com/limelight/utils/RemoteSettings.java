@@ -107,6 +107,15 @@ public final class RemoteSettings {
             for (String combo : Shortcuts.CHOICES) {
                 out.add(new String[]{combo, Shortcuts.label(a, combo)});
             }
+            // A combination pressed in on the TV (any buttons) is a choice too
+            String current = Shortcuts.get(a, item.key);
+            boolean listed = false;
+            for (String[] c : out) {
+                listed |= c[0].equals(current);
+            }
+            if (!listed) {
+                out.add(new String[]{current, Shortcuts.label(a, current)});
+            }
             return out;
         }
         String[] names = a.getResources().getStringArray(item.names);

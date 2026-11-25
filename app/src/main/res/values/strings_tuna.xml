@@ -319,7 +319,7 @@
 
     <!-- Controller shortcuts -->
     <string name="shortcuts_category">Controller shortcuts</string>
-    <string name="shortcuts_note">Hold the buttons together during a stream. The game doesn\'t see the buttons of a shortcut.</string>
+    <string name="shortcuts_note">Pick a shortcut to press in new buttons on your controller (any buttons, triggers and paddles included), put it back to how it came, or turn it off. The game doesn\'t see the buttons of a shortcut while it\'s held.</string>
     <string name="shortcut_menu_title">Quick menu</string>
     <string name="shortcut_menu_summary">%1$s</string>
     <string name="shortcut_screenshot_title">Screenshot</string>
@@ -352,4 +352,20 @@
     <!-- The name in the headers, split so "Receive" can wear the accent colour -->
     <string name="brand_tuna" translatable="false">Tuna</string>
     <string name="brand_receive" translatable="false">Receive</string>
+
+    <!-- Pressing in a controller shortcut -->
+    <string name="shortcut_choose_title">%1$s: %2$s</string>
+    <string name="shortcut_record">Press new buttons</string>
+    <string name="shortcut_reset">Back to how it came (%1$s)</string>
+    <string name="shortcut_turn_off">Turn off</string>
+    <string name="shortcut_record_hint">Hold the buttons you want together on your controller, then let go.</string>
+    <string name="shortcut_record_cancel">Press Back on the remote, or wait, to leave it as it is.</string>
+    <string name="shortcut_saved">%1$s: %2$s</string>
+    <string name="shortcut_moved">%1$s was another shortcut\'s buttons; that one is off now.</string>
+    <string name="shortcut_problem_unknown">That button can\'t be used for a shortcut. Try others.</string>
+    <string name="shortcut_problem_one_button">Games would lose that button. Hold two or more together, or use a button games don\'t use, such as Share, Home or a paddle.</string>
+    <string name="shortcut_problem_home">Home opens the quick menu when held. Pick other buttons, or change the quick menu shortcut first.</string>
+    <string name="button_home">Home</string>
+    <string name="button_share">Share</string>
+    <string name="button_touchpad">Touchpad</string>
 </resources>

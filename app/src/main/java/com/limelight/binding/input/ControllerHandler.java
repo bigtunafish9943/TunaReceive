@@ -1367,7 +1367,19 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
                     (short)0, (byte)0, (byte)0, (short)0, (short)0, (short)0, (short)0);
         }
         else {
-            inputMap = handleShortcuts(originalContext, inputMap);
+            // The triggers count as buttons for shortcuts (pressed past halfway)
+            int withTriggers = inputMap
+                    | ((leftTrigger & 0xFF) > 0x7F ? com.limelight.utils.Shortcuts.LT_FLAG : 0)
+                    | ((rightTrigger & 0xFF) > 0x7F ? com.limelight.utils.Shortcuts.RT_FLAG : 0);
+            int kept = handleShortcuts(originalContext, withTriggers);
+            // A trigger that's part of a shortcut being held is kept from the game too
+            if ((originalContext.shortcutHeld & com.limelight.utils.Shortcuts.LT_FLAG) != 0) {
+                leftTrigger = 0;
+            }
+            if ((originalContext.shortcutHeld & com.limelight.utils.Shortcuts.RT_FLAG) != 0) {
+                rightTrigger = 0;
+            }
+            inputMap = kept & ~(com.limelight.utils.Shortcuts.LT_FLAG | com.limelight.utils.Shortcuts.RT_FLAG);
             conn.sendControllerInput(controllerNumber, getActiveControllerMask(),
                     inputMap,
                     leftTrigger, rightTrigger,
