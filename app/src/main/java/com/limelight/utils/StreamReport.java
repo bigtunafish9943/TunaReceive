@@ -71,6 +71,8 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
 
     // The PC's side of the stream, from its answers to the reports (newer TunaStream only)
     private int pcSamples;
+    private int gameSlowSamples;
+    private double gameSlowFpsSum;
     private double pcMsSum;
     private double pcMsWorst;
     private double pcSkippedSum;
@@ -240,6 +242,12 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
         pcSkippedSum += pc.optDouble("skippedPerSec", 0);
         fecSum += pc.optInt("fecPercent", 0);
         pcSplit |= pc.optBoolean("splitFrames", false);
+        // The game itself drawing too few frames: the PC had none to spare
+        double pcFps = pc.optDouble("fps", 0);
+        if (fps >= 60 && pcFps >= 20 && pcFps < 59 && pc.optDouble("skippedPerSec", 0) < 1) {
+            gameSlowSamples++;
+            gameSlowFpsSum += pcFps;
+        }
     }
 
     /** The stream dropped with this error, rather than being closed. */
@@ -296,6 +304,9 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
                 r.put("pcSkipped", pcSkippedSum / pcSamples);
                 r.put("fecPercent", fecSum / pcSamples);
                 r.put("pcSplit", pcSplit);
+                if (gameSlowSamples * 2 >= pcSamples && gameSlowSamples >= 6) {
+                    r.put("gameFps", gameSlowFpsSum / gameSlowSamples);
+                }
             }
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -385,6 +396,10 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
         }
         if (r.has("pcMs") && r.optDouble("pcMs") > 800.0 / fps) {
             sb.append(c.getString(R.string.report_pc_slow, Math.round(r.optDouble("pcMs")))).append("\n\n");
+            anything = true;
+        }
+        if (r.has("gameFps")) {
+            sb.append(c.getString(R.string.report_game_slow, Math.round(r.optDouble("gameFps")), fps)).append("\n\n");
             anything = true;
         }
         if (decodeMs > 1000 / fps) {
