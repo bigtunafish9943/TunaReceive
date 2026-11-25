@@ -103,16 +103,7 @@
 
     <!-- Framework (android.app.AlertDialog) pop-ups -->
     <style name="TunaDialog" parent="android:Theme.Material.Dialog.Alert">
-        <!-- Theme colours, Deep Sea by default; a chosen theme is laid over these -->
-        <item name="tsNavy">#041431</item>
-        <item name="tsDeep">#0A2350</item>
-        <item name="tsSurface">#081A3A</item>
-        <item name="tsSurfaceBorder">#142F58</item>
-        <item name="tsAccent">#0CC8F6</item>
-        <item name="tsAccentSoft">#8BE6FC</item>
-        <item name="tsBlue">#0B74D1</item>
-        <item name="tsText">#EEF5FB</item>
-        <item name="tsTextSecondary">#9FB3CC</item>
+        <!-- No theme colours here: a pop-up takes them from the screen it opens over, so it wears the same theme -->
         <item name="android:windowBackground">@drawable/ts_dialog_bg</item>
         <item name="android:colorBackground">@color/ts_surface</item>
         <item name="android:textColorPrimary">@color/ts_text</item>
@@ -126,16 +117,7 @@
 
     <!-- AndroidX and Material pop-ups -->
     <style name="TunaDialogCompat" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <!-- Theme colours, Deep Sea by default; a chosen theme is laid over these -->
-        <item name="tsNavy">#041431</item>
-        <item name="tsDeep">#0A2350</item>
-        <item name="tsSurface">#081A3A</item>
-        <item name="tsSurfaceBorder">#142F58</item>
-        <item name="tsAccent">#0CC8F6</item>
-        <item name="tsAccentSoft">#8BE6FC</item>
-        <item name="tsBlue">#0B74D1</item>
-        <item name="tsText">#EEF5FB</item>
-        <item name="tsTextSecondary">#9FB3CC</item>
+        <!-- No theme colours here: a pop-up takes them from the screen it opens over, so it wears the same theme -->
         <item name="android:windowBackground">@drawable/ts_dialog_bg</item>
         <item name="android:colorBackground">@color/ts_surface</item>
         <item name="colorSurface">@color/ts_surface</item>
