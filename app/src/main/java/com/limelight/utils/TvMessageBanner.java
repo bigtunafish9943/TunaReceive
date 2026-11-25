@@ -60,6 +60,16 @@ public final class TvMessageBanner implements StreamReport.PcMessageListener {
         }
     }
 
+    /** Shows a message from TunaReceive itself, such as a tip for this game. */
+    public void showLocal(String text) {
+        activity.runOnUiThread(() -> {
+            waiting.add(text);
+            if (!showing) {
+                showNext();
+            }
+        });
+    }
+
     private void showNext() {
         if (closed) {
             return;

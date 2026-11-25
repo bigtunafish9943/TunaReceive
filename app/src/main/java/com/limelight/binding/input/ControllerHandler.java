@@ -567,6 +567,16 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
         LimeLog.info("Assigned as controller "+context.controllerNumber);
         context.assignedControllerNumber = true;
 
+        // Say which player each controller is, so two people on the couch know which is theirs
+        if (context.reservedControllerNumber && context instanceof InputDeviceContext) {
+            final int player = context.controllerNumber + 1;
+            String name = ((InputDeviceContext) context).name;
+            final String shown = name == null || name.trim().isEmpty()
+                    ? activityContext.getString(R.string.player_joined_unnamed, player)
+                    : activityContext.getString(R.string.player_joined, player, name.trim());
+            activityContext.runOnUiThread(() -> android.widget.Toast.makeText(activityContext, shown, android.widget.Toast.LENGTH_SHORT).show());
+        }
+
         // Report attributes of this new controller to the host
         context.sendControllerArrival();
     }

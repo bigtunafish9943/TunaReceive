@@ -706,6 +706,15 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         // Messages and sounds sent from TunaStream's home page
         tvMessageBanner = new com.limelight.utils.TvMessageBanner(this, findViewById(R.id.tunaMessage), httpConn);
         streamReport.setPcMessageListener(tvMessageBanner);
+        // A suggestion for this game from last time, a few seconds in; nothing is changed
+        final String tip = StreamReport.tipFor(this, pcName, appName);
+        if (tip != null) {
+            streamContainer.postDelayed(() -> {
+                if (tvMessageBanner != null) {
+                    tvMessageBanner.showLocal(tip);
+                }
+            }, 6000);
+        }
         decoderRenderer.setStreamHealthListener(streamReport);
         decoderRenderer.setBitrateSource(adaptiveQuality);
 

@@ -200,6 +200,21 @@ public class AppGridAdapter extends GenericGridAdapter<AppView.AppObject> {
             gridMask.setBackgroundColor(0x00000000);
         }
 
+        // The game running now, or else the one played last, says so: the quickest way back in
+        TextView badge = parentView.findViewById(R.id.grid_badge);
+        if (badge != null) {
+            boolean first = !itemList.isEmpty() && itemList.get(0) == obj;
+            if (obj.isRunning) {
+                badge.setText(R.string.grid_badge_playing);
+                badge.setVisibility(View.VISIBLE);
+            } else if (first && RecentGames.lastPlayed(context, computer.uuid, obj.app.getAppId()) > 0) {
+                badge.setText(R.string.grid_badge_continue);
+                badge.setVisibility(View.VISIBLE);
+            } else {
+                badge.setVisibility(View.GONE);
+            }
+        }
+
         if (obj.isHidden) {
             parentView.setAlpha(0.40f);
         }

@@ -317,11 +317,61 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
                 kept.put(old.get(i));
             }
             prefs.edit().putString(PREF, kept.toString()).apply();
+            keepGameTip(prefs, r);
         } catch (JSONException e) {
             LimeLog.warning("Couldn't save the stream report: " + e);
             return false;
         }
         return troubled;
+    }
+
+    private static final String TIPS_PREF = "tuna_game_tips";
+
+    /** Remembers, per game, what the last long enough stream of it suggests, for next time. */
+    private static void keepGameTip(SharedPreferences prefs, JSONObject r) throws JSONException {
+        int seconds = r.optInt("seconds");
+        String app = r.optString("app");
+        if (seconds < 120 || app.isEmpty()) {
+            return;
+        }
+        JSONObject tips = new JSONObject(prefs.getString(TIPS_PREF, "{}"));
+        JSONObject t = new JSONObject();
+        t.put("at", r.optLong("at"));
+        t.put("width", r.optInt("width"));
+        t.put("fps", r.optInt("fps"));
+        if (r.has("gameFps")) {
+            t.put("gameFps", r.optDouble("gameFps"));
+        }
+        t.put("smallerShare", r.optInt("smallerSeconds") * 100 / seconds);
+        t.put("reducedShare", r.optInt("reducedSeconds") * 100 / seconds);
+        tips.put(r.optString("pc") + "|" + app, t);
+        prefs.edit().putString(TIPS_PREF, tips.toString()).apply();
+    }
+
+    /**
+     * A suggestion for this game from how it went last time, or null when it went fine. Only a
+     * suggestion: nothing is changed.
+     */
+    public static String tipFor(Context c, String pcName, String appName) {
+        try {
+            JSONObject tips = new JSONObject(PreferenceManager.getDefaultSharedPreferences(c).getString(TIPS_PREF, "{}"));
+            JSONObject t = tips.optJSONObject(pcName + "|" + appName);
+            if (t == null) {
+                return null;
+            }
+            if (t.has("gameFps")) {
+                return c.getString(R.string.tip_game_fps, appName, Math.round(t.optDouble("gameFps")), t.optInt("fps"));
+            }
+            if (t.optInt("width") >= 3840 && t.optInt("smallerShare") >= 20) {
+                return c.getString(R.string.tip_smaller, appName, t.optInt("smallerShare"));
+            }
+            if (t.optInt("reducedShare") >= 30) {
+                return c.getString(R.string.tip_reduced, appName, t.optInt("reducedShare"));
+            }
+        } catch (JSONException e) {
+            LimeLog.warning("Couldn't read the game tips: " + e);
+        }
+        return null;
     }
 
     /** Shows the most recent report, from the PC's menu, with a button to the one before. */

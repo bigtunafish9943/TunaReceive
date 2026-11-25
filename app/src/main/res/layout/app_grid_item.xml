@@ -25,6 +25,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <!-- "Continue" on the game played last, "Playing" on the one running -->
+            <TextView
+                android:id="@+id/grid_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="8dp"
+                android:paddingLeft="9dp"
+                android:paddingRight="9dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:background="@drawable/ts_grid_badge_bg"
+                android:textColor="#04121F"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:elevation="2dp"
+                android:visibility="gone" />
+
             <ImageView
                 android:id="@+id/grid_overlay"
                 android:layout_width="50dp"
