@@ -972,6 +972,7 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
         if (managerBinder != null && details.pairState == PairState.PAIRED) {
             FileReceiver.check(this, details, managerBinder.getUniqueId());
             TunaTheme.fromPc(this, details.tunaTheme);
+            TunaTheme.artFromPc(this, details.uuid, details.tunaArt);
         }
     }
 

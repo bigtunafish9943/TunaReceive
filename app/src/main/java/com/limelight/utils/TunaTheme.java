@@ -140,6 +140,19 @@ public final class TunaTheme {
      * A PC reported its theme. Kept, and when TunaReceive is matching the PC and the theme is
      * new, the showing screen is rebuilt in it.
      */
+    /** The PC's own app pictures changed (a TunaStream update): fetch every picture again. */
+    public static void artFromPc(Activity showing, String pcUuid, String art) {
+        if (art == null || pcUuid == null) {
+            return;
+        }
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(showing);
+        String key = "tuna_pc_art_" + pcUuid;
+        if (!art.equals(prefs.getString(key, null))) {
+            prefs.edit().putString(key, art).apply();
+            com.limelight.grid.assets.DiskAssetLoader.refreshAll(showing);
+        }
+    }
+
     public static void fromPc(Activity showing, String id) {
         if (id == null || styleOf(id) == 0) {
             return;

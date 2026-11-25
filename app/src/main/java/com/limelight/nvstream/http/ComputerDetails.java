@@ -84,6 +84,8 @@ public class ComputerDetails {
 
     // TunaStream only: the theme chosen on the PC, or null
     public String tunaTheme;
+    // Changes when TunaStream's own app pictures change (TunaStream only)
+    public String tunaArt;
 
     // VDisplay info
     public boolean vDisplaySupported = false;
@@ -166,6 +168,9 @@ public class ComputerDetails {
 
         this.vDisplayDriverReady = details.vDisplayDriverReady;
         this.vDisplaySupported = details.vDisplaySupported;
+        if (details.tunaArt != null) {
+            this.tunaArt = details.tunaArt;
+        }
         if (details.tunaTheme != null) {
             this.tunaTheme = details.tunaTheme;
         }

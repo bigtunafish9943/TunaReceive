@@ -36,6 +36,8 @@ public class DiskAssetLoader {
     public static void refreshAll(Context context) {
         android.preference.PreferenceManager.getDefaultSharedPreferences(context).edit()
                 .putLong(PREF_REFRESH_SINCE, System.currentTimeMillis()).apply();
+        // ...and forget the ones kept in memory
+        new MemoryAssetLoader().clearCache();
     }
     private final long refreshSince;
 
