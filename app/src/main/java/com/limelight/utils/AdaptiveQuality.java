@@ -120,7 +120,7 @@ public final class AdaptiveQuality implements MediaCodecDecoderRenderer.StreamHe
     }
 
     @Override
-    public void onStreamHealth(float lossPct, float receivedFps, float slowFramePct) {
+    public void onStreamHealth(float lossPct, float receivedFps, float slowFramePct, float decodeMs) {
         if (disabled || http == null || startKbps <= 0) {
             return;
         }

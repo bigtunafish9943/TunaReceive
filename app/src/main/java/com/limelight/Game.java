@@ -698,9 +698,10 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                     adjustSize ? () -> decoderRenderer != null && decoderRenderer.canChangePictureSize() : null);
         }
         // How the stream went, kept for the PC's menu afterwards
-        streamReport = new StreamReport(adaptiveQuality, adaptiveQuality, pcName, appName,
+        streamReport = new StreamReport(httpConn, adaptiveQuality, adaptiveQuality, pcName, appName,
                 prefConfig.width, prefConfig.height, Math.round(prefConfig.fps), prefConfig.bitrate,
                 getIntent().getIntExtra(EXTRA_TUNA_RECONNECT, 0));
+        streamReport.setDecoder(decoderRenderer);
         decoderRenderer.setStreamHealthListener(streamReport);
         decoderRenderer.setBitrateSource(adaptiveQuality);
 

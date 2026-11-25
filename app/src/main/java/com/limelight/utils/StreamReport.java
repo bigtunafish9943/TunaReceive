@@ -10,13 +10,19 @@ import androidx.preference.PreferenceManager;
 import com.limelight.LimeLog;
 import com.limelight.R;
 import com.limelight.binding.video.MediaCodecDecoderRenderer;
+import com.limelight.nvstream.http.NvHTTP;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 
 /**
  * How the last stream went, in plain words. While a stream runs this tallies, once a second, how
@@ -25,6 +31,10 @@ import java.util.Date;
  * afterwards, instead of watching numbers on top of the game.
  *
  * It sits between the decoder and AdaptiveQuality, passing every reading on unchanged.
+ *
+ * Every five seconds it also tells TunaStream what this device sees, so the PC's stream health
+ * shows both ends side by side. A PC whose TunaStream doesn't know about that answers "not
+ * found", and it stops sending.
  */
 public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealthListener {
     private static final String PREF = "tuna_stream_reports";
@@ -32,7 +42,20 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
     // A second counts as reduced quality when the bitrate is below this share of the setting
     private static final double REDUCED_SHARE = 0.95;
 
+    private static final int REPORT_EVERY_SECONDS = 5;
+
     private final MediaCodecDecoderRenderer.StreamHealthListener next;
+    private final NvHTTP http;
+    private final ExecutorService sender = Executors.newSingleThreadExecutor();
+    private volatile boolean hostListens = true;
+
+    // The last few seconds, for the report to the PC
+    private int recentSeconds;
+    private float recentLoss;
+    private float recentSlow;
+    private float recentFps;
+    private float recentDecode;
+    private volatile MediaCodecDecoderRenderer decoder;
     private final AdaptiveQuality quality;
     private final long startedAtWallMs = System.currentTimeMillis();
     private final String pcName;
@@ -62,9 +85,10 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
     private volatile String ending;
     private volatile boolean finished;
 
-    public StreamReport(MediaCodecDecoderRenderer.StreamHealthListener next, AdaptiveQuality quality,
+    public StreamReport(NvHTTP http, MediaCodecDecoderRenderer.StreamHealthListener next, AdaptiveQuality quality,
                         String pcName, String appName, int width, int height, int fps, int settingKbps,
                         int reconnectAttempt) {
+        this.http = http;
         this.next = next;
         this.quality = quality;
         this.pcName = pcName != null ? pcName : "";
@@ -79,11 +103,51 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
     }
 
     @Override
-    public void onStreamHealth(float lossPct, float receivedFps, float slowFramePct) {
+    public void onStreamHealth(float lossPct, float receivedFps, float slowFramePct, float decodeMs) {
         if (next != null) {
-            next.onStreamHealth(lossPct, receivedFps, slowFramePct);
+            next.onStreamHealth(lossPct, receivedFps, slowFramePct, decodeMs);
         }
         tally(lossPct, slowFramePct);
+        tellPc(lossPct, receivedFps, slowFramePct, decodeMs);
+    }
+
+    /** The decoder whose delay figures go into the reports to the PC. */
+    public void setDecoder(MediaCodecDecoderRenderer decoder) {
+        this.decoder = decoder;
+    }
+
+    private void tellPc(float lossPct, float receivedFps, float slowFramePct, float decodeMs) {
+        if (http == null || !hostListens || finished) {
+            return;
+        }
+        recentSeconds++;
+        recentLoss += lossPct;
+        recentSlow += slowFramePct;
+        recentFps += receivedFps;
+        recentDecode += decodeMs;
+        if (recentSeconds < REPORT_EVERY_SECONDS) {
+            return;
+        }
+        final String query = String.format(Locale.ROOT,
+                "loss=%.2f&slow=%.1f&fps=%.1f&decode=%.2f&latency=%d&kbps=%d&setting=%d",
+                recentLoss / recentSeconds, recentSlow / recentSeconds, recentFps / recentSeconds,
+                recentDecode / recentSeconds, decoder != null ? decoder.getAverageEndToEndLatency() : 0,
+                quality != null ? quality.currentKbps() : settingKbps, settingKbps);
+        recentSeconds = 0;
+        recentLoss = recentSlow = recentFps = recentDecode = 0;
+        try {
+            sender.execute(() -> {
+                try {
+                    http.sendTunaReport(query);
+                } catch (FileNotFoundException e) {
+                    hostListens = false;
+                } catch (Exception e) {
+                    // A missed report doesn't matter; the next one comes in five seconds
+                }
+            });
+        } catch (RejectedExecutionException e) {
+            // The stream is closing
+        }
     }
 
     private synchronized void tally(float lossPct, float slowFramePct) {
@@ -134,6 +198,7 @@ public final class StreamReport implements MediaCodecDecoderRenderer.StreamHealt
             return;
         }
         finished = true;
+        sender.shutdownNow();
         if (seconds < 10) {
             // A stream that never got going says nothing useful
             return;

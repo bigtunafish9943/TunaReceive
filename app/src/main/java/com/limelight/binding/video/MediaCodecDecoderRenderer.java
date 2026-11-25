@@ -197,8 +197,9 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
          * @param receivedFps frames received in the last second
          * @param slowFramePct share of frames that took most of a frame interval to arrive: the
          *                     connection is nearly full, though nothing has been lost yet
+         * @param decodeMs average time to decode a frame in the last second
          */
-        void onStreamHealth(float lossPct, float receivedFps, float slowFramePct);
+        void onStreamHealth(float lossPct, float receivedFps, float slowFramePct, float decodeMs);
     }
 
     /** Where the bitrate being asked of the PC right now comes from, when it adjusts itself. */
@@ -1864,7 +1865,9 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
                 VideoStatsFps windowFps = activeWindowVideoStats.getFps();
                 float lossPct = (float) activeWindowVideoStats.framesLost / activeWindowVideoStats.totalFrames * 100;
                 float slowPct = healthFrames > 0 ? (float) healthSlowFrames / healthFrames * 100 : 0;
-                healthListener.onStreamHealth(lossPct, windowFps.receivedFps, slowPct);
+                float windowDecodeMs = activeWindowVideoStats.totalFramesReceived > 0
+                        ? (float) activeWindowVideoStats.decoderTimeMs / activeWindowVideoStats.totalFramesReceived : 0;
+                healthListener.onStreamHealth(lossPct, windowFps.receivedFps, slowPct, windowDecodeMs);
             }
             healthFrames = 0;
             healthSlowFrames = 0;
