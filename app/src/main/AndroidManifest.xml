@@ -66,6 +66,12 @@
             android:enabled="true"
             android:exported="true">
         </provider>
+        <!-- The games on each PC, read only, for home screens such as TunaHome -->
+        <provider
+            android:name=".GamesProvider"
+            android:authorities="games.${applicationId}"
+            android:enabled="true"
+            android:exported="true" />
         <receiver android:name=".StartExternalDisplayControlReceiver" />
         <receiver
             android:name=".utils.TunaUpdater$InstallResultReceiver"

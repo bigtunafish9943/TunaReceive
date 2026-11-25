@@ -80,6 +80,9 @@ Works with TunaStream; everything above needs TunaStream 1.0. Split-frame encodi
   appears a few seconds into the next stream. Nothing is changed for you.
 - **Screen saver.** Your game covers drifting by, with the time. Settings > Screen saver opens the TV's screen
   saver settings, where you pick TunaReceive game covers.
+- **Your games on TunaHome.** [TunaHome](https://github.com/bigtunafish9943/TunaHome) can show your PC's games
+  as a row on the TV's home screen, box art and all, most recently played first; select one to start it. Hidden
+  games stay hidden.
 - **Nine colour themes**, the seasonal ones (Halloween, Autumn, Winter, Summer) included, following the PC or
   picked here.
 
