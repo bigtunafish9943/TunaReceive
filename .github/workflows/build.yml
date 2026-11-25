@@ -128,6 +128,10 @@ jobs:
           tag_name: v0.1.${{ github.run_number }}
           name: TunaReceive 0.1.${{ github.run_number }}
           files: out/*.apk
-          generate_release_notes: true
+          # GitHub's generated notes started failing with server errors (500) on this
+          # repository, so the notes are the commit's own message instead
+          body: ${{ github.event.head_commit.message }}
+          target_commitish: ${{ github.sha }}
+          make_latest: true
           draft: false
           prerelease: false
