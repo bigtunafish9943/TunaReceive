@@ -432,4 +432,10 @@
     <!-- What's new after an update -->
     <string name="whatsnew_title">Novedades de TunaReceive %1$s</string>
     <string name="whatsnew_ok">Entendido</string>
+    <string name="watch_menu">Ver</string>
+    <string name="watch_connecting">Conectando con %1$s…</string>
+    <string name="watch_waiting">Nadie está jugando en otra tele ahora y el PC no comparte su pantalla. Se empieza a ver solo cuando alguien juegue.</string>
+    <string name="watch_ended">La transmisión terminó. Se vuelve a ver solo cuando alguien juegue.</string>
+    <string name="watch_failed">No se pudo conectar con el PC para ver.</string>
+    <string name="watch_not_available">Para ver, el PC necesita la última versión de TunaStream.</string>
 </resources>

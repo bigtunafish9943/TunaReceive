@@ -444,4 +444,10 @@
     <!-- What's new after an update -->
     <string name="whatsnew_title">What\'s new in TunaReceive %1$s</string>
     <string name="whatsnew_ok">Got it</string>
+    <string name="watch_menu">Watch</string>
+    <string name="watch_connecting">Connecting to %1$s…</string>
+    <string name="watch_waiting">Nobody is playing on another TV right now, and the PC isn\'t sharing its screen. Watching starts by itself when someone plays.</string>
+    <string name="watch_ended">The stream ended. Watching starts again by itself when someone plays.</string>
+    <string name="watch_failed">Couldn\'t reach the PC to watch.</string>
+    <string name="watch_not_available">Watching needs the latest TunaStream on the PC.</string>
 </resources>

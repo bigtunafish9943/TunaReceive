@@ -155,6 +155,7 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
     private final static int BACKUP_ID = 25;
     private final static int RESTORE_ID = 26;
     private final static int WEEK_ID = 27;
+    private final static int WATCH_ID = 28;
 
     private void initializeViews() {
         setContentView(R.layout.activity_pc_view);
@@ -496,6 +497,7 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
             menu.add(Menu.NONE, REPAIR_SCREEN_ID, 4, getResources().getString(R.string.repair_menu));
             menu.add(Menu.NONE, LAST_STREAM_ID, 4, getResources().getString(R.string.report_menu));
             menu.add(Menu.NONE, WEEK_ID, 4, getResources().getString(R.string.week_menu));
+            menu.add(Menu.NONE, WATCH_ID, 4, getResources().getString(R.string.watch_menu));
             menu.add(Menu.NONE, BACKUP_ID, 4, getResources().getString(R.string.backup_menu));
             menu.add(Menu.NONE, RESTORE_ID, 4, getResources().getString(R.string.restore_menu));
         }
@@ -865,6 +867,26 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
 
             case LAST_STREAM_ID:
                 StreamReport.show(PcView.this);
+                return true;
+
+            case WATCH_ID:
+                if (managerBinder != null) {
+                    try {
+                        ComputerDetails.AddressTuple address = ServerHelper.getCurrentAddressFromComputer(computer.details);
+                        Intent watch = new Intent(PcView.this, WatchActivity.class);
+                        watch.putExtra(WatchActivity.EXTRA_HOST, address.address);
+                        watch.putExtra(WatchActivity.EXTRA_PORT, address.port);
+                        watch.putExtra(WatchActivity.EXTRA_HTTPS_PORT, computer.details.httpsPort);
+                        watch.putExtra(WatchActivity.EXTRA_UNIQUE_ID, managerBinder.getUniqueId());
+                        watch.putExtra(WatchActivity.EXTRA_PC_NAME, computer.details.name);
+                        if (computer.details.serverCert != null) {
+                            watch.putExtra(WatchActivity.EXTRA_SERVER_CERT, computer.details.serverCert.getEncoded());
+                        }
+                        startActivity(watch);
+                    } catch (Exception e) {
+                        Toast.makeText(PcView.this, R.string.watch_failed, Toast.LENGTH_LONG).show();
+                    }
+                }
                 return true;
 
             case WEEK_ID:

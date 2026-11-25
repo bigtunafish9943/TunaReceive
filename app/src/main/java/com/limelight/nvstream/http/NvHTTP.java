@@ -916,6 +916,38 @@ public class NvHTTP {
                 "name=" + java.net.URLEncoder.encode(name, "UTF-8"));
     }
 
+    /** TunaStream only: a watch key for this device, JSON {"key", "port"} (the PC's web page port). */
+    public String getTunaWatch() throws IOException {
+        return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/watch");
+    }
+
+    /**
+     * TunaStream only: the PC's Watch stream, read with a watch key from getTunaWatch(). It comes
+     * from the web page's port, which has the same certificate as pairing. A refusal comes back
+     * as HostHttpResponseException with the PC's reason (409: nobody is streaming...).
+     */
+    public ResponseBody openWatchStream(int port, String key) throws IOException {
+        HttpUrl url = new HttpUrl.Builder().scheme("https").host(baseUrlHttp.host()).port(port)
+                .addPathSegments("api/watch/stream").build();
+        Request request = new Request.Builder().url(url).header("Authorization", "Bearer " + key).get().build();
+        Response response = performAndroidTlsHack(httpClientLongConnectNoReadTimeout).newCall(request).execute();
+        ResponseBody body = response.body();
+        if (response.isSuccessful() && body != null) {
+            return body;
+        }
+        String reason = response.message();
+        if (body != null) {
+            try {
+                String text = body.string();
+                org.json.JSONObject j = new org.json.JSONObject(text);
+                reason = j.optString("error", reason);
+            } catch (Exception ignored) {
+            }
+            body.close();
+        }
+        throw new HostHttpResponseException(response.code(), reason);
+    }
+
     /** TunaStream only: send a screenshot (JPEG or PNG) to be kept on the PC. */
     public boolean sendTunaScreenshot(byte[] image) throws IOException {
         RequestBody body = RequestBody.create(image, okhttp3.MediaType.parse("image/jpeg"));
