@@ -150,7 +150,8 @@ public class ServerHelper {
             return;
         }
         // A quick check of the connection and this TV first, with any settings worth changing
-        StreamCheckup.beforeStart(parent, computer, managerBinder != null ? managerBinder.getUniqueId() : null, () -> {
+        StreamCheckup.beforeStart(parent, computer, managerBinder != null ? managerBinder.getUniqueId() : null,
+                GameProfiles.keysSetBy(parent, computer.uuid, app.getAppId()), () -> {
             // The games list puts recently played games first
             RecentGames.recordPlayed(parent, computer.uuid, app.getAppId());
 

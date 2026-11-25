@@ -56,7 +56,8 @@ public final class StreamCheckup {
     }
 
     /** Check, offer what's worth changing, then start (always, whatever is picked). */
-    public static void beforeStart(final Activity a, final ComputerDetails computer, final String uniqueId, final Runnable start) {
+    public static void beforeStart(final Activity a, final ComputerDetails computer, final String uniqueId,
+                                   final java.util.Set<String> gameKeys, final Runnable start) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(a);
         if (!prefs.getBoolean(PREF_ENABLED, true) || uniqueId == null || computer.serverCert == null) {
             start.run();
@@ -84,6 +85,12 @@ public final class StreamCheckup {
                 LimeLog.info("Check before the game: no speed measured: " + e);
             }
             final List<Suggestion> list = suggestions(a, mbps);
+            // Settings this game keeps in its own profile are left as they are
+            for (java.util.Iterator<Suggestion> it = list.iterator(); it.hasNext(); ) {
+                if (gameKeys.contains(it.next().key)) {
+                    it.remove();
+                }
+            }
             a.runOnUiThread(() -> {
                 if (skipped[0]) {
                     return;

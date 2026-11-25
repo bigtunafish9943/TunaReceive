@@ -85,6 +85,7 @@ public class AppView extends AppCompatActivity implements AdapterFragmentCallbac
     private final static int EXPORT_LAUNCHER_FILE_ID = 7;
     private final static int HIDE_APP_ID = 8;
     private final static int START_WITH_VDISPLAY = 20;
+    private final static int GAME_SETTINGS_ID = 30;
     private final static int START_WITH_QUIT_VDISPLAY = 21;
 
     public final static String HIDDEN_APPS_PREF_FILENAME = "HiddenApps";
@@ -547,6 +548,7 @@ public class AppView extends AppCompatActivity implements AdapterFragmentCallbac
             hideAppItem.setChecked(selectedApp.isHidden);
         }
 
+        menu.add(Menu.NONE, GAME_SETTINGS_ID, 3, getResources().getString(R.string.game_profile_menu));
         menu.add(Menu.NONE, VIEW_DETAILS_ID, 4, getResources().getString(R.string.applist_menu_details));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -576,6 +578,10 @@ public class AppView extends AppCompatActivity implements AdapterFragmentCallbac
         final AppObject app = (AppObject) appGridAdapter.getItem(info.position);
         int itemId = item.getItemId();
         switch (itemId) {
+            case GAME_SETTINGS_ID:
+                com.limelight.utils.GameProfiles.choose(this, computer.uuid, app.app.getAppId(), app.app.getAppName());
+                return true;
+
             case START_WITH_QUIT:
             case START_WITH_QUIT_VDISPLAY: {
                 boolean withVDiaplay = itemId == START_WITH_QUIT_VDISPLAY;

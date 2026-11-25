@@ -34,6 +34,8 @@ public class ProfilesManager {
 
     private final Map<UUID, SettingsProfile> profiles = new LinkedHashMap<>();
     private UUID activeProfileId;
+    // While a game with its own profile streams (Settings for this game); never saved
+    private volatile UUID streamProfileId;
     private final List<ProfileChangeListener> listeners = new ArrayList<>();
     private Context appContext; // Application context for auto-save
 
@@ -162,7 +164,16 @@ public class ProfilesManager {
     }
 
     public SettingsProfile getActive() {
+        UUID stream = streamProfileId;
+        if (stream != null && profiles.containsKey(stream)) {
+            return profiles.get(stream);
+        }
         return activeProfileId == null ? null : profiles.get(activeProfileId);
+    }
+
+    /** The profile of the game being streamed, used instead of the chosen one until null again. */
+    public void setStreamProfile(UUID uuid) {
+        streamProfileId = uuid;
     }
 
     @NonNull

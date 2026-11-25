@@ -365,6 +365,12 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         // Read the stream preferences
+        // A game with its own settings (Settings for this game) uses them for this stream
+        String gameProfile = com.limelight.utils.GameProfiles.beginStream(this,
+                getIntent().getStringExtra(EXTRA_PC_UUID), getIntent().getIntExtra(EXTRA_APP_ID, StreamConfiguration.INVALID_APP_ID));
+        if (gameProfile != null) {
+            Toast.makeText(this, getString(R.string.game_profile_using, gameProfile), Toast.LENGTH_LONG).show();
+        }
         prefConfig = PreferenceConfiguration.readPreferences(this);
         tombstonePrefs = Game.this.getSharedPreferences("DecoderTombstone", 0);
 
@@ -1757,6 +1763,8 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     protected void onDestroy() {
         super.onDestroy();
 
+        // Back to the usual settings once this game's stream is over
+        com.limelight.utils.GameProfiles.endStream();
         instance = null;
         timerHandler.removeCallbacksAndMessages(null);
 

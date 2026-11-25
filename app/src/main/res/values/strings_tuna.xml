@@ -397,6 +397,17 @@
     <string name="checkup_hdr_off">Turn off HDR: this TV doesn\'t report HDR, so colours would look washed out.</string>
     <string name="checkup_10bit_off">Turn off 10-bit picture: this device can\'t decode it, which can show a black or green picture.</string>
 
+    <!-- Per-game settings -->
+    <string name="game_profile_menu">Settings for this game</string>
+    <string name="game_profile_title">Settings for %1$s</string>
+    <string name="game_profile_usual">My usual settings</string>
+    <string name="game_profile_none_yet">A game can use its own settings, such as 4K with HDR for a slow game and 1080p at 120 FPS for a fast one. First save those settings as a profile, then pick it here.</string>
+    <string name="game_profile_make">Make a profile</string>
+    <string name="game_profile_edit">Profiles</string>
+    <string name="game_profile_saved">%1$s will use %2$s</string>
+    <string name="game_profile_saved_usual">%1$s will use your usual settings</string>
+    <string name="game_profile_using">Using %1$s for this game</string>
+
     <!-- TV-matched frame rates -->
     <string name="fps_5994">59.94 FPS (TV rate)</string>
     <string name="fps_11988">119.88 FPS (TV rate)</string>
