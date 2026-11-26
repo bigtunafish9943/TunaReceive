@@ -94,6 +94,10 @@ public class WatchActivity extends Activity implements SurfaceHolder.Callback {
 
     // Sound: decoded and played on a thread of its own, so a slow speaker never holds up the picture
     private final BlockingQueue<Object[]> sound = new ArrayBlockingQueue<>(100);
+    // How far behind the picture the sound comes out (what's waiting in the speaker's buffer):
+    // pictures are held back as much, so speech and footsteps line up
+    private volatile long soundDelayNs;
+    private static final int MAX_QUEUED_FRAMES = 48000 * 120 / 1000;  // 120 ms of sound
     private Thread soundThread;
 
     @Override
@@ -468,7 +472,12 @@ public class WatchActivity extends Activity implements SurfaceHolder.Callback {
             int out;
             while ((out = video.dequeueOutputBuffer(info, 0)) != MediaCodec.INFO_TRY_AGAIN_LATER) {
                 if (out >= 0) {
-                    video.releaseOutputBuffer(out, true);
+                    long delay = soundDelayNs;
+                    if (delay > 0) {
+                        video.releaseOutputBuffer(out, System.nanoTime() + delay);
+                    } else {
+                        video.releaseOutputBuffer(out, true);
+                    }
                     if (status.getVisibility() == View.VISIBLE) {
                         setStatus(null);
                     }
@@ -524,6 +533,7 @@ public class WatchActivity extends Activity implements SurfaceHolder.Callback {
             track.play();
             MediaCodec.BufferInfo info = new MediaCodec.BufferInfo();
             byte[] pcm = new byte[0];
+            long written = 0;  // sound frames handed to the speaker
             while (!stopped) {
                 Object[] item = sound.poll(200, TimeUnit.MILLISECONDS);
                 if (item != null) {
@@ -549,18 +559,28 @@ public class WatchActivity extends Activity implements SurfaceHolder.Callback {
                         }
                         o.position(info.offset);
                         o.get(pcm, 0, info.size);
-                        // Don't build up delay: when far behind, skip this bit
-                        if (sound.size() < 20) {
-                            track.write(pcm, 0, info.size);
+                        // Don't build up delay: when far behind, or the speaker already has
+                        // plenty waiting, skip this bit
+                        long queued = written - (track.getPlaybackHeadPosition() & 0xffffffffL);
+                        if (sound.size() < 20 && queued < MAX_QUEUED_FRAMES) {
+                            int n = track.write(pcm, 0, info.size);
+                            if (n > 0) {
+                                written += n / 4;
+                            }
                         }
                     }
                     decoder.releaseOutputBuffer(out, false);
                 }
+                // Also when no sound is coming: what's waiting drains, and the pictures catch up
+                long waiting = written - (track.getPlaybackHeadPosition() & 0xffffffffL);
+                long ahead = Math.max(0, Math.min(waiting, MAX_QUEUED_FRAMES)) * 1000000000L / 48000L;
+                soundDelayNs = (soundDelayNs * 7 + ahead) / 8;
             }
         } catch (InterruptedException ignored) {
         } catch (Exception e) {
             // No sound on this TV; the picture carries on
         } finally {
+            soundDelayNs = 0;
             if (track != null) {
                 try {
                     track.stop();
