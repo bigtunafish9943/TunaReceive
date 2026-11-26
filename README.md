@@ -96,6 +96,10 @@ Works with TunaStream; everything above needs TunaStream 1.0. Split-frame encodi
   picture quality, controller and sound. On a 4K TV with 5 GHz Wi-Fi it suggests 1440p, which TVs upscale well
   and Wi-Fi carries more reliably. Settings opens on the everyday choices; the rest are a switch away.
 - **Straight to the games.** With one paired PC it opens that PC's games on start, waking the PC if it's asleep.
+- **Wake the PC.** Selecting a PC that's asleep or off wakes it (Wake-on-LAN) and opens its games as soon as it
+  answers; the wake-up signal is repeated every few seconds until then. If it doesn't wake, TunaReceive says what
+  the PC needs: Wake-on-LAN in its BIOS, its network adapter allowed to wake it, and a cable rather than Wi-Fi.
+  TunaStream's Checklist self-check shows whether the PC is set up for it. Works on the PC's home network only.
 - **Connection test.** After pairing, it measures how fast the PC can send to the device and suggests a picture
   quality with headroom.
 - **Couch menu.** Hold the controller's Home button for the quick menu (or set your own buttons).
