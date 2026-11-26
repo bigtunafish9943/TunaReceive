@@ -5,6 +5,8 @@
 
 #include <arpa/inet.h>
 #include <string.h>
+#include <sys/ioctl.h>
+#include <linux/usbdevice_fs.h>
 
 #include "minisdl.h"
 #include "controller_type.h"
@@ -269,4 +271,20 @@ JNIEXPORT jboolean JNICALL
 Java_com_limelight_nvstream_jni_MoonBridge_guessControllerHasShareButton(JNIEnv *env, jclass clazz, jint vendorId, jint productId) {
     // Xbox Elite and DualSense Edge controllers have paddles
     return SDL_IsJoystickXboxSeriesX(vendorId, productId);
+}
+// A USB interface TunaReceive took from Android's own driver (claimInterface with force) and has
+// let go of: hand it back to that driver. Releasing alone leaves the device with no driver, so a
+// controller then works nowhere until it is unplugged. Falls back to resetting the device, after
+// which Android sets it up again from scratch.
+JNIEXPORT jboolean JNICALL
+Java_com_limelight_nvstream_jni_MoonBridge_reattachUsbKernelDriver(JNIEnv *env, jclass clazz, jint fd, jint iface) {
+    struct usbdevfs_ioctl command;
+    command.ifno = iface;
+    command.ioctl_code = USBDEVFS_CONNECT;
+    command.data = NULL;
+    if (ioctl(fd, USBDEVFS_IOCTL, &command) >= 0) {
+        return JNI_TRUE;
+    }
+    __android_log_print(ANDROID_LOG_WARN, "moonlight-core", "USB: reconnecting the system driver failed, resetting the device");
+    return ioctl(fd, USBDEVFS_RESET, 0) >= 0 ? JNI_TRUE : JNI_FALSE;
 }

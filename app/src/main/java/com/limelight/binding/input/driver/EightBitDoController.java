@@ -386,6 +386,15 @@ public class EightBitDoController extends AbstractController {
         }
         if (iface != null) {
             connection.releaseInterface(iface);
+            // Give the adapter back to Android's own driver: letting go alone leaves it with
+            // none, and the controller then works nowhere (not even TunaHome) until unplugged
+            try {
+                if (!com.limelight.nvstream.jni.MoonBridge.reattachUsbKernelDriver(connection.getFileDescriptor(), iface.getId())) {
+                    LimeLog.warning("8BitDo: couldn't give the adapter back to Android");
+                }
+            } catch (Throwable t) {
+                LimeLog.warning("8BitDo: couldn't give the adapter back to Android: " + t);
+            }
         }
         connection.close();
         notifyDeviceRemoved();

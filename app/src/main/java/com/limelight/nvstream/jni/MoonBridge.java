@@ -352,6 +352,9 @@ public class MoonBridge {
 
     public static native void stopConnection();
 
+    /** Gives a USB interface taken with claimInterface(force) back to Android's own driver. */
+    public static native boolean reattachUsbKernelDriver(int fd, int iface);
+
     public static native void interruptConnection();
 
     public static native void sendExecServerCmd(int cmdId);
