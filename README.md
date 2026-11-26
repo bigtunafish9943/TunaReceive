@@ -52,8 +52,10 @@ Works with TunaStream; everything above needs TunaStream 1.0. Split-frame encodi
 ### Rumble that works
 
 - **8BitDo Ultimate 2 Wireless through its 2.4G adapter.** Android reads this controller's buttons but can't rumble
-  it. During a stream TunaReceive takes the adapter over and drives it directly, following the same report layout
-  SDL uses, so rumble, motion controls and the battery level all work, and the controller still drives the menus.
+  it. While TunaReceive is open (its menus as well as a stream) it takes the adapter over and drives it directly,
+  following the same report layout SDL uses, so rumble, motion controls and the battery level all work, and the
+  D-pad, left stick, A and B move around TunaReceive's screens like a remote (hold A for an item's menu). Outside
+  TunaReceive the adapter goes back to Android. *Settings > Controllers in TunaReceive's menus* turns the menu part off.
   Rumble is refreshed five times a second, so a long rumble doesn't fade out early. Needs controller firmware 1.03
   or later.
 - **Controllers in Xbox mode** get the start-up message Windows' own driver sends, which some adapters (8BitDo's

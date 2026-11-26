@@ -445,4 +445,6 @@
     <string name="tuna_wake_no_answer">%1$s ne s\'est pas réveillé</string>
     <string name="tuna_wake_tips">Pour que la TV puisse réveiller le PC, il faut sur le PC :\n• Wake-on-LAN activé dans le BIOS ou l\'UEFI\n• Dans le Gestionnaire de périphériques, Gestion de l\'alimentation de la carte réseau : « Autoriser ce périphérique à sortir l\'ordinateur du mode veille » et « Autoriser uniquement un paquet magique à sortir l\'ordinateur du mode veille »\n• Un câble réseau : la plupart des PC ne se réveillent pas par Wi-Fi\n• La mise en veille plutôt que l\'arrêt, sauf si le PC peut être réveillé éteint (désactivez alors le démarrage rapide de Windows)\n\nLe réveil ne fonctionne que sur le même réseau domestique que le PC.</string>
     <string name="tuna_wake_again">Réessayer</string>
+    <string name="title_checkbox_usb_menus">Manettes dans les menus de TunaReceive</string>
+    <string name="summary_checkbox_usb_menus">TunaReceive gère lui-même certaines manettes (l\'adaptateur 2,4 GHz de 8BitDo) tant qu\'il est ouvert, pas seulement en jeu, pour qu\'elles fonctionnent aussi dans les menus. Désactivé : Android s\'en charge hors des jeux.</string>
 </resources>

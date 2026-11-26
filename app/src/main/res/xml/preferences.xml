@@ -378,6 +378,13 @@
             android:title="@string/title_checkbox_xb1_driver"
             app:iconSpaceReserved="false" />
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:dependency="checkbox_usb_driver"
+            android:key="checkbox_usb_menus"
+            android:summary="@string/summary_checkbox_usb_menus"
+            android:title="@string/title_checkbox_usb_menus"
+            app:iconSpaceReserved="false" />
+        <CheckBoxPreference
             android:defaultValue="false"
             android:dependency="checkbox_usb_driver"
             android:key="checkbox_usb_bind_all"

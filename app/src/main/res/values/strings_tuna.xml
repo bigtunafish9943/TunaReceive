@@ -457,4 +457,6 @@
     <string name="tuna_wake_no_answer">%1$s didn\'t wake up</string>
     <string name="tuna_wake_tips">Waking a PC from the TV needs, on the PC:\n• Wake-on-LAN switched on in its BIOS or UEFI settings\n• In Device Manager, its network adapter\'s Power Management: \"Allow this device to wake the computer\" and \"Only allow a magic packet to wake the computer\"\n• A network cable: most PCs can\'t be woken over Wi-Fi\n• Sleep rather than shut down, unless the PC can be woken from off (then switch off Windows\' Fast startup)\n\nWaking only works on the same home network as the PC.</string>
     <string name="tuna_wake_again">Try again</string>
+    <string name="title_checkbox_usb_menus">Controllers in TunaReceive\'s menus</string>
+    <string name="summary_checkbox_usb_menus">TunaReceive runs controllers it drives itself (8BitDo\'s 2.4G adapter) all the time it\'s open, not just in a game, so they move around the menus too. Off: Android runs them outside a game.</string>
 </resources>

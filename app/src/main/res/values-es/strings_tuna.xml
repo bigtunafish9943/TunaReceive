@@ -445,4 +445,6 @@
     <string name="tuna_wake_no_answer">%1$s no se despertó</string>
     <string name="tuna_wake_tips">Para que la TV pueda despertar el PC, el PC necesita:\n• Wake-on-LAN activado en la BIOS o UEFI\n• En el Administrador de dispositivos, en Administración de energía del adaptador de red: \"Permitir que este dispositivo reactive el equipo\" y \"Permitir solo un Magic Packet para reactivar el equipo\"\n• Un cable de red: la mayoría de los PC no se despiertan por Wi-Fi\n• Suspender en lugar de apagar, salvo que el PC pueda despertarse apagado (entonces desactiva el inicio rápido de Windows)\n\nDespertar solo funciona en la misma red de casa que el PC.</string>
     <string name="tuna_wake_again">Reintentar</string>
+    <string name="title_checkbox_usb_menus">Mandos en los menús de TunaReceive</string>
+    <string name="summary_checkbox_usb_menus">TunaReceive maneja los mandos que controla él mismo (el adaptador 2,4 GHz de 8BitDo) mientras está abierto, no solo en un juego, para que también funcionen en los menús. Desactivado: Android los maneja fuera de los juegos.</string>
 </resources>

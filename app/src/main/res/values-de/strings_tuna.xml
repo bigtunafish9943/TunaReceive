@@ -442,4 +442,6 @@
     <string name="tuna_wake_no_answer">%1$s ist nicht aufgewacht</string>
     <string name="tuna_wake_tips">Damit der Fernseher den PC wecken kann, braucht der PC:\n• Wake-on-LAN im BIOS bzw. UEFI eingeschaltet\n• Im Geräte-Manager unter Energieverwaltung des Netzwerkadapters: „Gerät kann den Computer aus dem Ruhezustand aktivieren“ und „Nur Magic Packet kann Computer aus dem Ruhezustand aktivieren“\n• Ein Netzwerkkabel: die meisten PCs lassen sich nicht über WLAN wecken\n• Energiesparmodus statt Herunterfahren, außer der PC kann aus dem ausgeschalteten Zustand geweckt werden (dann den Schnellstart von Windows ausschalten)\n\nWecken klappt nur im selben Heimnetz wie der PC.</string>
     <string name="tuna_wake_again">Nochmal versuchen</string>
+    <string name="title_checkbox_usb_menus">Controller in den Menüs von TunaReceive</string>
+    <string name="summary_checkbox_usb_menus">TunaReceive steuert Controller, die es selbst betreibt (8BitDos 2,4-GHz-Adapter), solange es offen ist, nicht nur im Spiel, damit sie auch in den Menüs funktionieren. Aus: Außerhalb von Spielen übernimmt Android.</string>
 </resources>
