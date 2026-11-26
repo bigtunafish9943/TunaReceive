@@ -447,4 +447,10 @@
     <string name="tuna_wake_again">Réessayer</string>
     <string name="title_checkbox_usb_menus">Manettes dans les menus de TunaReceive</string>
     <string name="summary_checkbox_usb_menus">TunaReceive gère lui-même certaines manettes (l\'adaptateur 2,4 GHz de 8BitDo) tant qu\'il est ouvert, pas seulement en jeu, pour qu\'elles fonctionnent aussi dans les menus. Désactivé : Android s\'en charge hors des jeux.</string>
+    <string name="tuna_quality_menu">Qualité d\'image : %1$d Mbit/s</string>
+    <string name="tuna_quality_title">Qualité d\'image</string>
+    <string name="tuna_quality_choice">%1$d Mbit/s</string>
+    <string name="tuna_quality_setting">%1$d Mbit/s (votre réglage)</string>
+    <string name="tuna_quality_set">Qualité d\'image : %1$d Mbit/s</string>
+    <string name="tuna_quality_unavailable">Le TunaStream de ce PC ne peut pas changer la qualité d\'image pendant une partie. Mettez TunaStream à jour, ou changez le débit dans les Paramètres avant de lancer.</string>
 </resources>

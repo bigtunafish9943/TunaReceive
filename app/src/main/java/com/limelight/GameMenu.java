@@ -157,6 +157,34 @@ public class GameMenu implements Game.GameMenuCallbacks {
         }
     }
 
+    /**
+     * Picture quality, mid-game: higher for a sharper picture when the Wi-Fi has room, lower when
+     * it stutters. The PC changes the bitrate there and then.
+     */
+    private void showQualityMenu(int currentKbps, int settingKbps) {
+        int settingMbps = Math.round(settingKbps / 1000f);
+        int currentMbps = Math.round(currentKbps / 1000f);
+        java.util.TreeSet<Integer> choices = new java.util.TreeSet<>(java.util.Collections.reverseOrder());
+        for (int mbps : new int[]{5, 10, 15, 20, 30, 40, 50, 60, 80, 100, 120, 150}) {
+            // Around the setting: from a quarter of it up to double
+            if (mbps >= settingMbps / 4 && mbps <= Math.max(20, settingMbps * 2)) {
+                choices.add(mbps);
+            }
+        }
+        choices.add(settingMbps);
+        List<MenuOption> options = new ArrayList<>();
+        for (final int mbps : choices) {
+            String label = mbps == settingMbps ? getString(R.string.tuna_quality_setting, mbps)
+                    : getString(R.string.tuna_quality_choice, mbps);
+            if (mbps == currentMbps) {
+                label = "• " + label;
+            }
+            options.add(new MenuOption(label, true, () -> game.setPictureQuality(mbps * 1000)));
+        }
+        options.add(new MenuOption(getString(R.string.game_menu_cancel), null));
+        showMenuDialog(getString(R.string.tuna_quality_title), options.toArray(new MenuOption[0]));
+    }
+
     private void showSpecialKeysMenu() {
         List<MenuOption> options = new ArrayList<>();
 
@@ -313,6 +341,12 @@ public class GameMenu implements Game.GameMenuCallbacks {
                 R.string.shortcut_replay_title), true, game::saveReplay));
         options.add(new MenuOption(menuLabel(R.string.game_menu_details, com.limelight.utils.Shortcuts.STATS,
                 R.string.game_menu_details_plain), true, game::toggleStreamDetails));
+
+        final int[] quality = game.pictureQuality();
+        if (quality != null) {
+            options.add(new MenuOption(getString(R.string.tuna_quality_menu, Math.round(quality[0] / 1000f)),
+                    () -> showQualityMenu(quality[0], quality[1])));
+        }
 
         options.add(new MenuOption(getString(R.string.game_menu_upload_clipboard), true,
                 () -> game.sendClipboard(true)));

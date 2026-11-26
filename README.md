@@ -22,6 +22,9 @@ adjusts while you play instead of freezing when the Wi-Fi gets busy.
 - **The picture size follows, without a freeze.** When the bitrate has dropped too far for a sharp 4K picture,
   the PC switches to 1440p or 1080p between two frames and the TV stretches it to fill the screen. It returns to
   full size when there is room. *Test a smaller picture* in the quick menu shows you what that looks like.
+- **Picture quality, mid-game.** The quick menu's *Picture quality* changes the bitrate there and then, without
+  reconnecting: higher for a sharper picture when the Wi-Fi has room, lower when it stutters. Automatic adjusting
+  (if on) then works below your choice, and the picture size follows a low choice too.
 - **TV game mode.** While a game is on screen, the TV is asked to skip its picture processing (HDMI ALLM), which
   takes noticeable delay out of many TVs. It can be turned off in Settings.
 - **Sound that doesn't drop out.** The sound buffer starts as small as it can and grows a little each time a

@@ -34,6 +34,10 @@ import java.util.concurrent.RejectedExecutionException;
  * straight back, it waits twice as long before trying again, so a connection that can't carry
  * the full picture settles just under its limit instead of bouncing off it.
  *
+ * The game menu's Picture quality sets the most it may ask for (setCeiling), there and then,
+ * without reconnecting; with the automatic part switched off in Settings, only that choice
+ * changes the bitrate.
+ *
  * PCs whose TunaStream can't do this answer "not found", and it stops asking.
  */
 public final class AdaptiveQuality implements MediaCodecDecoderRenderer.StreamHealthListener,
@@ -65,6 +69,9 @@ public final class AdaptiveQuality implements MediaCodecDecoderRenderer.StreamHe
 
     private final NvHTTP http;
     private final int startKbps;
+    /** The most it may ask for: where the stream started, or what was chosen in the game menu. */
+    private volatile int ceilingKbps;
+    private final boolean automatic;
     private volatile int floorKbps;
     private final int targetFps;
     private final double fullPixelsPerSecond;
@@ -89,8 +96,17 @@ public final class AdaptiveQuality implements MediaCodecDecoderRenderer.StreamHe
      * @param sizeCheck null to leave the picture size alone and only adjust the bitrate
      */
     public AdaptiveQuality(NvHTTP http, int startKbps, int targetFps, int width, int height, SizeChangeCheck sizeCheck) {
+        this(http, startKbps, targetFps, width, height, sizeCheck, true);
+    }
+
+    /**
+     * @param automatic false: only the game menu's choice changes the bitrate
+     */
+    public AdaptiveQuality(NvHTTP http, int startKbps, int targetFps, int width, int height, SizeChangeCheck sizeCheck, boolean automatic) {
         this.http = http;
         this.startKbps = startKbps;
+        this.ceilingKbps = startKbps;
+        this.automatic = automatic;
         this.floorKbps = Math.max(3000, startKbps * 2 / 5);
         this.targetFps = Math.max(1, targetFps);
         this.currentKbps = startKbps;
@@ -121,7 +137,7 @@ public final class AdaptiveQuality implements MediaCodecDecoderRenderer.StreamHe
 
     @Override
     public void onStreamHealth(float lossPct, float receivedFps, float slowFramePct, float decodeMs) {
-        if (disabled || http == null || startKbps <= 0) {
+        if (!automatic || disabled || http == null || startKbps <= 0) {
             return;
         }
         boolean losing = lossPct > LOSS_THRESHOLD_PCT ||
@@ -151,9 +167,9 @@ public final class AdaptiveQuality implements MediaCodecDecoderRenderer.StreamHe
             lowered(now);
             request(Math.max(floorKbps, currentKbps * 6 / 7), now, Math.round(slowFramePct) + "% of frames arrived slowly");
             slowStreak = 0;
-        } else if (goodStreak >= goodSecondsNeeded && currentKbps < startKbps && now - lastChangeMs >= MIN_MS_BETWEEN_UP) {
+        } else if (goodStreak >= goodSecondsNeeded && currentKbps < ceilingKbps && now - lastChangeMs >= MIN_MS_BETWEEN_UP) {
             lastRaiseMs = now;
-            request(Math.min(startKbps, currentKbps + Math.max(1000, currentKbps / 7)), now, "clean for " + goodStreak + " s");
+            request(Math.min(ceilingKbps, currentKbps + Math.max(1000, currentKbps / 7)), now, "clean for " + goodStreak + " s");
             goodStreak = 0;
         } else if (goodSecondsNeeded > GOOD_SECONDS_TO_RAISE && now - lastChangeMs >= SETTLED_MS) {
             // Steady for a good while: the connection may have improved, so be quick to try again
@@ -169,6 +185,38 @@ public final class AdaptiveQuality implements MediaCodecDecoderRenderer.StreamHe
     @Override
     public int currentKbps() {
         return currentKbps;
+    }
+
+    /** The most it may ask for right now, in kbps. */
+    public int ceilingKbps() {
+        return ceilingKbps;
+    }
+
+    /** The bitrate the stream started at (the bitrate setting), in kbps. */
+    public int startKbps() {
+        return startKbps;
+    }
+
+    /**
+     * Picture quality chosen in the game menu: asks for it straight away, and the automatic part
+     * (if on) works below it from now on.
+     * @return false when this PC's TunaStream can't change it mid-game
+     */
+    public boolean setCeiling(int kbps) {
+        if (disabled || http == null || kbps <= 0) {
+            return false;
+        }
+        ceilingKbps = kbps;
+        floorKbps = Math.min(floorKbps, kbps);
+        badStreak = 0;
+        slowStreak = 0;
+        goodStreak = 0;
+        goodSecondsNeeded = GOOD_SECONDS_TO_RAISE;
+        lastRaiseMs = 0;
+        // A picture size that suits the new bitrate straight away
+        lastSizeChangeMs = 0;
+        request(kbps, SystemClock.uptimeMillis(), "chosen in the game menu");
+        return true;
     }
 
     /** The picture size in use, in percent of the size the stream started at. */

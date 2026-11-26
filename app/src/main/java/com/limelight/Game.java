@@ -699,11 +699,14 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 this);
 
         // Picture quality that adjusts itself to the Wi-Fi (needs a TunaStream that supports it)
-        if (httpConn != null && PreferenceManager.getDefaultSharedPreferences(this).getBoolean("tuna_adaptive_quality", true)) {
+        // and the game menu's Picture quality, which works even with the automatic part off
+        if (httpConn != null) {
+            final boolean automatic = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("tuna_adaptive_quality", true);
             final boolean adjustSize = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("tuna_adaptive_size", true);
             adaptiveQuality = new AdaptiveQuality(httpConn, prefConfig.bitrate, Math.round(prefConfig.fps),
                     prefConfig.width, prefConfig.height,
-                    adjustSize ? () -> decoderRenderer != null && decoderRenderer.canChangePictureSize() : null);
+                    adjustSize ? () -> decoderRenderer != null && decoderRenderer.canChangePictureSize() : null,
+                    automatic);
         }
         // How the stream went, kept for the PC's menu afterwards
         streamReport = new StreamReport(httpConn, adaptiveQuality, adaptiveQuality, pcName, appName,
@@ -4387,6 +4390,18 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     }
 
     /** Quick menu: shows a smaller picture for ten seconds, to check this TV and PC handle the change. */
+    /** The game menu's Picture quality: the bitrate there and then, without reconnecting. */
+    public void setPictureQuality(int kbps) {
+        boolean done = adaptiveQuality != null && adaptiveQuality.setCeiling(kbps);
+        Toast.makeText(this, done ? getString(R.string.tuna_quality_set, Math.round(kbps / 1000f))
+                : getString(R.string.tuna_quality_unavailable), Toast.LENGTH_LONG).show();
+    }
+
+    /** {current ceiling, the bitrate setting} in kbps, or null when it can't be changed here. */
+    public int[] pictureQuality() {
+        return adaptiveQuality == null ? null : new int[]{adaptiveQuality.ceilingKbps(), adaptiveQuality.startKbps()};
+    }
+
     public void testPictureSize() {
         boolean started = adaptiveQuality != null && adaptiveQuality.testPictureSize();
         Toast.makeText(this, started ? R.string.tuna_size_test_started : R.string.tuna_size_test_unavailable,

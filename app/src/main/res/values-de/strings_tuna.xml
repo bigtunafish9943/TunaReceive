@@ -444,4 +444,10 @@
     <string name="tuna_wake_again">Nochmal versuchen</string>
     <string name="title_checkbox_usb_menus">Controller in den Menüs von TunaReceive</string>
     <string name="summary_checkbox_usb_menus">TunaReceive steuert Controller, die es selbst betreibt (8BitDos 2,4-GHz-Adapter), solange es offen ist, nicht nur im Spiel, damit sie auch in den Menüs funktionieren. Aus: Außerhalb von Spielen übernimmt Android.</string>
+    <string name="tuna_quality_menu">Bildqualität: %1$d Mbit/s</string>
+    <string name="tuna_quality_title">Bildqualität</string>
+    <string name="tuna_quality_choice">%1$d Mbit/s</string>
+    <string name="tuna_quality_setting">%1$d Mbit/s (deine Einstellung)</string>
+    <string name="tuna_quality_set">Bildqualität: %1$d Mbit/s</string>
+    <string name="tuna_quality_unavailable">TunaStream auf diesem PC kann die Bildqualität während eines Spiels nicht ändern. Aktualisiere TunaStream oder ändere die Bitrate in den Einstellungen vor dem Start.</string>
 </resources>

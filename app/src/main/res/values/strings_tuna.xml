@@ -459,4 +459,10 @@
     <string name="tuna_wake_again">Try again</string>
     <string name="title_checkbox_usb_menus">Controllers in TunaReceive\'s menus</string>
     <string name="summary_checkbox_usb_menus">TunaReceive runs controllers it drives itself (8BitDo\'s 2.4G adapter) all the time it\'s open, not just in a game, so they move around the menus too. Off: Android runs them outside a game.</string>
+    <string name="tuna_quality_menu">Picture quality: %1$d Mbps</string>
+    <string name="tuna_quality_title">Picture quality</string>
+    <string name="tuna_quality_choice">%1$d Mbps</string>
+    <string name="tuna_quality_setting">%1$d Mbps (your setting)</string>
+    <string name="tuna_quality_set">Picture quality: %1$d Mbps</string>
+    <string name="tuna_quality_unavailable">This PC\'s TunaStream can\'t change picture quality during a game. Update TunaStream, or change Bitrate in Settings before starting.</string>
 </resources>

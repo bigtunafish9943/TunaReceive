@@ -447,4 +447,10 @@
     <string name="tuna_wake_again">Reintentar</string>
     <string name="title_checkbox_usb_menus">Mandos en los menús de TunaReceive</string>
     <string name="summary_checkbox_usb_menus">TunaReceive maneja los mandos que controla él mismo (el adaptador 2,4 GHz de 8BitDo) mientras está abierto, no solo en un juego, para que también funcionen en los menús. Desactivado: Android los maneja fuera de los juegos.</string>
+    <string name="tuna_quality_menu">Calidad de imagen: %1$d Mbps</string>
+    <string name="tuna_quality_title">Calidad de imagen</string>
+    <string name="tuna_quality_choice">%1$d Mbps</string>
+    <string name="tuna_quality_setting">%1$d Mbps (tu ajuste)</string>
+    <string name="tuna_quality_set">Calidad de imagen: %1$d Mbps</string>
+    <string name="tuna_quality_unavailable">El TunaStream de este PC no puede cambiar la calidad de imagen durante una partida. Actualiza TunaStream o cambia la tasa de bits en Ajustes antes de empezar.</string>
 </resources>
