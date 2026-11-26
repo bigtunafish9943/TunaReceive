@@ -72,6 +72,9 @@ Works with TunaStream; everything above needs TunaStream 1.0. Split-frame encodi
 
 ### Fun on the couch
 
+- **Shrink to a corner.** *Shrink to a corner* in the quick menu keeps the stream playing in a small window while
+  you use the TV for something else (pick a show, check a score); select it to bring it back full screen. The
+  controller goes back to the TV meanwhile.
 - **Screenshots and instant replay.** View + R1 saves a screenshot, here in Pictures/TunaReceive and on the PC.
   View + L1 asks the PC to save the last 30 seconds as a clip. Both are in the quick menu too.
 - **Controller shortcuts your way.** Settings > Controller shortcuts: pick one and press the buttons you want on

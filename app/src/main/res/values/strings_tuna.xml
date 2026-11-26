@@ -483,4 +483,6 @@
     <string name="tuna_sleep_not_allowed">This TV isn\'t allowed to start games on this PC, so it can\'t put it to sleep either. Change that under Devices in TunaStream.</string>
     <string name="tuna_sleep_failed">The PC didn\'t go to sleep.</string>
     <string name="tuna_sleep_update">Update TunaStream on the PC to put it to sleep from here.</string>
+    <string name="tuna_pip_menu">Shrink to a corner</string>
+    <string name="tuna_pip_unavailable">Picture in picture isn\'t available on this device.</string>
 </resources>

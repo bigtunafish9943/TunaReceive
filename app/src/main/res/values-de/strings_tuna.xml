@@ -468,4 +468,6 @@
     <string name="tuna_sleep_not_allowed">Dieser Fernseher darf auf diesem PC keine Spiele starten und ihn daher auch nicht schlafen legen. Das lässt sich in TunaStream unter Geräte ändern.</string>
     <string name="tuna_sleep_failed">Der PC ist nicht in den Ruhezustand gegangen.</string>
     <string name="tuna_sleep_update">Aktualisiere TunaStream auf dem PC, um ihn von hier schlafen zu legen.</string>
+    <string name="tuna_pip_menu">In die Ecke verkleinern</string>
+    <string name="tuna_pip_unavailable">Bild-in-Bild ist auf diesem Gerät nicht verfügbar.</string>
 </resources>

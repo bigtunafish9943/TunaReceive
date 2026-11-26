@@ -375,6 +375,8 @@ public class GameMenu implements Game.GameMenuCallbacks {
                     () -> showQualityMenu(quality[0], quality[1])));
         }
 
+        options.add(new MenuOption(getString(R.string.tuna_pip_menu), true, game::enterPipNow));
+
         options.add(new MenuOption(getString(R.string.game_menu_upload_clipboard), true,
                 () -> game.sendClipboard(true)));
 

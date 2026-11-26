@@ -1306,6 +1306,16 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
 
                 // Update GameManager state to indicate we're in PiP (still gaming, but interruptible)
                 UiHelper.notifyStreamEnteringPiP(this);
+
+                // The controller goes back to the TV meanwhile (8BitDo's adapter included)
+                if (connectedToUsbDriverService) {
+                    connectedToUsbDriverService = false;
+                    try {
+                        unbindService(usbDriverServiceConnection);
+                    } catch (Exception e) {
+                        // Already gone
+                    }
+                }
             }
             else {
                 isHidingOverlays = false;
@@ -1343,6 +1353,12 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
 
                 // Update GameManager state to indicate we're out of PiP (gaming, non-interruptible)
                 UiHelper.notifyStreamExitingPiP(this);
+
+                // Full screen again: the game has the controller back
+                if (prefConfig.usbDriver && !connectedToUsbDriverService) {
+                    bindService(new Intent(this, UsbDriverService.class),
+                            usbDriverServiceConnection, Service.BIND_AUTO_CREATE);
+                }
             }
         }
     }
@@ -1391,6 +1407,27 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         }
 
         return builder.build();
+    }
+
+    /**
+     * The quick menu's "Shrink to a corner": the stream keeps playing in a small window while
+     * the TV is used for something else; selecting it brings it back. Works whether or not the
+     * automatic picture-in-picture setting is on.
+     */
+    public void enterPipNow() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O || isOnExternalDisplay()
+                || !getPackageManager().hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)) {
+            Toast.makeText(this, R.string.tuna_pip_unavailable, Toast.LENGTH_LONG).show();
+            return;
+        }
+        try {
+            if (!enterPictureInPictureMode(getPictureInPictureParams(false))) {
+                Toast.makeText(this, R.string.tuna_pip_unavailable, Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            LimeLog.warning("Picture in picture: " + e);
+            Toast.makeText(this, R.string.tuna_pip_unavailable, Toast.LENGTH_LONG).show();
+        }
     }
 
     public void updatePipAutoEnter() {

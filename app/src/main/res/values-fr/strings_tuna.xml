@@ -471,4 +471,6 @@
     <string name="tuna_sleep_not_allowed">Cette TV n\'a pas le droit de lancer des jeux sur ce PC, ni donc de le mettre en veille. Modifiez-le sous Appareils dans TunaStream.</string>
     <string name="tuna_sleep_failed">Le PC ne s\'est pas mis en veille.</string>
     <string name="tuna_sleep_update">Mettez à jour TunaStream sur le PC pour le mettre en veille d\'ici.</string>
+    <string name="tuna_pip_menu">Réduire dans un coin</string>
+    <string name="tuna_pip_unavailable">L\'incrustation d\'image n\'est pas disponible sur cet appareil.</string>
 </resources>
