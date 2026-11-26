@@ -97,7 +97,7 @@ public final class WeekRecap {
         return sb.toString();
     }
 
-    private static String milestone(Activity a, String id) {
+    static String milestone(Activity a, String id) {
         if (id.startsWith("hours_")) {
             String n = id.substring(6);
             return "1".equals(n) ? a.getString(R.string.milestone_first_hour) : a.getString(R.string.milestone_hours, n);
@@ -112,6 +112,14 @@ public final class WeekRecap {
             case "smooth_10": return a.getString(R.string.milestone_smooth_10);
             case "smooth_hour": return a.getString(R.string.milestone_smooth_hour);
             case "full_rate_4k": return a.getString(R.string.milestone_full_rate_4k);
+            case "game_night": return a.getString(R.string.milestone_game_night);
+            case "phone_player": return a.getString(R.string.milestone_phone_player);
+            case "night_owl": return a.getString(R.string.milestone_night_owl);
+            case "early_bird": return a.getString(R.string.milestone_early_bird);
+            case "streak_3": return a.getString(R.string.milestone_streak_3);
+            case "streak_7": return a.getString(R.string.milestone_streak_7);
+            case "variety_5": return a.getString(R.string.milestone_variety_5);
+            case "variety_10": return a.getString(R.string.milestone_variety_10);
             default: return id;
         }
     }

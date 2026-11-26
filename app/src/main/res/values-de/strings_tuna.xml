@@ -470,4 +470,20 @@
     <string name="tuna_sleep_update">Aktualisiere TunaStream auf dem PC, um ihn von hier schlafen zu legen.</string>
     <string name="tuna_pip_menu">In die Ecke verkleinern</string>
     <string name="tuna_pip_unavailable">Bild-in-Bild ist auf diesem Gerät nicht verfügbar.</string>
+    <string name="trophy_shelf">Trophäen</string>
+    <string name="trophy_shelf_count">Trophäen: %1$d von %2$d</string>
+    <string name="trophy_none">Noch keine Trophäen: spiel ein Spiel für die erste.</string>
+    <string name="trophy_to_get">Noch zu holen:</string>
+    <string name="milestone_game_night">Spieleabend: drei oder mehr spielen gleichzeitig</string>
+    <string name="milestone_phone_player">Jemand hat mit dem Handy mitgespielt</string>
+    <string name="milestone_night_owl">Nachteule: nach 1 Uhr noch am Spielen</string>
+    <string name="milestone_early_bird">Frühaufsteher: ein Spiel vor 7 Uhr</string>
+    <string name="milestone_streak_3">Drei Tage in Folge</string>
+    <string name="milestone_streak_7">Eine ganze Woche in Folge</string>
+    <string name="milestone_variety_5">Fünf verschiedene Spiele</string>
+    <string name="milestone_variety_10">Zehn verschiedene Spiele</string>
+    <plurals name="trophy_new">
+        <item quantity="one">Trophäe freigeschaltet!</item>
+        <item quantity="other">%d Trophäen freigeschaltet!</item>
+    </plurals>
 </resources>

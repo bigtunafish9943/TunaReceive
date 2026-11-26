@@ -3567,6 +3567,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     }
 
     private void stopConnection() {
+        com.limelight.utils.Trophies.streamEnded();
         if (streamDetails != null) {
             streamDetails.close();
             streamDetails = null;

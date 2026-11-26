@@ -469,6 +469,11 @@ public class AppView extends AppCompatActivity implements AdapterFragmentCallbac
         inForeground = true;
         startComputerUpdates();
 
+        // Back from a game: a trophy it earned pops up
+        if (managerBinder != null && computer != null) {
+            com.limelight.utils.Trophies.checkAfterStream(this, computer, managerBinder.getUniqueId());
+        }
+
         ExtendedFloatingActionButton profilesButton = findViewById(R.id.profilesButton);
         // User report Samsung and Xiaomi devices have this problem
         // Why just these two brands have the most problems?

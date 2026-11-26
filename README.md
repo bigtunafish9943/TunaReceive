@@ -82,6 +82,10 @@ Works with TunaStream; everything above needs TunaStream 1.0. Split-frame encodi
   off. The quick menu, screenshot, replay, stream details and ending the stream are all there.
 - **Messages and sounds from the PC.** What's typed on TunaStream's home page or its phone page pops up over the
   game, and sound-board sounds play.
+- **Trophies.** TunaStream's milestones (first 4K stream, hours played, a marathon, game night with three or more
+  players, a friend on a phone controller, night owl, early bird, days in a row and more) pop up with a little
+  fanfare when you're back from the game that earned them. Hold the PC, then *Trophies*, for the whole shelf.
+  Needs the latest TunaStream.
 - **Last played first.** The game you played last is first, marked Last played, however it was started (TunaHome's
   PC games row included); a game still running on the PC is marked Playing.
 - **Player numbers.** Each controller that joins says which player it is.

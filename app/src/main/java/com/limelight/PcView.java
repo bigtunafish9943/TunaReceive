@@ -158,6 +158,7 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
     private final static int WEEK_ID = 27;
     private final static int WATCH_ID = 28;
     private final static int SLEEP_ID = 29;
+    private final static int TROPHIES_ID = 30;
 
     private void initializeViews() {
         setContentView(R.layout.activity_pc_view);
@@ -500,6 +501,7 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
             menu.add(Menu.NONE, REPAIR_SCREEN_ID, 4, getResources().getString(R.string.repair_menu));
             menu.add(Menu.NONE, LAST_STREAM_ID, 4, getResources().getString(R.string.report_menu));
             menu.add(Menu.NONE, WEEK_ID, 4, getResources().getString(R.string.week_menu));
+            menu.add(Menu.NONE, TROPHIES_ID, 4, getResources().getString(R.string.trophy_shelf));
             menu.add(Menu.NONE, WATCH_ID, 4, getResources().getString(R.string.watch_menu));
             menu.add(Menu.NONE, BACKUP_ID, 4, getResources().getString(R.string.backup_menu));
             menu.add(Menu.NONE, RESTORE_ID, 4, getResources().getString(R.string.restore_menu));
@@ -974,6 +976,12 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
                     } catch (Exception e) {
                         Toast.makeText(PcView.this, R.string.watch_failed, Toast.LENGTH_LONG).show();
                     }
+                }
+                return true;
+
+            case TROPHIES_ID:
+                if (managerBinder != null) {
+                    com.limelight.utils.Trophies.showShelf(PcView.this, computer.details, managerBinder.getUniqueId());
                 }
                 return true;
 
