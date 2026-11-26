@@ -169,6 +169,13 @@ public abstract class AbstractXboxController extends AbstractController {
             if (!connection.releaseInterface(iface)) {
                 LimeLog.warning("Failed to release interfaces");
             }
+            // If the system had its own driver on it (taken with claimInterface force), put it
+            // back, or the controller works nowhere else until it's unplugged
+            try {
+                com.limelight.nvstream.jni.MoonBridge.reconnectUsbKernelDriver(connection.getFileDescriptor(), iface.getId());
+            } catch (Throwable t) {
+                // Not on this system: nothing worse than before
+            }
         }
 
         // Close the USB connection

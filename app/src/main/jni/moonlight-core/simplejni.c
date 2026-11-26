@@ -288,3 +288,14 @@ Java_com_limelight_nvstream_jni_MoonBridge_reattachUsbKernelDriver(JNIEnv *env, 
     __android_log_print(ANDROID_LOG_WARN, "moonlight-core", "USB: reconnecting the system driver failed, resetting the device");
     return ioctl(fd, USBDEVFS_RESET, 0) >= 0 ? JNI_TRUE : JNI_FALSE;
 }
+
+// Only the first half of the above: asks the system to put its own driver back on a released
+// interface, without resetting anything (a device with no system driver is left as it is).
+JNIEXPORT jboolean JNICALL
+Java_com_limelight_nvstream_jni_MoonBridge_reconnectUsbKernelDriver(JNIEnv *env, jclass clazz, jint fd, jint iface) {
+    struct usbdevfs_ioctl command;
+    command.ifno = iface;
+    command.ioctl_code = USBDEVFS_CONNECT;
+    command.data = NULL;
+    return ioctl(fd, USBDEVFS_IOCTL, &command) >= 0 ? JNI_TRUE : JNI_FALSE;
+}
