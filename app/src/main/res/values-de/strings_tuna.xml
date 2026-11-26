@@ -455,4 +455,8 @@
     <string name="tuna_cmd_leave_bigpicture">Steam Big Picture verlassen</string>
     <string name="tuna_cmd_restart_steam">Steam neu starten</string>
     <string name="tuna_cmd_pointer_aside">Mauszeiger zur Seite</string>
+    <string name="tuna_quit_title">Spiel auf dem PC beenden?</string>
+    <string name="tuna_quit_message">Das Spiel wird geschlossen, nicht Gespeichertes geht verloren. Um später weiterzuspielen, wähle Verlassen.</string>
+    <string name="tuna_quit_yes">Spiel beenden</string>
+    <string name="tuna_quit_leave">Verlassen</string>
 </resources>

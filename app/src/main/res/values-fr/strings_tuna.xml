@@ -458,4 +458,8 @@
     <string name="tuna_cmd_leave_bigpicture">Quitter Steam Big Picture</string>
     <string name="tuna_cmd_restart_steam">Redémarrer Steam</string>
     <string name="tuna_cmd_pointer_aside">Écarter le pointeur</string>
+    <string name="tuna_quit_title">Fermer le jeu sur le PC ?</string>
+    <string name="tuna_quit_message">Le jeu se ferme et tout ce qui n\'est pas sauvegardé est perdu. Pour reprendre plus tard, choisissez Quitter.</string>
+    <string name="tuna_quit_yes">Fermer le jeu</string>
+    <string name="tuna_quit_leave">Quitter</string>
 </resources>

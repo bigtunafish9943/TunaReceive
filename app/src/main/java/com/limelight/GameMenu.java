@@ -319,6 +319,22 @@ public class GameMenu implements Game.GameMenuCallbacks {
         showMenuDialog(getString(R.string.tuna_pc_commands), options.toArray(new MenuOption[options.size()]));
     }
 
+    /**
+     * Ending the session closes the game on the PC, unsaved progress and all: asked first, with
+     * Leave (the game keeps running) offered alongside, since the two sit next to each other.
+     */
+    private void confirmQuit() {
+        int themeResId = game.getApplicationInfo().theme;
+        Context themedContext = new ContextThemeWrapper(dialogScreenContext, themeResId);
+        UiHelper.styleDialog(new AlertDialog.Builder(themedContext)
+                .setTitle(R.string.tuna_quit_title)
+                .setMessage(R.string.tuna_quit_message)
+                .setPositiveButton(R.string.tuna_quit_yes, (d, w) -> game.quit())
+                .setNeutralButton(R.string.tuna_quit_leave, (d, w) -> game.disconnect())
+                .setNegativeButton(R.string.game_menu_cancel, null)
+                .show());
+    }
+
     /** TunaStream's own commands in the TV's language; the ones set on the PC as they were named. */
     private String commandName(String name) {
         switch (name) {
@@ -344,7 +360,7 @@ public class GameMenu implements Game.GameMenuCallbacks {
 
         options.add(new MenuOption(getString(R.string.game_menu_disconnect), game::disconnect));
 
-        options.add(new MenuOption(getString(R.string.game_menu_quit_session), game::quit));
+        options.add(new MenuOption(getString(R.string.game_menu_quit_session), this::confirmQuit));
 
         options.add(new MenuOption(menuLabel(R.string.game_menu_screenshot, com.limelight.utils.Shortcuts.SCREENSHOT,
                 R.string.shortcut_screenshot_title), true, game::takeScreenshot));

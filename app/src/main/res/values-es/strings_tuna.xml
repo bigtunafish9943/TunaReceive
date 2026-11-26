@@ -458,4 +458,8 @@
     <string name="tuna_cmd_leave_bigpicture">Salir de Steam Big Picture</string>
     <string name="tuna_cmd_restart_steam">Reiniciar Steam</string>
     <string name="tuna_cmd_pointer_aside">Apartar el puntero</string>
+    <string name="tuna_quit_title">¿Cerrar el juego en el PC?</string>
+    <string name="tuna_quit_message">El juego se cierra y se pierde lo que no esté guardado. Para seguir más tarde, elige Salir.</string>
+    <string name="tuna_quit_yes">Cerrar el juego</string>
+    <string name="tuna_quit_leave">Salir</string>
 </resources>

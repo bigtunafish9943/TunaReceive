@@ -108,7 +108,8 @@ Works with TunaStream; everything above needs TunaStream 1.0. Split-frame encodi
   TunaStream's Checklist self-check shows whether the PC is set up for it. Works on the PC's home network only.
 - **Connection test.** After pairing, it measures how fast the PC can send to the device and suggests a picture
   quality with headroom.
-- **Couch menu.** Hold the controller's Home button for the quick menu (or set your own buttons).
+- **Couch menu.** Hold the controller's Home button for the quick menu (or set your own buttons). *End the session*
+  asks first, since it closes the game on the PC; *Leave* keeps it running for later.
 - **PC commands** in the quick menu: Steam Big Picture, leaving it, restarting Steam (when Big Picture hangs) and
   moving the PC's pointer out of the way, plus any commands set up in TunaStream. Needs the latest TunaStream.
 - **PC tools and Settings** at the top of the games: your week, how the last stream went, fitting the picture

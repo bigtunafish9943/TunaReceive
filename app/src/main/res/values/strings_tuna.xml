@@ -470,4 +470,8 @@
     <string name="tuna_cmd_leave_bigpicture">Leave Steam Big Picture</string>
     <string name="tuna_cmd_restart_steam">Restart Steam</string>
     <string name="tuna_cmd_pointer_aside">Move the pointer aside</string>
+    <string name="tuna_quit_title">End the game on the PC?</string>
+    <string name="tuna_quit_message">The game closes, and anything not saved is lost. To stop watching but keep playing later, choose Leave.</string>
+    <string name="tuna_quit_yes">End the game</string>
+    <string name="tuna_quit_leave">Leave</string>
 </resources>
