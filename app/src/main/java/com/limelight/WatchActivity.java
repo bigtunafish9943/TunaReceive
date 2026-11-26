@@ -455,13 +455,13 @@ public class WatchActivity extends Activity implements SurfaceHolder.Callback {
         try {
             int index = video.dequeueInputBuffer(20000);
             if (index < 0) {
-                needKey = true;  // behind: start again at the next key frame
+                lostPlace();  // behind: start again at a fresh key frame
                 return;
             }
             ByteBuffer in = video.getInputBuffer(index);
             if (in == null || in.capacity() < length) {
                 video.queueInputBuffer(index, 0, 0, timeUs, 0);
-                needKey = true;
+                lostPlace();
                 return;
             }
             in.clear();
@@ -484,8 +484,34 @@ public class WatchActivity extends Activity implements SurfaceHolder.Callback {
                 }
             }
         } catch (IllegalStateException e) {
-            needKey = true;
+            lostPlace();
         }
+    }
+
+    private long lastKeyAsk;
+
+    /**
+     * Pictures had to be skipped: wait for a key frame to start again from, and ask the PC for
+     * one now (at most once a second), as the browser's Watch page does. Without asking, the
+     * picture stayed frozen until the PC happened to send one.
+     */
+    private void lostPlace() {
+        needKey = true;
+        final long now = android.os.SystemClock.uptimeMillis();
+        final NvHTTP h = http;
+        final String key = watchKey;
+        final int port = watchPort;
+        if (now - lastKeyAsk < 1000 || h == null || key == null) {
+            return;
+        }
+        lastKeyAsk = now;
+        new Thread(() -> {
+            try {
+                h.requestWatchKeyFrame(port, key);
+            } catch (Exception e) {
+                LimeLog.warning("Watch: couldn't ask for a key frame: " + e);
+            }
+        }, "Watch key frame").start();
     }
 
     private void releaseVideo() {

@@ -948,6 +948,22 @@ public class NvHTTP {
         throw new HostHttpResponseException(response.code(), reason);
     }
 
+    /**
+     * TunaStream only: asks the PC for a fresh key frame for Watch, after this TV had to skip
+     * pictures; otherwise the picture would stay frozen until the PC sent one by itself.
+     */
+    public void requestWatchKeyFrame(int port, String key) throws IOException {
+        HttpUrl url = new HttpUrl.Builder().scheme("https").host(baseUrlHttp.host()).port(port)
+                .addPathSegments("api/watch/key").build();
+        RequestBody body = RequestBody.create("{}", MediaType.parse("application/json"));
+        Request request = new Request.Builder().url(url).header("Authorization", "Bearer " + key).post(body).build();
+        try (Response response = performAndroidTlsHack(httpClientLongConnectTimeout).newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                LimeLog.warning("Watch: the PC didn't take the key frame request: " + response.code());
+            }
+        }
+    }
+
     /** TunaStream only: a cheer ("fire", "clap"...) while watching. Returns the PC's reason when it says no. */
     public String sendWatchCheer(int port, String key, String kind) throws IOException {
         HttpUrl url = new HttpUrl.Builder().scheme("https").host(baseUrlHttp.host()).port(port)
