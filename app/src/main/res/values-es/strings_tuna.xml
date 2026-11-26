@@ -453,4 +453,9 @@
     <string name="tuna_quality_setting">%1$d Mbps (tu ajuste)</string>
     <string name="tuna_quality_set">Calidad de imagen: %1$d Mbps</string>
     <string name="tuna_quality_unavailable">El TunaStream de este PC no puede cambiar la calidad de imagen durante una partida. Actualiza TunaStream o cambia la tasa de bits en Ajustes antes de empezar.</string>
+    <string name="tuna_pc_commands">Comandos del PC</string>
+    <string name="tuna_cmd_bigpicture">Steam Big Picture</string>
+    <string name="tuna_cmd_leave_bigpicture">Salir de Steam Big Picture</string>
+    <string name="tuna_cmd_restart_steam">Reiniciar Steam</string>
+    <string name="tuna_cmd_pointer_aside">Apartar el puntero</string>
 </resources>

@@ -109,6 +109,8 @@ Works with TunaStream; everything above needs TunaStream 1.0. Split-frame encodi
 - **Connection test.** After pairing, it measures how fast the PC can send to the device and suggests a picture
   quality with headroom.
 - **Couch menu.** Hold the controller's Home button for the quick menu (or set your own buttons).
+- **PC commands** in the quick menu: Steam Big Picture, leaving it, restarting Steam (when Big Picture hangs) and
+  moving the PC's pointer out of the way, plus any commands set up in TunaStream. Needs the latest TunaStream.
 - **PC tools and Settings** at the top of the games: your week, how the last stream went, fitting the picture
   quality to the connection, repairing the PC's virtual screen, and backup and restore, all in one place.
 - **Settings for each game.** Hold a game and choose *Settings for this game* to give it one of your settings

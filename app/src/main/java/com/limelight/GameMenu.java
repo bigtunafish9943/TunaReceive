@@ -311,12 +311,23 @@ public class GameMenu implements Game.GameMenuCallbacks {
         AtomicInteger index = new AtomicInteger(0);
         for (String str : serverCmds) {
             final int finalI = index.getAndIncrement();
-            options.add(new MenuOption("> " + str, true, () -> game.sendExecServerCmd(finalI)));
+            options.add(new MenuOption(commandName(str), true, () -> game.sendExecServerCmd(finalI)));
         };
 
         options.add(new MenuOption(getString(R.string.game_menu_cancel), null));
 
-        showMenuDialog(getString(R.string.game_menu_server_cmd), options.toArray(new MenuOption[options.size()]));
+        showMenuDialog(getString(R.string.tuna_pc_commands), options.toArray(new MenuOption[options.size()]));
+    }
+
+    /** TunaStream's own commands in the TV's language; the ones set on the PC as they were named. */
+    private String commandName(String name) {
+        switch (name) {
+            case "Steam Big Picture": return getString(R.string.tuna_cmd_bigpicture);
+            case "Leave Steam Big Picture": return getString(R.string.tuna_cmd_leave_bigpicture);
+            case "Restart Steam": return getString(R.string.tuna_cmd_restart_steam);
+            case "Move the pointer aside": return getString(R.string.tuna_cmd_pointer_aside);
+            default: return name;
+        }
     }
 
     /** "Take a screenshot (View + R1)", or just the action when its shortcut is off. */
@@ -354,7 +365,7 @@ public class GameMenu implements Game.GameMenuCallbacks {
         options.add(new MenuOption(getString(R.string.game_menu_fetch_clipboard), true,
                 () -> game.getClipboard(0)));
 
-        options.add(new MenuOption(getString(R.string.game_menu_server_cmd), true,
+        options.add(new MenuOption(getString(R.string.tuna_pc_commands), true,
                 () -> {
                     ArrayList<String> serverCmds = game.getServerCmds();
                     if (serverCmds.isEmpty()) {
