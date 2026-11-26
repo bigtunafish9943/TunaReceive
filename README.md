@@ -74,7 +74,8 @@ Works with TunaStream; everything above needs TunaStream 1.0. Split-frame encodi
   off. The quick menu, screenshot, replay, stream details and ending the stream are all there.
 - **Messages and sounds from the PC.** What's typed on TunaStream's home page or its phone page pops up over the
   game, and sound-board sounds play.
-- **Continue.** The game you played last is first, marked Continue; the one running is marked Playing.
+- **Last played first.** The game you played last is first, marked Last played, however it was started (TunaHome's
+  PC games row included); a game still running on the PC is marked Playing.
 - **Player numbers.** Each controller that joins says which player it is.
 - **A tip per game.** If a game ran below full frame rate or had to drop quality last time, a one-line suggestion
   appears a few seconds into the next stream. Nothing is changed for you.

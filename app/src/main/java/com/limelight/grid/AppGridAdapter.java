@@ -200,7 +200,8 @@ public class AppGridAdapter extends GenericGridAdapter<AppView.AppObject> {
             gridMask.setBackgroundColor(0x00000000);
         }
 
-        // The game running now, or else the one played last, says so: the quickest way back in
+        // The game running now says Playing; otherwise the one played last says Last played
+        // (not Continue: nothing is left running to continue)
         TextView badge = parentView.findViewById(R.id.grid_badge);
         if (badge != null) {
             boolean first = !itemList.isEmpty() && itemList.get(0) == obj;

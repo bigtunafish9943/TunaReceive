@@ -229,7 +229,7 @@
     <string name="replay_needs_newer_pc">Wiederholungen brauchen ein neueres TunaStream auf dem PC</string>
     <string name="game_menu_screenshot">Screenshot machen (%1$s)</string>
     <string name="game_menu_replay">Die letzten 30 Sekunden speichern (%1$s)</string>
-    <string name="grid_badge_continue">Weiter</string>
+    <string name="grid_badge_continue">Zuletzt gespielt</string>
     <string name="grid_badge_playing">Spielt</string>
     <string name="player_joined">Spieler %1$d: %2$s</string>
     <string name="player_joined_unnamed">Spieler %1$d ist beigetreten</string>
