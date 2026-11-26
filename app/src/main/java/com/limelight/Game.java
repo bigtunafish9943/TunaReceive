@@ -4008,6 +4008,18 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
             holder.getSurface().setFrameRate(desiredFrameRate,
                     Surface.FRAME_RATE_COMPATIBILITY_FIXED_SOURCE);
         }
+
+        // Android 17 and later: let pictures through without the system holding them back to
+        // pace them, for less delay (Moonlight 6d4c64a). Found by name, so older TVs and
+        // TunaReceive's build tools don't need to know it
+        if (Build.VERSION.SDK_INT >= 37) {
+            try {
+                Surface.class.getMethod("setProducerThrottlingEnabled", boolean.class)
+                        .invoke(holder.getSurface(), false);
+            } catch (Exception e) {
+                LimeLog.info("Producer throttling can't be turned off here: " + e);
+            }
+        }
     }
 
     @Override
