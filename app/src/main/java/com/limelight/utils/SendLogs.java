@@ -71,6 +71,49 @@ public final class SendLogs {
         }, "TunaReceive send logs").start();
     }
 
+    /**
+     * What the TV sees of controllers right now: Android's input devices, and USB devices with
+     * whether TunaReceive may use them. For when a controller does nothing.
+     */
+    private static String controllers(Activity a) {
+        StringBuilder out = new StringBuilder("\nControllers and input devices:\n");
+        try {
+            for (int id : android.view.InputDevice.getDeviceIds()) {
+                android.view.InputDevice d = android.view.InputDevice.getDevice(id);
+                if (d == null || d.isVirtual()) {
+                    continue;
+                }
+                int sources = d.getSources();
+                boolean pad = (sources & android.view.InputDevice.SOURCE_GAMEPAD) == android.view.InputDevice.SOURCE_GAMEPAD
+                        || (sources & android.view.InputDevice.SOURCE_JOYSTICK) == android.view.InputDevice.SOURCE_JOYSTICK;
+                out.append("  ").append(pad ? "[controller] " : "").append(d.getName())
+                        .append(String.format(java.util.Locale.ROOT, " (%04x:%04x, id %d, sources 0x%x%s)",
+                                d.getVendorId(), d.getProductId(), id, sources, d.isExternal() ? ", external" : ""))
+                        .append('\n');
+            }
+        } catch (Exception e) {
+            out.append("  (couldn't list: ").append(e).append(")\n");
+        }
+        try {
+            android.hardware.usb.UsbManager usb = (android.hardware.usb.UsbManager) a.getSystemService(android.content.Context.USB_SERVICE);
+            if (usb != null) {
+                for (android.hardware.usb.UsbDevice d : usb.getDeviceList().values()) {
+                    out.append(String.format(java.util.Locale.ROOT, "  USB %04x:%04x %s, %s",
+                            d.getVendorId(), d.getProductId(), d.getProductName(), d.getDeviceName()));
+                    for (int i = 0; i < d.getInterfaceCount(); i++) {
+                        android.hardware.usb.UsbInterface f = d.getInterface(i);
+                        out.append(String.format(java.util.Locale.ROOT, ", if%d class %d/%d/%d",
+                                f.getId(), f.getInterfaceClass(), f.getInterfaceSubclass(), f.getInterfaceProtocol()));
+                    }
+                    out.append(usb.hasPermission(d) ? ", TunaReceive may use it" : ", no permission").append('\n');
+                }
+            }
+        } catch (Exception e) {
+            out.append("  (couldn't list USB: ").append(e).append(")\n");
+        }
+        return out.toString();
+    }
+
     private static String collect(Activity a) {
         StringBuilder out = new StringBuilder();
         out.append("TunaReceive ").append(BuildConfig.VERSION_NAME).append(" (").append(BuildConfig.VERSION_CODE).append(")\n");
@@ -93,6 +136,7 @@ public final class SendLogs {
             }
             out.append("  ").append(key).append(" = ").append(value).append('\n');
         }
+        out.append(controllers(a));
         out.append("\nLog:\n");
 
         StringBuilder log = new StringBuilder();
