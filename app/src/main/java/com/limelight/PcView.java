@@ -157,6 +157,7 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
     private final static int RESTORE_ID = 26;
     private final static int WEEK_ID = 27;
     private final static int WATCH_ID = 28;
+    private final static int SLEEP_ID = 29;
 
     private void initializeViews() {
         setContentView(R.layout.activity_pc_view);
@@ -502,6 +503,7 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
             menu.add(Menu.NONE, WATCH_ID, 4, getResources().getString(R.string.watch_menu));
             menu.add(Menu.NONE, BACKUP_ID, 4, getResources().getString(R.string.backup_menu));
             menu.add(Menu.NONE, RESTORE_ID, 4, getResources().getString(R.string.restore_menu));
+            menu.add(Menu.NONE, SLEEP_ID, 4, getResources().getString(R.string.tuna_sleep_menu));
         }
 
         menu.add(Menu.NONE, TEST_NETWORK_ID, 5, getResources().getString(R.string.pcview_menu_test_network));
@@ -972,6 +974,12 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
                     } catch (Exception e) {
                         Toast.makeText(PcView.this, R.string.watch_failed, Toast.LENGTH_LONG).show();
                     }
+                }
+                return true;
+
+            case SLEEP_ID:
+                if (managerBinder != null) {
+                    com.limelight.utils.PcSleep.ask(PcView.this, computer.details, managerBinder.getUniqueId());
                 }
                 return true;
 

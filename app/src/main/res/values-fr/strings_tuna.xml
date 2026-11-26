@@ -462,4 +462,13 @@
     <string name="tuna_quit_message">Le jeu se ferme et tout ce qui n\'est pas sauvegardé est perdu. Pour reprendre plus tard, choisissez Quitter.</string>
     <string name="tuna_quit_yes">Fermer le jeu</string>
     <string name="tuna_quit_leave">Quitter</string>
+    <string name="tuna_sleep_menu">Mettre le PC en veille</string>
+    <string name="tuna_sleep_title">Mettre %1$s en veille ?</string>
+    <string name="tuna_sleep_message">Le PC se met en veille comme depuis son menu Démarrer. Un jeu ouvert reste tel quel. Sélectionner le PC ici le réveille.</string>
+    <string name="tuna_sleep_yes">Veille</string>
+    <string name="tuna_sleep_done">Le PC se met en veille.</string>
+    <string name="tuna_sleep_busy">Quelqu\'un d\'autre diffuse depuis ce PC, il reste donc allumé.</string>
+    <string name="tuna_sleep_not_allowed">Cette TV n\'a pas le droit de lancer des jeux sur ce PC, ni donc de le mettre en veille. Modifiez-le sous Appareils dans TunaStream.</string>
+    <string name="tuna_sleep_failed">Le PC ne s\'est pas mis en veille.</string>
+    <string name="tuna_sleep_update">Mettez à jour TunaStream sur le PC pour le mettre en veille d\'ici.</string>
 </resources>

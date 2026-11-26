@@ -462,4 +462,13 @@
     <string name="tuna_quit_message">El juego se cierra y se pierde lo que no esté guardado. Para seguir más tarde, elige Salir.</string>
     <string name="tuna_quit_yes">Cerrar el juego</string>
     <string name="tuna_quit_leave">Salir</string>
+    <string name="tuna_sleep_menu">Suspender el PC</string>
+    <string name="tuna_sleep_title">¿Suspender %1$s?</string>
+    <string name="tuna_sleep_message">El PC se suspende como desde su menú Inicio. Un juego abierto se queda como está. Seleccionar el PC aquí lo despierta.</string>
+    <string name="tuna_sleep_yes">Suspender</string>
+    <string name="tuna_sleep_done">El PC se está suspendiendo.</string>
+    <string name="tuna_sleep_busy">Otra persona está transmitiendo desde este PC, así que sigue encendido.</string>
+    <string name="tuna_sleep_not_allowed">Esta TV no puede iniciar juegos en este PC, así que tampoco suspenderlo. Cámbialo en Dispositivos en TunaStream.</string>
+    <string name="tuna_sleep_failed">El PC no se ha suspendido.</string>
+    <string name="tuna_sleep_update">Actualiza TunaStream en el PC para suspenderlo desde aquí.</string>
 </resources>

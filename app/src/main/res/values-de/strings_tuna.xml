@@ -459,4 +459,13 @@
     <string name="tuna_quit_message">Das Spiel wird geschlossen, nicht Gespeichertes geht verloren. Um später weiterzuspielen, wähle Verlassen.</string>
     <string name="tuna_quit_yes">Spiel beenden</string>
     <string name="tuna_quit_leave">Verlassen</string>
+    <string name="tuna_sleep_menu">PC in den Ruhezustand</string>
+    <string name="tuna_sleep_title">%1$s in den Ruhezustand versetzen?</string>
+    <string name="tuna_sleep_message">Der PC schläft wie über sein Startmenü. Ein laufendes Spiel bleibt, wie es ist. Den PC hier auszuwählen weckt ihn wieder.</string>
+    <string name="tuna_sleep_yes">Ruhezustand</string>
+    <string name="tuna_sleep_done">Der PC geht in den Ruhezustand.</string>
+    <string name="tuna_sleep_busy">Jemand anderes streamt von diesem PC, daher bleibt er wach.</string>
+    <string name="tuna_sleep_not_allowed">Dieser Fernseher darf auf diesem PC keine Spiele starten und ihn daher auch nicht schlafen legen. Das lässt sich in TunaStream unter Geräte ändern.</string>
+    <string name="tuna_sleep_failed">Der PC ist nicht in den Ruhezustand gegangen.</string>
+    <string name="tuna_sleep_update">Aktualisiere TunaStream auf dem PC, um ihn von hier schlafen zu legen.</string>
 </resources>

@@ -474,4 +474,13 @@
     <string name="tuna_quit_message">The game closes, and anything not saved is lost. To stop watching but keep playing later, choose Leave.</string>
     <string name="tuna_quit_yes">End the game</string>
     <string name="tuna_quit_leave">Leave</string>
+    <string name="tuna_sleep_menu">Put the PC to sleep</string>
+    <string name="tuna_sleep_title">Put %1$s to sleep?</string>
+    <string name="tuna_sleep_message">The PC sleeps as it would from its Start menu. A game left running is kept as it is. Selecting the PC here wakes it again.</string>
+    <string name="tuna_sleep_yes">Sleep</string>
+    <string name="tuna_sleep_done">The PC is going to sleep.</string>
+    <string name="tuna_sleep_busy">Someone else is streaming from this PC, so it stays awake.</string>
+    <string name="tuna_sleep_not_allowed">This TV isn\'t allowed to start games on this PC, so it can\'t put it to sleep either. Change that under Devices in TunaStream.</string>
+    <string name="tuna_sleep_failed">The PC didn\'t go to sleep.</string>
+    <string name="tuna_sleep_update">Update TunaStream on the PC to put it to sleep from here.</string>
 </resources>

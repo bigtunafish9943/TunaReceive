@@ -859,6 +859,11 @@ public class NvHTTP {
         return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/report", query);
     }
 
+    /** TunaStream only: puts the PC to sleep. JSON {"sleeping", "reason"}. */
+    public String tunaSleep() throws IOException {
+        return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/sleep");
+    }
+
     /** TunaStream only: how the PC reaches the network. JSON {"known","wifi","mbps","signal","channel"}. */
     public String getTunaNetwork() throws IOException {
         return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/network");
