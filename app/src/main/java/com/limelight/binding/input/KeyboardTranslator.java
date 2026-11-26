@@ -39,6 +39,7 @@ public class KeyboardTranslator implements InputManager.InputDeviceListener {
     public static final int VK_EQUALS = 61;
     public static final int VK_ESCAPE = 27;
     public static final int VK_F1 = 112;
+    public static final int VK_F13 = 0x7C;
     public static final int VK_F12 = 123;
 
     public static final int VK_END = 35;
@@ -215,6 +216,12 @@ public class KeyboardTranslator implements InputManager.InputDeviceListener {
         else if (keycode >= KeyEvent.KEYCODE_F1 &&
                  keycode <= KeyEvent.KEYCODE_F12) {
             translated = (keycode - KeyEvent.KEYCODE_F1) + VK_F1;
+        }
+        // F13 to F24 (Android 16 keyboards; Moonlight 8974dcd)
+        else if (Build.VERSION.SDK_INT >= 36 &&
+                 keycode >= KeyEvent.KEYCODE_F13 &&
+                 keycode <= KeyEvent.KEYCODE_F24) {
+            translated = (keycode - KeyEvent.KEYCODE_F13) + VK_F13;
         }
         else {
             switch (keycode) {
@@ -402,6 +409,10 @@ public class KeyboardTranslator implements InputManager.InputDeviceListener {
 
             case KeyEvent.KEYCODE_NUMPAD_DOT:
                 translated = 0x6E;
+                break;
+
+            case KeyEvent.KEYCODE_SCREENSHOT:
+                translated = 0x2C; // Print Screen
                 break;
 
             default:
