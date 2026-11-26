@@ -3823,6 +3823,13 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 connected = true;
                 connecting = false;
                 connectedAtMs = SystemClock.uptimeMillis();
+
+                // Played now, however it was started (this list, TunaHome's PC games row, a
+                // shortcut): the games list marks it Continue next time
+                int playedId = getIntent().getIntExtra(EXTRA_APP_ID, StreamConfiguration.INVALID_APP_ID);
+                if (playedId != StreamConfiguration.INVALID_APP_ID) {
+                    com.limelight.utils.RecentGames.recordPlayed(Game.this, getIntent().getStringExtra(EXTRA_PC_UUID), playedId);
+                }
                 updatePipAutoEnter();
 
                 // For the first few streams, say how to reach the quick menu from the couch
