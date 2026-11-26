@@ -859,6 +859,17 @@ public class NvHTTP {
         return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/report", query);
     }
 
+    /** TunaStream only: the game being played at the PC. JSON {"playing", "name", "id"}. */
+    public String tunaDesk() throws IOException {
+        return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/desk");
+    }
+
+    /** TunaStream only: the next stream carries on with that window. JSON {"ok"}. */
+    public String tunaDeskContinue(String id) throws IOException {
+        return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/desk/continue",
+                "id=" + java.net.URLEncoder.encode(id, "UTF-8"));
+    }
+
     /** TunaStream only: puts the PC to sleep. JSON {"sleeping", "reason"}. */
     public String tunaSleep() throws IOException {
         return openHttpConnectionToString(httpClientLongConnectTimeout, getHttpsUrl(true), "tuna/sleep");

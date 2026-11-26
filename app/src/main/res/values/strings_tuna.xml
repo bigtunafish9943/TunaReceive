@@ -501,4 +501,10 @@
         <item quantity="one">Trophy unlocked!</item>
         <item quantity="other">%d trophies unlocked!</item>
     </plurals>
+    <string name="tuna_desk_title">Playing on the PC: %1$s</string>
+    <string name="tuna_desk_message">Carry on with it here? A stream starts and the game moves onto the TV, without restarting.</string>
+    <string name="tuna_desk_yes">Continue on the TV</string>
+    <string name="tuna_desk_no">Not now</string>
+    <string name="tuna_desk_failed">The PC couldn\'t hand the game over. Update TunaStream on the PC.</string>
+    <string name="tuna_desk_no_desktop">This PC has no Desktop app to stream. Add it back on TunaStream\'s Apps page.</string>
 </resources>

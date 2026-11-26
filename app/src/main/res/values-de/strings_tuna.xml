@@ -486,4 +486,10 @@
         <item quantity="one">Trophäe freigeschaltet!</item>
         <item quantity="other">%d Trophäen freigeschaltet!</item>
     </plurals>
+    <string name="tuna_desk_title">Läuft am PC: %1$s</string>
+    <string name="tuna_desk_message">Hier weiterspielen? Ein Stream startet und das Spiel wechselt auf den Fernseher, ohne Neustart.</string>
+    <string name="tuna_desk_yes">Am Fernseher weiterspielen</string>
+    <string name="tuna_desk_no">Jetzt nicht</string>
+    <string name="tuna_desk_failed">Der PC konnte das Spiel nicht übergeben. Aktualisiere TunaStream auf dem PC.</string>
+    <string name="tuna_desk_no_desktop">Dieser PC hat keine Desktop-App zum Streamen. Füge sie auf der Apps-Seite von TunaStream wieder hinzu.</string>
 </resources>

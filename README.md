@@ -113,6 +113,9 @@ Works with TunaStream; everything above needs TunaStream 1.0. Split-frame encodi
   answers; the wake-up signal is repeated every few seconds until then. If it doesn't wake, TunaReceive says what
   the PC needs: Wake-on-LAN in its BIOS, its network adapter allowed to wake it, and a cable rather than Wi-Fi.
   TunaStream's Checklist self-check shows whether the PC is set up for it. Works on the PC's home network only.
+- **Continue on the TV.** Playing at the desk? Open the PC's games on the TV and it offers *Continue on the TV*:
+  a stream starts and the game moves onto the TV without restarting. Needs the latest TunaStream; games in exclusive
+  full screen may need to be set to borderless first.
 - **Put the PC to sleep.** Press and hold the PC, then *Put the PC to sleep*, when you're done for the night; a
   game left running is kept as it is, and selecting the PC wakes it again. Not while someone else streams from it.
   Needs the latest TunaStream.

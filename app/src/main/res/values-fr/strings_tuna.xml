@@ -489,4 +489,10 @@
         <item quantity="one">Trophée débloqué !</item>
         <item quantity="other">%d trophées débloqués !</item>
     </plurals>
+    <string name="tuna_desk_title">En cours sur le PC : %1$s</string>
+    <string name="tuna_desk_message">Continuer ici ? Un stream démarre et le jeu passe sur la TV, sans redémarrer.</string>
+    <string name="tuna_desk_yes">Continuer sur la TV</string>
+    <string name="tuna_desk_no">Pas maintenant</string>
+    <string name="tuna_desk_failed">Le PC n\'a pas pu passer le jeu. Mettez à jour TunaStream sur le PC.</string>
+    <string name="tuna_desk_no_desktop">Ce PC n\'a pas d\'appli Desktop à diffuser. Rajoutez-la sur la page Applis de TunaStream.</string>
 </resources>

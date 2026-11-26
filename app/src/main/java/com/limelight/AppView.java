@@ -473,6 +473,9 @@ public class AppView extends AppCompatActivity implements AdapterFragmentCallbac
         if (managerBinder != null && computer != null) {
             com.limelight.utils.Trophies.checkAfterStream(this, computer, managerBinder.getUniqueId());
         }
+        // Playing at the PC: offer to carry on here (once per visit, after the PC has answered)
+        deskChecked = false;
+        new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(this::checkDesk, 2000);
 
         ExtendedFloatingActionButton profilesButton = findViewById(R.id.profilesButton);
         // User report Samsung and Xiaomi devices have this problem
@@ -856,6 +859,29 @@ public class AppView extends AppCompatActivity implements AdapterFragmentCallbac
         UiHelper.applyStatusBarPadding(listView);
         registerForContextMenu(listView);
         listView.requestFocus();
+    }
+
+    private boolean deskChecked;
+
+    /** Continue on the TV: a game being played at the PC can move here. */
+    private void checkDesk() {
+        if (deskChecked || !inForeground || managerBinder == null || computer == null) {
+            return;
+        }
+        deskChecked = true;
+        com.limelight.utils.DeskContinue.check(this, computer, managerBinder.getUniqueId(), () -> {
+            if (appGridAdapter == null) {
+                return false;
+            }
+            for (int i = 0; i < appGridAdapter.getCount(); i++) {
+                AppObject app = (AppObject) appGridAdapter.getItem(i);
+                if ("desktop".equalsIgnoreCase(app.app.getAppName().trim())) {
+                    ServerHelper.doStart(AppView.this, app.app, computer, managerBinder, true);
+                    return true;
+                }
+            }
+            return false;
+        });
     }
 
     public static class AppObject {
