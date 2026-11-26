@@ -439,4 +439,10 @@
     <string name="watch_failed">Impossible de joindre le PC pour regarder.</string>
     <string name="watch_not_available">Pour regarder, le PC a besoin de la dernière version de TunaStream.</string>
     <string name="watch_cheer_failed">L\'encouragement n\'est pas passé.</string>
+    <string name="tuna_wake_title">Réveil de %1$s</string>
+    <string name="tuna_wake_waiting">Envoi du signal de réveil. Ses jeux s\'ouvrent dès qu\'il répond, en général en moins de 30 secondes.</string>
+    <string name="tuna_wake_awake">%1$s est réveillé</string>
+    <string name="tuna_wake_no_answer">%1$s ne s\'est pas réveillé</string>
+    <string name="tuna_wake_tips">Pour que la TV puisse réveiller le PC, il faut sur le PC :\n• Wake-on-LAN activé dans le BIOS ou l\'UEFI\n• Dans le Gestionnaire de périphériques, Gestion de l\'alimentation de la carte réseau : « Autoriser ce périphérique à sortir l\'ordinateur du mode veille » et « Autoriser uniquement un paquet magique à sortir l\'ordinateur du mode veille »\n• Un câble réseau : la plupart des PC ne se réveillent pas par Wi-Fi\n• La mise en veille plutôt que l\'arrêt, sauf si le PC peut être réveillé éteint (désactivez alors le démarrage rapide de Windows)\n\nLe réveil ne fonctionne que sur le même réseau domestique que le PC.</string>
+    <string name="tuna_wake_again">Réessayer</string>
 </resources>

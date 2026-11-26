@@ -52,6 +52,7 @@ import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -426,6 +427,7 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
         usbMenu.pause();
 
         inForeground = false;
+        stopWaking();
         stopComputerUpdates(false);
     }
 
@@ -681,6 +683,90 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
         });
     }
 
+    // Waking a PC: the wake-up signal goes out again every few seconds (a sleeping network card
+    // can miss one) until the PC answers, the viewer cancels, or it's clearly not waking
+    private static final long WAKE_WAIT_MS = 90000;
+    private AlertDialog wakeDialog;
+    private volatile String wakingUuid;
+    private Thread wakeThread;
+
+    private void wakeAndWait(final ComputerDetails computer) {
+        if (computer.state == ComputerDetails.State.ONLINE) {
+            Toast.makeText(this, getResources().getString(R.string.wol_pc_online), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (computer.macAddress == null) {
+            Toast.makeText(this, getResources().getString(R.string.wol_no_mac), Toast.LENGTH_LONG).show();
+            return;
+        }
+        stopWaking();
+        final String uuid = computer.uuid;
+        wakingUuid = uuid;
+        wakeDialog = new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.tuna_wake_title, computer.name))
+                .setMessage(R.string.tuna_wake_waiting)
+                .setNegativeButton(android.R.string.cancel, (d, w) -> stopWaking())
+                .setOnCancelListener(d -> stopWaking())
+                .create();
+        wakeDialog.show();
+        // Keep checking whether it answers while the dialog is up
+        startComputerUpdates();
+        wakeThread = new Thread(() -> {
+            long started = SystemClock.uptimeMillis();
+            try {
+                while (uuid.equals(wakingUuid) && SystemClock.uptimeMillis() - started < WAKE_WAIT_MS) {
+                    try {
+                        WakeOnLanSender.sendWolPacket(computer);
+                    } catch (IOException e) {
+                        LimeLog.warning("Wake: couldn't send: " + e);
+                    }
+                    Thread.sleep(SystemClock.uptimeMillis() - started < 20000 ? 3000 : 6000);
+                }
+            } catch (InterruptedException e) {
+                return;
+            }
+            runOnUiThread(() -> {
+                if (uuid.equals(wakingUuid)) {
+                    wakeDidntWork(computer);
+                }
+            });
+        });
+        wakeThread.start();
+    }
+
+    /** It didn't answer: say what the PC needs, and offer to try again. */
+    private void wakeDidntWork(final ComputerDetails computer) {
+        stopWaking();
+        if (isFinishing() || isDestroyed()) {
+            return;
+        }
+        wakeDialog = new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.tuna_wake_no_answer, computer.name))
+                .setMessage(R.string.tuna_wake_tips)
+                .setPositiveButton(R.string.tuna_wake_again, (d, w) -> wakeAndWait(computer))
+                .setNegativeButton(android.R.string.ok, null)
+                .create();
+        wakeDialog.show();
+    }
+
+    private void stopWaking() {
+        wakingUuid = null;
+        if (wakeThread != null) {
+            wakeThread.interrupt();
+            wakeThread = null;
+        }
+        if (wakeDialog != null) {
+            if (wakeDialog.isShowing()) {
+                try {
+                    wakeDialog.dismiss();
+                } catch (IllegalArgumentException e) {
+                    // Window already gone
+                }
+            }
+            wakeDialog = null;
+        }
+    }
+
     private void doWakeOnLan(final ComputerDetails computer) {
         if (computer.state == ComputerDetails.State.ONLINE) {
             Toast.makeText(PcView.this, getResources().getString(R.string.wol_pc_online), Toast.LENGTH_SHORT).show();
@@ -802,7 +888,7 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
                 return true;
 
             case WOL_ID:
-                doWakeOnLan(computer.details);
+                wakeAndWait(computer.details);
                 return true;
 
             case DELETE_ID:
@@ -990,6 +1076,16 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
         // Notify the view that the data has changed
         pcGridAdapter.notifyDataSetChanged();
 
+        // The PC being woken answered: straight to its games
+        if (details.uuid.equals(wakingUuid) && details.state == ComputerDetails.State.ONLINE) {
+            stopWaking();
+            Toast.makeText(this, getString(R.string.tuna_wake_awake, details.name), Toast.LENGTH_SHORT).show();
+            if (details.pairState == PairState.PAIRED) {
+                autoOpenDone = true;
+                doAppList(details, false, false);
+            }
+        }
+
         maybeOpenOnlyPc(details);
 
         // Collect any files a paired PC is sending to this device
@@ -1030,7 +1126,7 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
             doAppList(details, false, false);
         } else if (details.state == ComputerDetails.State.OFFLINE && !autoWakeSent && details.macAddress != null) {
             autoWakeSent = true;
-            doWakeOnLan(details);
+            wakeAndWait(details);
         }
     }
 
@@ -1047,7 +1143,11 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
             public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
                                     long id) {
                 ComputerObject computer = (ComputerObject) pcGridAdapter.getItem(pos);
-                if (computer.details.state == ComputerDetails.State.UNKNOWN ||
+                if (computer.details.state == ComputerDetails.State.OFFLINE &&
+                        computer.details.pairState == PairState.PAIRED && computer.details.macAddress != null) {
+                    // Asleep or off: wake it, and open its games when it answers
+                    wakeAndWait(computer.details);
+                } else if (computer.details.state == ComputerDetails.State.UNKNOWN ||
                     computer.details.state == ComputerDetails.State.OFFLINE) {
                     // Open the context menu if a PC is offline or refreshing
                     openContextMenu(arg1);

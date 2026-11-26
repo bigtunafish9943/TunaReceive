@@ -439,4 +439,10 @@
     <string name="watch_failed">No se pudo conectar con el PC para ver.</string>
     <string name="watch_not_available">Para ver, el PC necesita la última versión de TunaStream.</string>
     <string name="watch_cheer_failed">No se pudo enviar el ánimo.</string>
+    <string name="tuna_wake_title">Despertando %1$s</string>
+    <string name="tuna_wake_waiting">Enviando la señal para despertarlo. Sus juegos se abren en cuanto responda, normalmente en menos de 30 segundos.</string>
+    <string name="tuna_wake_awake">%1$s está despierto</string>
+    <string name="tuna_wake_no_answer">%1$s no se despertó</string>
+    <string name="tuna_wake_tips">Para que la TV pueda despertar el PC, el PC necesita:\n• Wake-on-LAN activado en la BIOS o UEFI\n• En el Administrador de dispositivos, en Administración de energía del adaptador de red: \"Permitir que este dispositivo reactive el equipo\" y \"Permitir solo un Magic Packet para reactivar el equipo\"\n• Un cable de red: la mayoría de los PC no se despiertan por Wi-Fi\n• Suspender en lugar de apagar, salvo que el PC pueda despertarse apagado (entonces desactiva el inicio rápido de Windows)\n\nDespertar solo funciona en la misma red de casa que el PC.</string>
+    <string name="tuna_wake_again">Reintentar</string>
 </resources>

@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 import com.limelight.LimeLog;
@@ -58,12 +63,38 @@ public class WakeOnLanSender {
         }
     }
     
+    /**
+     * This device's own networks' broadcast addresses (192.168.1.255 and the like). Some routers
+     * and TV boxes drop the all-networks broadcast, 255.255.255.255, but pass these.
+     */
+    private static List<InetAddress> localBroadcasts() {
+        List<InetAddress> found = new ArrayList<>();
+        try {
+            for (NetworkInterface nif : Collections.list(NetworkInterface.getNetworkInterfaces())) {
+                if (!nif.isUp() || nif.isLoopback()) {
+                    continue;
+                }
+                for (InterfaceAddress a : nif.getInterfaceAddresses()) {
+                    InetAddress broadcast = a.getBroadcast();
+                    if (broadcast != null && !found.contains(broadcast)) {
+                        found.add(broadcast);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            LimeLog.warning("Wake: couldn't list this device's networks: " + e);
+        }
+        return found;
+    }
+
     public static void sendWolPacket(ComputerDetails computer) throws IOException {
         byte[] payload = createWolPayload(computer);
         IOException lastException = null;
         boolean sentWolPacket = false;
 
         try (final DatagramSocket sock = new DatagramSocket(0)) {
+            sock.setBroadcast(true);
+            List<InetAddress> broadcasts = localBroadcasts();
             // Try all resolved remote and local addresses and broadcast addresses.
             // The broadcast address is required to avoid stale ARP cache entries
             // making the sleeping machine unreachable.
@@ -81,6 +112,15 @@ public class WakeOnLanSender {
                 } catch (IOException e) {
                     e.printStackTrace();
                     lastException = e;
+                }
+
+                for (InetAddress broadcast : broadcasts) {
+                    try {
+                        sendPacketsForAddress(broadcast, address.port, sock, payload);
+                        sentWolPacket = true;
+                    } catch (IOException e) {
+                        lastException = e;
+                    }
                 }
 
                 try {

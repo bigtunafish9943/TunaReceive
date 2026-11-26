@@ -436,4 +436,10 @@
     <string name="watch_failed">Der PC war zum Zuschauen nicht erreichbar.</string>
     <string name="watch_not_available">Zum Zuschauen braucht der PC die neueste Version von TunaStream.</string>
     <string name="watch_cheer_failed">Das Anfeuern hat nicht geklappt.</string>
+    <string name="tuna_wake_title">%1$s wird geweckt</string>
+    <string name="tuna_wake_waiting">Das Wecksignal wird gesendet. Die Spiele öffnen sich, sobald der PC antwortet, meist innerhalb von 30 Sekunden.</string>
+    <string name="tuna_wake_awake">%1$s ist wach</string>
+    <string name="tuna_wake_no_answer">%1$s ist nicht aufgewacht</string>
+    <string name="tuna_wake_tips">Damit der Fernseher den PC wecken kann, braucht der PC:\n• Wake-on-LAN im BIOS bzw. UEFI eingeschaltet\n• Im Geräte-Manager unter Energieverwaltung des Netzwerkadapters: „Gerät kann den Computer aus dem Ruhezustand aktivieren“ und „Nur Magic Packet kann Computer aus dem Ruhezustand aktivieren“\n• Ein Netzwerkkabel: die meisten PCs lassen sich nicht über WLAN wecken\n• Energiesparmodus statt Herunterfahren, außer der PC kann aus dem ausgeschalteten Zustand geweckt werden (dann den Schnellstart von Windows ausschalten)\n\nWecken klappt nur im selben Heimnetz wie der PC.</string>
+    <string name="tuna_wake_again">Nochmal versuchen</string>
 </resources>

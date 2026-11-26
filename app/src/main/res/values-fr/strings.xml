@@ -24,7 +24,7 @@
     <string name="pcview_menu_pair_pc">Appairer avec ce PC</string>
     <string name="pcview_menu_pair_pc_otp">Appairage OTP</string>
     <string name="pcview_menu_unpair_pc">Désappairer</string>
-    <string name="pcview_menu_send_wol">Envoyer une requête Wake-On-LAN</string>
+    <string name="pcview_menu_send_wol">Réveiller ce PC</string>
     <string name="pcview_menu_delete_pc">Supprimer le PC</string>
     <string name="pcview_menu_test_network">Tester la connection réseau</string>
     <string name="pcview_menu_details">Voir les détails</string>

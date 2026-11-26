@@ -31,7 +31,7 @@
     <string name="pcview_menu_pair_pc">Legacy Pair</string>
     <string name="pcview_menu_pair_pc_otp">OTP Pair</string>
     <string name="pcview_menu_unpair_pc">Unpair</string>
-    <string name="pcview_menu_send_wol">Send Wake-On-LAN request</string>
+    <string name="pcview_menu_send_wol">Wake this PC</string>
     <string name="pcview_menu_delete_pc">Delete PC</string>
     <string name="pcview_menu_test_network">Test Network Connection</string>
     <string name="pcview_menu_details">View Details</string>

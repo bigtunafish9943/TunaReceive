@@ -4,7 +4,7 @@
     <string name="pcview_menu_app_list">Ver lista de juegos</string>
     <string name="pcview_menu_pair_pc">Emparejar con PC</string>
     <string name="pcview_menu_unpair_pc">Desemparejar</string>
-    <string name="pcview_menu_send_wol">Enviar petición Wake-On-LAN</string>
+    <string name="pcview_menu_send_wol">Despertar este PC</string>
     <string name="pcview_menu_delete_pc">Eliminar PC</string>
     <!-- Pair messages -->
     <string name="pairing">Emparejando…</string>

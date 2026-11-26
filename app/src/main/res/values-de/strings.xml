@@ -13,7 +13,7 @@
     <string name="pcview_menu_app_list">Alle Apps anzeigen</string>
     <string name="pcview_menu_pair_pc">Mit Host koppeln</string>
     <string name="pcview_menu_unpair_pc">Kopplung trennen</string>
-    <string name="pcview_menu_send_wol">Wake-On-LAN Anfrage senden</string>
+    <string name="pcview_menu_send_wol">Diesen PC wecken</string>
     <string name="pcview_menu_delete_pc">Host löschen</string>
     <string name="pcview_menu_test_network">Netzwerkverbindung testen</string>
     <string name="pcview_menu_details">Details anzeigen</string>
