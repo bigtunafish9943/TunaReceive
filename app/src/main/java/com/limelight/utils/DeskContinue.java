@@ -39,8 +39,18 @@ public final class DeskContinue {
                 uniqueId, computer.serverCert, PlatformBinding.getCryptoProvider(a));
     }
 
+    private static long streamEndedAt;
+
+    /** A stream just ended: the game it carried is back at the PC, not to be offered straight away. */
+    public static void streamEnded() {
+        streamEndedAt = SystemClock.elapsedRealtime();
+    }
+
     public static void check(final Activity a, final ComputerDetails computer, final String uniqueId, final Starter starter) {
         if (computer == null || uniqueId == null || computer.runningGameId != 0) {
+            return;
+        }
+        if (streamEndedAt != 0 && SystemClock.elapsedRealtime() - streamEndedAt < 5 * 60_000) {
             return;
         }
         new Thread(() -> {
