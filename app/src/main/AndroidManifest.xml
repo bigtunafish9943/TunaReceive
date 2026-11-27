@@ -99,6 +99,12 @@
              in each activity even though it is implied by targeting API 24+ -->
 
         <activity
+            android:name=".ControllerTestActivity"
+            android:configChanges="mcc|mnc|touchscreen|keyboard|keyboardHidden|navigation|screenLayout|fontScale|uiMode|orientation|screenSize|smallestScreenSize|layoutDirection"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".PcView"
             android:exported="true"
             android:resizeableActivity="true"

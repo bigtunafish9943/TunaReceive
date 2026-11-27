@@ -147,7 +147,9 @@ public final class ControllerCheck {
         AlertDialog.Builder dialog = new AlertDialog.Builder(activity)
                 .setTitle(R.string.controller_check_title)
                 .setMessage(text.toString())
-                .setNegativeButton(android.R.string.ok, null);
+                .setNegativeButton(android.R.string.ok, null)
+                .setNeutralButton(R.string.tuna_test_open, (d, w) ->
+                        activity.startActivity(new android.content.Intent(activity, com.limelight.ControllerTestActivity.class)));
         if (!withRumble.isEmpty()) {
             // Set below so pressing it doesn't close the box
             dialog.setPositiveButton(R.string.controller_check_test, null);

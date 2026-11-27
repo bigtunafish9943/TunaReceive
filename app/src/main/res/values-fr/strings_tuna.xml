@@ -519,4 +519,9 @@
     <string name="tuna_battery_save_summary">Un avertissement à 15 %, et le jeu mis en pause à 4 % pour qu\'une batterie vide ne coûte pas un combat</string>
     <string name="tuna_battery_low">La batterie de la manette du joueur %1$d est faible (%2$d %%)</string>
     <string name="tuna_battery_pause">La manette du joueur %1$d est presque à plat (%2$d %%) : le jeu est en pause. Branchez-la ou changez les piles.</string>
+    <string name="tuna_test_open">Tester boutons et sticks</string>
+    <string name="tuna_test_press">Appuyez sur un bouton de la manette</string>
+    <string name="tuna_test_driver_pad">Manette 8BitDo (via TunaReceive)</string>
+    <string name="tuna_test_rest">Au repos à %1$s</string>
+    <string name="tuna_test_hint">Chaque bouton s\'allume quand on l\'appuie. Un stick qui se repose au-dessus de 0,10 dérive : essayez Corriger la dérive du stick. Retour sur la télécommande, ou maintenez B, pour quitter.</string>
 </resources>

@@ -516,4 +516,9 @@
     <string name="tuna_battery_save_summary">Eine Warnung bei 15 % und bei 4 % wird das Spiel pausiert, damit ein leerer Akku keinen Kampf kostet</string>
     <string name="tuna_battery_low">Der Akku von Spieler %1$d ist schwach (%2$d %%)</string>
     <string name="tuna_battery_pause">Der Controller von Spieler %1$d ist fast leer (%2$d %%): Das Spiel ist pausiert. Einstecken oder Batterien wechseln.</string>
+    <string name="tuna_test_open">Tasten und Sticks testen</string>
+    <string name="tuna_test_press">Drück eine Taste am Controller</string>
+    <string name="tuna_test_driver_pad">8BitDo-Controller (über TunaReceive)</string>
+    <string name="tuna_test_rest">Ruht bei %1$s</string>
+    <string name="tuna_test_hint">Jede Taste leuchtet beim Drücken. Ein Stick, der über 0,10 ruht, driftet: Probier Stick-Drift beheben. Zurück auf der Fernbedienung oder B halten zum Verlassen.</string>
 </resources>

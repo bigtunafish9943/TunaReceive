@@ -75,6 +75,9 @@ Works with TunaStream; everything above needs TunaStream 1.0. Split-frame encodi
 
 ### Fun on the couch
 
+- **Test buttons and sticks** (from Check my controller): every button, both sticks and the triggers drawn live,
+  with where each stick rests when let go, so a sticking button or a drifting stick shows at a glance. Works for
+  the 8BitDo adapter too.
 - **Bedtime timer.** *Bedtime timer* in the quick menu: after 15 minutes to 2 hours (with a warning five minutes
   before, to find a save point) the game is paused and the stream left, so the game is still open on the PC for
   next time.

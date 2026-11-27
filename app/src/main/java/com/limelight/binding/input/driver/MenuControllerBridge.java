@@ -179,9 +179,17 @@ public class MenuControllerBridge implements Application.ActivityLifecycleCallba
 
     private static final int UP = 1, DOWN = 2, LEFT = 4, RIGHT = 8;
 
+    /** A screen that wants the controller's raw state (Test my controller) rather than remote-like presses. */
+    public static volatile UsbDriverListener rawListener;
+
     @Override
     public void reportControllerState(final int controllerId, final int buttonFlags, final float leftStickX, final float leftStickY,
                                       float rightStickX, float rightStickY, float leftTrigger, float rightTrigger) {
+        UsbDriverListener raw = rawListener;
+        if (raw != null) {
+            raw.reportControllerState(controllerId, buttonFlags, leftStickX, leftStickY, rightStickX, rightStickY, leftTrigger, rightTrigger);
+            return;
+        }
         // Comes from the USB thread: handled on the main thread, with the screens
         main.post(() -> handleState(controllerId, buttonFlags, leftStickX, leftStickY));
     }
