@@ -495,4 +495,9 @@
     <string name="tuna_desk_no">Ahora no</string>
     <string name="tuna_desk_failed">El PC no pudo pasar el juego. Actualiza TunaStream en el PC.</string>
     <string name="tuna_desk_no_desktop">Este PC no tiene la app Desktop para transmitir. Vuelve a añadirla en la página Apps de TunaStream.</string>
+    <string name="tuna_invite_menu">Invitar jugadores</string>
+    <string name="tuna_invite_title">Jugar con un teléfono</string>
+    <string name="tuna_invite_note">Escanéalo con un teléfono en esta Wi-Fi: se convierte en un mando para este juego. Hasta cuatro teléfonos; el código sirve 12 horas.</string>
+    <string name="tuna_invite_failed">No se pudo crear un enlace de jugador. Comprueba que el PC esté encendido.</string>
+    <string name="tuna_invite_update">Actualiza TunaStream en el PC para invitar jugadores desde aquí.</string>
 </resources>

@@ -492,4 +492,9 @@
     <string name="tuna_desk_no">Jetzt nicht</string>
     <string name="tuna_desk_failed">Der PC konnte das Spiel nicht übergeben. Aktualisiere TunaStream auf dem PC.</string>
     <string name="tuna_desk_no_desktop">Dieser PC hat keine Desktop-App zum Streamen. Füge sie auf der Apps-Seite von TunaStream wieder hinzu.</string>
+    <string name="tuna_invite_menu">Mitspieler einladen</string>
+    <string name="tuna_invite_title">Mit dem Handy mitspielen</string>
+    <string name="tuna_invite_note">Mit einem Handy in diesem WLAN scannen: Es wird ein Controller für dieses Spiel. Bis zu vier Handys; der Code gilt 12 Stunden.</string>
+    <string name="tuna_invite_failed">Kein Spielerlink möglich. Ist der PC an?</string>
+    <string name="tuna_invite_update">Aktualisiere TunaStream auf dem PC, um von hier Mitspieler einzuladen.</string>
 </resources>

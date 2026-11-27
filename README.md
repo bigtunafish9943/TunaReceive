@@ -72,6 +72,9 @@ Works with TunaStream; everything above needs TunaStream 1.0. Split-frame encodi
 
 ### Fun on the couch
 
+- **Invite players.** *Invite players* in the quick menu shows a QR code on the TV; friends scan it with their
+  phones and each phone becomes a controller in the game (up to four, with rumble where the phone vibrates). Needs
+  the latest TunaStream.
 - **Shrink to a corner.** *Shrink to a corner* in the quick menu keeps the stream playing in a small window while
   you use the TV for something else (pick a show, check a score); select it to bring it back full screen. The
   controller goes back to the TV meanwhile.

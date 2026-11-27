@@ -507,4 +507,9 @@
     <string name="tuna_desk_no">Not now</string>
     <string name="tuna_desk_failed">The PC couldn\'t hand the game over. Update TunaStream on the PC.</string>
     <string name="tuna_desk_no_desktop">This PC has no Desktop app to stream. Add it back on TunaStream\'s Apps page.</string>
+    <string name="tuna_invite_menu">Invite players</string>
+    <string name="tuna_invite_title">Join with a phone</string>
+    <string name="tuna_invite_note">Scan with a phone on this Wi-Fi: it becomes a controller for this game. Up to four phones; the code works for 12 hours.</string>
+    <string name="tuna_invite_failed">Couldn\'t make a player link. Check the PC is on.</string>
+    <string name="tuna_invite_update">Update TunaStream on the PC to invite players from here.</string>
 </resources>

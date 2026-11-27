@@ -1409,6 +1409,11 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         return builder.build();
     }
 
+    /** The quick menu's "Invite players": a QR code for friends' phones to join as controllers. */
+    public void invitePlayers() {
+        com.limelight.utils.InvitePlayers.show(this, httpConn);
+    }
+
     /**
      * The quick menu's "Shrink to a corner": the stream keeps playing in a small window while
      * the TV is used for something else; selecting it brings it back. Works whether or not the
