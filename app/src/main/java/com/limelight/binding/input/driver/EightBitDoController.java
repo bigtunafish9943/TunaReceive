@@ -92,7 +92,6 @@ public class EightBitDoController extends AbstractController {
                 ControllerPacket.PADDLE3_FLAG | ControllerPacket.PADDLE4_FLAG | ControllerPacket.MISC_FLAG;
     }
 
-    @Override
     /** How many adapters TunaReceive is driving right now (AdapterDoctor leaves those alone). */
     public static final java.util.concurrent.atomic.AtomicInteger active = new java.util.concurrent.atomic.AtomicInteger();
 
@@ -145,6 +144,7 @@ public class EightBitDoController extends AbstractController {
         }, "8BitDo give back").start();
     }
 
+    @Override
     public boolean start() {
         iface = device.getInterface(0);
         // Takes the gamepad away from Android's own HID driver, which can't rumble it

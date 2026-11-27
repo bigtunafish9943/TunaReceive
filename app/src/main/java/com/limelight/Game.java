@@ -240,9 +240,19 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     private WifiManager.WifiLock lowLatencyWifiLock;
 
     private boolean connectedToUsbDriverService = false;
+    /**
+     * Whether a binding to the USB driver was asked for and not yet let go. Unbinding follows this,
+     * not whether the driver answered yet: a stream that ends before it answers must still let go,
+     * or the driver would keep the 8BitDo adapter after the stream.
+     */
+    private boolean usbDriverBound = false;
     private ServiceConnection usbDriverServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            if (!usbDriverBound || isFinishing() || isDestroyed()) {
+                // The stream ended (or shrank to a corner) before the driver answered
+                return;
+            }
             UsbDriverService.UsbDriverBinder binder = (UsbDriverService.UsbDriverBinder) iBinder;
             binder.setListener(controllerHandler);
             binder.setStateListener(Game.this);
@@ -1329,7 +1339,8 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 UiHelper.notifyStreamEnteringPiP(this);
 
                 // The controller goes back to the TV meanwhile (8BitDo's adapter included)
-                if (connectedToUsbDriverService) {
+                if (usbDriverBound) {
+                    usbDriverBound = false;
                     connectedToUsbDriverService = false;
                     try {
                         unbindService(usbDriverServiceConnection);
@@ -1376,8 +1387,8 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 UiHelper.notifyStreamExitingPiP(this);
 
                 // Full screen again: the game has the controller back
-                if (prefConfig.usbDriver && !connectedToUsbDriverService) {
-                    bindService(new Intent(this, UsbDriverService.class),
+                if (prefConfig.usbDriver && !usbDriverBound) {
+                    usbDriverBound = bindService(new Intent(this, UsbDriverService.class),
                             usbDriverServiceConnection, Service.BIND_AUTO_CREATE);
                 }
             }
@@ -1972,9 +1983,16 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                     .apply();
         }
 
-        if (connectedToUsbDriverService) {
-            // Unbind from the discovery service
-            unbindService(usbDriverServiceConnection);
+        if (usbDriverBound) {
+            // Let go of the USB driver: with no other screen using it, it stops and hands the
+            // 8BitDo adapter back to Android
+            usbDriverBound = false;
+            connectedToUsbDriverService = false;
+            try {
+                unbindService(usbDriverServiceConnection);
+            } catch (Exception e) {
+                // Already gone
+            }
         }
 
         // Destroy the capture provider
@@ -4071,9 +4089,9 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
             }
         });
 
-        if (prefConfig.usbDriver) {
+        if (prefConfig.usbDriver && !usbDriverBound) {
             // Start the USB driver
-            bindService(new Intent(this, UsbDriverService.class),
+            usbDriverBound = bindService(new Intent(this, UsbDriverService.class),
                     usbDriverServiceConnection, Service.BIND_AUTO_CREATE);
         }
 
