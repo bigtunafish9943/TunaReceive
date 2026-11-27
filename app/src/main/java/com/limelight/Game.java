@@ -277,6 +277,13 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     public static final String EXTRA_PC_UUID = "UUID";
     public static final String EXTRA_PC_NAME = "PcName";
     public static final String EXTRA_APP_HDR = "HDR";
+    /** Set by TunaHome's "PC in a corner": the stream shrinks to a corner as soon as it starts, muted. */
+    public static final String EXTRA_CORNER = "TunaCorner";
+    /** Corner controls TunaHome sends while the stream is in a corner. */
+    public static final String ACTION_CORNER_SOUND = "com.tunastream.receive.CORNER_SOUND";
+    public static final String ACTION_CORNER_SHRINK = "com.tunastream.receive.CORNER_SHRINK";
+    public static final String ACTION_CORNER_FULL = "com.tunastream.receive.CORNER_FULL";
+    public static final String ACTION_CORNER_CLOSE = "com.tunastream.receive.CORNER_CLOSE";
     public static final String EXTRA_SERVER_CERT = "ServerCert";
     public static final String EXTRA_VDISPLAY = "VirtualDisplay";
     public static final String EXTRA_SERVER_COMMANDS = "ServerCommands";
@@ -358,6 +365,20 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
 
         instance = this;
         timerHandler = new Handler(Looper.getMainLooper());
+
+        // PC in a corner (TunaHome): shrunk and muted once the stream is up
+        cornerStart = getIntent().getBooleanExtra(EXTRA_CORNER, false);
+        com.limelight.binding.audio.AndroidAudioRenderer.setMuted(cornerStart);
+        android.content.IntentFilter cornerFilter = new android.content.IntentFilter();
+        cornerFilter.addAction(ACTION_CORNER_SOUND);
+        cornerFilter.addAction(ACTION_CORNER_SHRINK);
+        cornerFilter.addAction(ACTION_CORNER_FULL);
+        cornerFilter.addAction(ACTION_CORNER_CLOSE);
+        if (Build.VERSION.SDK_INT >= 33) {
+            registerReceiver(cornerReceiver, cornerFilter, Context.RECEIVER_EXPORTED);
+        } else {
+            registerReceiver(cornerReceiver, cornerFilter);
+        }
 
         UiHelper.setLocale(this);
 
@@ -1394,6 +1415,17 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
             builder.setSeamlessResizeEnabled(true);
         }
 
+        // A sound button in the TV's picture-in-picture menu
+        boolean soundOff = com.limelight.binding.audio.AndroidAudioRenderer.isMuted();
+        android.app.PendingIntent soundIntent = android.app.PendingIntent.getBroadcast(this, 1,
+                new Intent(ACTION_CORNER_SOUND).setPackage(getPackageName()),
+                android.app.PendingIntent.FLAG_UPDATE_CURRENT | android.app.PendingIntent.FLAG_IMMUTABLE);
+        String soundLabel = getString(soundOff ? R.string.tuna_corner_sound_on : R.string.tuna_corner_mute);
+        builder.setActions(java.util.Collections.singletonList(new android.app.RemoteAction(
+                android.graphics.drawable.Icon.createWithResource(this,
+                        soundOff ? android.R.drawable.ic_lock_silent_mode_off : android.R.drawable.ic_lock_silent_mode),
+                soundLabel, soundLabel, soundIntent)));
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (appName != null) {
                 builder.setTitle(appName);
@@ -1446,6 +1478,68 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         com.limelight.utils.InvitePlayers.show(this, httpConn);
     }
 
+    private boolean cornerStart;
+    private boolean pipAutoEnterParam;
+
+    private boolean inCorner() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && isInPictureInPictureMode();
+    }
+
+    /** Corner controls from TunaHome (and the sound button in the picture-in-picture menu). */
+    private final android.content.BroadcastReceiver cornerReceiver = new android.content.BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action == null) {
+                return;
+            }
+            switch (action) {
+                case ACTION_CORNER_SOUND: {
+                    boolean soundOn = intent.hasExtra("on")
+                            ? intent.getBooleanExtra("on", true)
+                            : com.limelight.binding.audio.AndroidAudioRenderer.isMuted();
+                    com.limelight.binding.audio.AndroidAudioRenderer.setMuted(!soundOn);
+                    Toast.makeText(Game.this, soundOn ? R.string.tuna_corner_now_on : R.string.tuna_corner_now_off,
+                            Toast.LENGTH_SHORT).show();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && isInPictureInPictureMode()) {
+                        setPictureInPictureParams(getPictureInPictureParams(pipAutoEnterParam));
+                    }
+                    break;
+                }
+                case ACTION_CORNER_SHRINK:
+                    if (connected && !inCorner()) {
+                        enterPipNow();
+                    }
+                    break;
+                case ACTION_CORNER_FULL:
+                    // Starting the stream again brings the corner back to full screen
+                    if (inCorner()) {
+                        startActivity(new Intent(Game.this, Game.class).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                    }
+                    break;
+                case ACTION_CORNER_CLOSE:
+                    if (inCorner()) {
+                        finish();
+                    }
+                    break;
+            }
+        }
+    };
+
+    /** TunaHome asked for the corner while this stream was already on: shrink it, muted. */
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent.getBooleanExtra(EXTRA_CORNER, false)) {
+            com.limelight.binding.audio.AndroidAudioRenderer.setMuted(true);
+            if (connected) {
+                timerHandler.postDelayed(this::enterPipNow, 600);
+            } else {
+                cornerStart = true;
+            }
+        }
+    }
+
     /**
      * The quick menu's "Shrink to a corner": the stream keeps playing in a small window while
      * the TV is used for something else; selecting it brings it back. Works whether or not the
@@ -1473,6 +1567,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         }
 
         boolean autoEnter = connected && suppressPipRefCount == 0;
+        pipAutoEnterParam = autoEnter;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             setPictureInPictureParams(getPictureInPictureParams(autoEnter));
@@ -1839,6 +1934,10 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        try {
+            unregisterReceiver(cornerReceiver);
+        } catch (Exception ignored) {
+        }
         bedtime.removeCallbacksAndMessages(null);
 
         // Back to the usual settings once this game's stream is over
@@ -3923,6 +4022,12 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                     com.limelight.utils.RecentGames.recordPlayed(Game.this, getIntent().getStringExtra(EXTRA_PC_UUID), playedId);
                 }
                 updatePipAutoEnter();
+
+                if (cornerStart) {
+                    cornerStart = false;
+                    // A moment for the first picture, so the corner isn't black
+                    timerHandler.postDelayed(Game.this::enterPipNow, 600);
+                }
 
                 // For the first few streams, say how to reach the quick menu from the couch
                 if (prefConfig.enableBackMenu) {

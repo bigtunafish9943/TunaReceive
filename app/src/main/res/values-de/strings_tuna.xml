@@ -521,4 +521,8 @@
     <string name="tuna_test_driver_pad">8BitDo-Controller (über TunaReceive)</string>
     <string name="tuna_test_rest">Ruht bei %1$s</string>
     <string name="tuna_test_hint">Jede Taste leuchtet beim Drücken. Ein Stick, der über 0,10 ruht, driftet: Probier Stick-Drift beheben. Zurück auf der Fernbedienung oder B halten zum Verlassen.</string>
+    <string name="tuna_corner_sound_on">Ton an</string>
+    <string name="tuna_corner_mute">Stumm</string>
+    <string name="tuna_corner_now_on">Ton der Ecke an</string>
+    <string name="tuna_corner_now_off">Ecke stumm</string>
 </resources>

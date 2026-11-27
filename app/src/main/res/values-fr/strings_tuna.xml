@@ -524,4 +524,8 @@
     <string name="tuna_test_driver_pad">Manette 8BitDo (via TunaReceive)</string>
     <string name="tuna_test_rest">Au repos à %1$s</string>
     <string name="tuna_test_hint">Chaque bouton s\'allume quand on l\'appuie. Un stick qui se repose au-dessus de 0,10 dérive : essayez Corriger la dérive du stick. Retour sur la télécommande, ou maintenez B, pour quitter.</string>
+    <string name="tuna_corner_sound_on">Son activé</string>
+    <string name="tuna_corner_mute">Couper le son</string>
+    <string name="tuna_corner_now_on">Son du coin activé</string>
+    <string name="tuna_corner_now_off">Coin en sourdine</string>
 </resources>

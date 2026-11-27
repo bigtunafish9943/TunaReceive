@@ -536,4 +536,8 @@
     <string name="tuna_test_driver_pad">8BitDo controller (through TunaReceive)</string>
     <string name="tuna_test_rest">Rests at %1$s</string>
     <string name="tuna_test_hint">Every button lights up as it\'s pressed. A stick that rests above 0.10 drifts: try Fix stick drift. Back on the remote, or hold B, to leave.</string>
+    <string name="tuna_corner_sound_on">Sound on</string>
+    <string name="tuna_corner_mute">Mute</string>
+    <string name="tuna_corner_now_on">Corner sound on</string>
+    <string name="tuna_corner_now_off">Corner muted</string>
 </resources>

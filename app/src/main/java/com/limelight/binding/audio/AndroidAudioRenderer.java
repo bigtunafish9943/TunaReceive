@@ -20,6 +20,26 @@ public class AndroidAudioRenderer implements AudioRenderer {
 
     private AudioTrack track;
 
+    // The stream's sound can be turned off and on while it plays, e.g. in a corner window over
+    // another app's show (TunaHome's PC in a corner starts it off)
+    private static volatile boolean muted;
+    private static volatile AudioTrack live;
+
+    public static void setMuted(boolean on) {
+        muted = on;
+        AudioTrack t = live;
+        if (t != null) {
+            try {
+                t.setVolume(on ? 0f : 1f);
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+    public static boolean isMuted() {
+        return muted;
+    }
+
     // A sound buffer that grows by itself. The track is made with room for MAX_PACKETS packets
     // but starts out using two, the least delay. Each time the device reports that the sound ran
     // dry (Wi-Fi delivered a packet a little late), it uses one more packet's worth, up to the
@@ -183,6 +203,10 @@ public class AndroidAudioRenderer implements AudioRenderer {
                     lastUnderruns = track.getUnderrunCount();
                 }
                 track.play();
+                live = track;
+                if (muted) {
+                    track.setVolume(0f);
+                }
 
                 // Successfully created working AudioTrack. We're done here.
                 LimeLog.info("Audio track configuration: "+bufferSize+" "+lowLatency+
@@ -267,6 +291,7 @@ public class AndroidAudioRenderer implements AudioRenderer {
 
     @Override
     public void cleanup() {
+        live = null;
         // Immediately drop all pending data
         track.pause();
         track.flush();

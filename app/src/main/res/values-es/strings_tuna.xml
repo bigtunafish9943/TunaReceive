@@ -524,4 +524,8 @@
     <string name="tuna_test_driver_pad">Mando 8BitDo (a través de TunaReceive)</string>
     <string name="tuna_test_rest">En reposo a %1$s</string>
     <string name="tuna_test_hint">Cada botón se ilumina al pulsarlo. Un stick que reposa por encima de 0,10 tiene deriva: prueba Corregir la deriva del stick. Atrás en el mando a distancia, o mantén B, para salir.</string>
+    <string name="tuna_corner_sound_on">Activar sonido</string>
+    <string name="tuna_corner_mute">Silenciar</string>
+    <string name="tuna_corner_now_on">Sonido de la esquina activado</string>
+    <string name="tuna_corner_now_off">Esquina silenciada</string>
 </resources>

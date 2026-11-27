@@ -146,7 +146,8 @@ public class ShortcutTrampoline extends AppCompatActivity {
                                             // Launch game if provided app ID, otherwise launch app view
                                             if (app != null) {
                                                 if (details.runningGameId == 0 || details.runningGameId == app.getAppId() || Objects.equals(details.runningGameUUID, app.getAppUUID())) {
-                                                    intentStack.add(ServerHelper.createStartIntent(ShortcutTrampoline.this, app, details, managerBinder, prefConfig.useVirtualDisplay));
+                                                    intentStack.add(ServerHelper.createStartIntent(ShortcutTrampoline.this, app, details, managerBinder, prefConfig.useVirtualDisplay)
+                                                            .putExtra(Game.EXTRA_CORNER, getIntent().getBooleanExtra(Game.EXTRA_CORNER, false)));
 
                                                     // Close this activity
                                                     finish();
@@ -157,6 +158,7 @@ public class ShortcutTrampoline extends AppCompatActivity {
                                                     // Create the start intent immediately, so we can safely unbind the managerBinder
                                                     // below before we return.
                                                     final Intent startIntent = ServerHelper.createStartIntent(ShortcutTrampoline.this, app, details, managerBinder, prefConfig.useVirtualDisplay);
+                                                    startIntent.putExtra(Game.EXTRA_CORNER, getIntent().getBooleanExtra(Game.EXTRA_CORNER, false));
 
                                                     UiHelper.displayQuitConfirmationDialog(ShortcutTrampoline.this, new Runnable() {
                                                         @Override

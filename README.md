@@ -87,6 +87,10 @@ Works with TunaStream; everything above needs TunaStream 1.0. Split-frame encodi
 - **Shrink to a corner.** *Shrink to a corner* in the quick menu keeps the stream playing in a small window while
   you use the TV for something else (pick a show, check a score); select it to bring it back full screen. The
   controller goes back to the TV meanwhile.
+- **Two shows at once.** TunaHome's *PC in a corner* starts a PC app straight into the corner, muted, so the TV's own
+  app (Paramount+, say) keeps the sound; add the show you want as a website in TunaStream (Apps > *Add a website*)
+  and it plays in the PC's browser, in the corner. *Sound on* / *Mute* is in the TV's picture-in-picture menu, and
+  TunaHome's corner menu has sound, full screen and close.
 - **Screenshots and instant replay.** View + R1 saves a screenshot, here in Pictures/TunaReceive and on the PC.
   View + L1 asks the PC to save the last 30 seconds as a clip. Both are in the quick menu too.
 - **Controller shortcuts your way.** Settings > Controller shortcuts: pick one and press the buttons you want on
