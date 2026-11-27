@@ -66,6 +66,9 @@ Works with TunaStream; everything above needs TunaStream 1.0. Split-frame encodi
 - **Fix stick drift** (off unless turned on). When a worn stick rests near the centre for a moment, its resting
   spot becomes the new centre, so the camera stops creeping. Unlike a bigger deadzone, small movements still
   count and full tilt still reaches the edge.
+- **Pause before a controller goes flat.** A warning when a controller's battery reaches 15%, and at 4% the game
+  is paused (Esc) so a dying battery doesn't cost you a fight. Works for any controller that reports its battery
+  (SHIELD, Xbox, PlayStation and 8BitDo's adapter through TunaReceive). Settings can turn it off.
 - **Check my controller** in Settings shows what the controller is, how it is connected and whether it can rumble,
   with the fix when something's wrong. On the PC, *Rumble now* on TunaStream's Troubleshooting page buzzes it
   directly.

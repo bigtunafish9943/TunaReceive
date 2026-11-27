@@ -142,10 +142,13 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
     private final boolean homeHoldMenu;
     private short currentControllers, initialControllers;
 
+    private final com.limelight.utils.LowBattery lowBattery;
+
     public ControllerHandler(Activity activityContext, NvConnection conn, GameGestures gestures, PreferenceConfiguration prefConfig) {
         this.activityContext = activityContext;
         this.conn = conn;
         this.gestures = gestures;
+        this.lowBattery = new com.limelight.utils.LowBattery(activityContext, conn);
         this.prefConfig = prefConfig;
         this.shortcuts = new com.limelight.utils.Shortcuts.Active(activityContext);
         this.homeHoldMenu = prefConfig.enableBackMenu && shortcuts.menuOnHomeHold;
@@ -1235,6 +1238,7 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
             }
 
             conn.sendControllerBatteryEvent((byte)context.controllerNumber, state, percentage);
+            lowBattery.note(context.controllerNumber, state, percentage);
 
             context.lastReportedBatteryStatus = currentBatteryStatus;
             context.lastReportedBatteryCapacity = currentBatteryCapacity;
@@ -3157,6 +3161,7 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
         }
 
         conn.sendControllerBatteryEvent((byte)context.controllerNumber, state, percent);
+        lowBattery.note(context.controllerNumber, state, percent);
     }
 
     @Override

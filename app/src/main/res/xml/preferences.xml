@@ -385,6 +385,12 @@
             android:title="@string/title_checkbox_usb_menus"
             app:iconSpaceReserved="false" />
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="checkbox_low_battery_save"
+            android:summary="@string/tuna_battery_save_summary"
+            android:title="@string/tuna_battery_save_title"
+            app:iconSpaceReserved="false" />
+        <CheckBoxPreference
             android:defaultValue="false"
             android:dependency="checkbox_usb_driver"
             android:key="checkbox_usb_bind_all"

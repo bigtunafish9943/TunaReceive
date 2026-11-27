@@ -527,4 +527,8 @@
         <item quantity="one">%d minute</item>
         <item quantity="other">%d minutes</item>
     </plurals>
+    <string name="tuna_battery_save_title">Pause before a controller goes flat</string>
+    <string name="tuna_battery_save_summary">A warning at 15%, and the game paused at 4% so a flat battery doesn\'t cost a fight</string>
+    <string name="tuna_battery_low">Player %1$d\'s controller battery is low (%2$d%%)</string>
+    <string name="tuna_battery_pause">Player %1$d\'s controller is almost flat (%2$d%%): the game is paused. Plug it in or swap batteries.</string>
 </resources>

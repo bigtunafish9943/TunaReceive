@@ -515,4 +515,8 @@
         <item quantity="one">%d minuto</item>
         <item quantity="other">%d minutos</item>
     </plurals>
+    <string name="tuna_battery_save_title">Pausar antes de que un mando se quede sin batería</string>
+    <string name="tuna_battery_save_summary">Un aviso al 15 % y el juego en pausa al 4 %, para que una batería agotada no cueste un combate</string>
+    <string name="tuna_battery_low">La batería del mando del jugador %1$d está baja (%2$d %%)</string>
+    <string name="tuna_battery_pause">El mando del jugador %1$d está casi sin batería (%2$d %%): el juego está en pausa. Conéctalo o cambia las pilas.</string>
 </resources>

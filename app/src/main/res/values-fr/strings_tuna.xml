@@ -515,4 +515,8 @@
         <item quantity="one">%d minute</item>
         <item quantity="other">%d minutes</item>
     </plurals>
+    <string name="tuna_battery_save_title">Pause avant qu\'une manette soit à plat</string>
+    <string name="tuna_battery_save_summary">Un avertissement à 15 %, et le jeu mis en pause à 4 % pour qu\'une batterie vide ne coûte pas un combat</string>
+    <string name="tuna_battery_low">La batterie de la manette du joueur %1$d est faible (%2$d %%)</string>
+    <string name="tuna_battery_pause">La manette du joueur %1$d est presque à plat (%2$d %%) : le jeu est en pause. Branchez-la ou changez les piles.</string>
 </resources>
