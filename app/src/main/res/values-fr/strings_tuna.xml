@@ -500,4 +500,19 @@
     <string name="tuna_invite_note">Scannez avec un téléphone sur ce Wi-Fi : il devient une manette pour ce jeu. Jusqu\'à quatre téléphones ; le code marche 12 heures.</string>
     <string name="tuna_invite_failed">Impossible de créer un lien de joueur. Vérifiez que le PC est allumé.</string>
     <string name="tuna_invite_update">Mettez à jour TunaStream sur le PC pour inviter des joueurs d\'ici.</string>
+    <string name="tuna_bedtime_menu">Minuteur du coucher</string>
+    <string name="tuna_bedtime_menu_left">Minuteur du coucher : encore %1$d min</string>
+    <string name="tuna_bedtime_title">Mettre en pause et quitter dans</string>
+    <string name="tuna_bedtime_cancel">Arrêter le minuteur</string>
+    <string name="tuna_bedtime_off">Minuteur du coucher arrêté</string>
+    <string name="tuna_bedtime_warning">Coucher dans 5 minutes : c\'est le moment de sauvegarder.</string>
+    <string name="tuna_bedtime_now">Coucher : le jeu est mis en pause et quitté. Il reste ouvert sur le PC.</string>
+    <plurals name="tuna_bedtime_set">
+        <item quantity="one">Coucher dans %d minute</item>
+        <item quantity="other">Coucher dans %d minutes</item>
+    </plurals>
+    <plurals name="tuna_bedtime_choice">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
 </resources>

@@ -185,6 +185,20 @@ public class GameMenu implements Game.GameMenuCallbacks {
         showMenuDialog(getString(R.string.tuna_quality_title), options.toArray(new MenuOption[0]));
     }
 
+    /** Bedtime timer: off, or how long until the game is paused and the stream left. */
+    private void showBedtimeMenu() {
+        List<MenuOption> options = new ArrayList<>();
+        for (final int minutes : new int[]{15, 30, 45, 60, 90, 120}) {
+            options.add(new MenuOption(game.getResources().getQuantityString(R.plurals.tuna_bedtime_choice, minutes, minutes),
+                    true, () -> game.setBedtime(minutes)));
+        }
+        if (game.bedtimeLeft() > 0) {
+            options.add(new MenuOption(getString(R.string.tuna_bedtime_cancel), true, () -> game.setBedtime(0)));
+        }
+        options.add(new MenuOption(getString(R.string.game_menu_cancel), null));
+        showMenuDialog(getString(R.string.tuna_bedtime_title), options.toArray(new MenuOption[0]));
+    }
+
     private void showSpecialKeysMenu() {
         List<MenuOption> options = new ArrayList<>();
 
@@ -377,6 +391,9 @@ public class GameMenu implements Game.GameMenuCallbacks {
 
         options.add(new MenuOption(getString(R.string.tuna_pip_menu), true, game::enterPipNow));
         options.add(new MenuOption(getString(R.string.tuna_invite_menu), true, game::invitePlayers));
+        int bedtimeLeft = game.bedtimeLeft();
+        options.add(new MenuOption(bedtimeLeft > 0 ? getString(R.string.tuna_bedtime_menu_left, bedtimeLeft)
+                : getString(R.string.tuna_bedtime_menu), this::showBedtimeMenu));
 
         options.add(new MenuOption(getString(R.string.game_menu_upload_clipboard), true,
                 () -> game.sendClipboard(true)));

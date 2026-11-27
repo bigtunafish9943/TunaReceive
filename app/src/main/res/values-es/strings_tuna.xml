@@ -500,4 +500,19 @@
     <string name="tuna_invite_note">Escanéalo con un teléfono en esta Wi-Fi: se convierte en un mando para este juego. Hasta cuatro teléfonos; el código sirve 12 horas.</string>
     <string name="tuna_invite_failed">No se pudo crear un enlace de jugador. Comprueba que el PC esté encendido.</string>
     <string name="tuna_invite_update">Actualiza TunaStream en el PC para invitar jugadores desde aquí.</string>
+    <string name="tuna_bedtime_menu">Temporizador de dormir</string>
+    <string name="tuna_bedtime_menu_left">Temporizador de dormir: quedan %1$d min</string>
+    <string name="tuna_bedtime_title">Pausar el juego y salir en</string>
+    <string name="tuna_bedtime_cancel">Apagar el temporizador</string>
+    <string name="tuna_bedtime_off">Temporizador de dormir apagado</string>
+    <string name="tuna_bedtime_warning">A dormir en 5 minutos: busca un punto de guardado.</string>
+    <string name="tuna_bedtime_now">A dormir: se pausa el juego y se sale. Sigue abierto en el PC.</string>
+    <plurals name="tuna_bedtime_set">
+        <item quantity="one">A dormir en %d minuto</item>
+        <item quantity="other">A dormir en %d minutos</item>
+    </plurals>
+    <plurals name="tuna_bedtime_choice">
+        <item quantity="one">%d minuto</item>
+        <item quantity="other">%d minutos</item>
+    </plurals>
 </resources>

@@ -497,4 +497,19 @@
     <string name="tuna_invite_note">Mit einem Handy in diesem WLAN scannen: Es wird ein Controller für dieses Spiel. Bis zu vier Handys; der Code gilt 12 Stunden.</string>
     <string name="tuna_invite_failed">Kein Spielerlink möglich. Ist der PC an?</string>
     <string name="tuna_invite_update">Aktualisiere TunaStream auf dem PC, um von hier Mitspieler einzuladen.</string>
+    <string name="tuna_bedtime_menu">Schlafenszeit-Timer</string>
+    <string name="tuna_bedtime_menu_left">Schlafenszeit-Timer: noch %1$d Min.</string>
+    <string name="tuna_bedtime_title">Spiel pausieren und verlassen in</string>
+    <string name="tuna_bedtime_cancel">Timer ausschalten</string>
+    <string name="tuna_bedtime_off">Schlafenszeit-Timer aus</string>
+    <string name="tuna_bedtime_warning">Schlafenszeit in 5 Minuten: Zeit für einen Speicherpunkt.</string>
+    <string name="tuna_bedtime_now">Schlafenszeit: Das Spiel wird pausiert und verlassen. Es bleibt am PC offen.</string>
+    <plurals name="tuna_bedtime_set">
+        <item quantity="one">Schlafenszeit in %d Minute</item>
+        <item quantity="other">Schlafenszeit in %d Minuten</item>
+    </plurals>
+    <plurals name="tuna_bedtime_choice">
+        <item quantity="one">%d Minute</item>
+        <item quantity="other">%d Minuten</item>
+    </plurals>
 </resources>

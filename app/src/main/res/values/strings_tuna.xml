@@ -512,4 +512,19 @@
     <string name="tuna_invite_note">Scan with a phone on this Wi-Fi: it becomes a controller for this game. Up to four phones; the code works for 12 hours.</string>
     <string name="tuna_invite_failed">Couldn\'t make a player link. Check the PC is on.</string>
     <string name="tuna_invite_update">Update TunaStream on the PC to invite players from here.</string>
+    <string name="tuna_bedtime_menu">Bedtime timer</string>
+    <string name="tuna_bedtime_menu_left">Bedtime timer: %1$d min left</string>
+    <string name="tuna_bedtime_title">Pause the game and leave in</string>
+    <string name="tuna_bedtime_cancel">Turn the timer off</string>
+    <string name="tuna_bedtime_off">Bedtime timer off</string>
+    <string name="tuna_bedtime_warning">Bedtime in 5 minutes: time to find a save point.</string>
+    <string name="tuna_bedtime_now">Bedtime: pausing the game and leaving. It stays open on the PC.</string>
+    <plurals name="tuna_bedtime_set">
+        <item quantity="one">Bedtime in %d minute</item>
+        <item quantity="other">Bedtime in %d minutes</item>
+    </plurals>
+    <plurals name="tuna_bedtime_choice">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
 </resources>

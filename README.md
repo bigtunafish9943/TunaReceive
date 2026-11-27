@@ -72,6 +72,9 @@ Works with TunaStream; everything above needs TunaStream 1.0. Split-frame encodi
 
 ### Fun on the couch
 
+- **Bedtime timer.** *Bedtime timer* in the quick menu: after 15 minutes to 2 hours (with a warning five minutes
+  before, to find a save point) the game is paused and the stream left, so the game is still open on the PC for
+  next time.
 - **Invite players.** *Invite players* in the quick menu shows a QR code on the TV; friends scan it with their
   phones and each phone becomes a controller in the game (up to four, with rumble where the phone vibrates). Needs
   the latest TunaStream.

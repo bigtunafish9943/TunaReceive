@@ -1409,6 +1409,38 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         return builder.build();
     }
 
+    // Bedtime timer: a warning five minutes before, then the game is paused (Esc) and the stream left
+    private final Handler bedtime = new Handler(Looper.getMainLooper());
+    private long bedtimeAt;
+
+    /** Minutes left on the bedtime timer, or 0 when it's off. */
+    public int bedtimeLeft() {
+        if (bedtimeAt == 0) return 0;
+        return (int) Math.max(1, (bedtimeAt - SystemClock.elapsedRealtime() + 59_999) / 60_000);
+    }
+
+    public void setBedtime(int minutes) {
+        bedtime.removeCallbacksAndMessages(null);
+        if (minutes <= 0) {
+            bedtimeAt = 0;
+            Toast.makeText(this, R.string.tuna_bedtime_off, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        bedtimeAt = SystemClock.elapsedRealtime() + minutes * 60_000L;
+        Toast.makeText(this, getResources().getQuantityString(R.plurals.tuna_bedtime_set, minutes, minutes), Toast.LENGTH_LONG).show();
+        if (minutes > 5) {
+            bedtime.postDelayed(() -> Toast.makeText(this, R.string.tuna_bedtime_warning, Toast.LENGTH_LONG).show(),
+                    (minutes - 5) * 60_000L);
+        }
+        bedtime.postDelayed(() -> {
+            bedtimeAt = 0;
+            Toast.makeText(this, R.string.tuna_bedtime_now, Toast.LENGTH_LONG).show();
+            // Most games pause on Esc; the game stays running on the PC for next time
+            sendKeys(new short[]{KeyboardTranslator.VK_ESCAPE});
+            bedtime.postDelayed(this::disconnect, 3000);
+        }, minutes * 60_000L);
+    }
+
     /** The quick menu's "Invite players": a QR code for friends' phones to join as controllers. */
     public void invitePlayers() {
         com.limelight.utils.InvitePlayers.show(this, httpConn);
@@ -1807,6 +1839,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        bedtime.removeCallbacksAndMessages(null);
 
         // Back to the usual settings once this game's stream is over
         com.limelight.utils.GameProfiles.endStream();
