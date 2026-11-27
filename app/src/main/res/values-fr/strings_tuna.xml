@@ -528,4 +528,6 @@
     <string name="tuna_corner_mute">Couper le son</string>
     <string name="tuna_corner_now_on">Son du coin activé</string>
     <string name="tuna_corner_now_off">Coin en sourdine</string>
+    <string name="tuna_adapter_mended">Votre adaptateur 8BitDo était resté sans pilote. C\'est réparé : la manette fonctionne à nouveau.</string>
+    <string name="tuna_adapter_unplug">Votre adaptateur 8BitDo ne fonctionne pas : débranchez-le de la TV et rebranchez-le une fois.</string>
 </resources>

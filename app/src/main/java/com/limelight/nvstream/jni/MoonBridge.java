@@ -358,6 +358,9 @@ public class MoonBridge {
     /** Like reattachUsbKernelDriver, without the reset if the system has no driver to put back. */
     public static native boolean reconnectUsbKernelDriver(int fd, int iface);
 
+    /** Resets a USB device, so the system sets it up again from scratch (its drivers included). */
+    public static native boolean resetUsbDevice(int fd);
+
     public static native void interruptConnection();
 
     public static native void sendExecServerCmd(int cmdId);

@@ -540,4 +540,6 @@
     <string name="tuna_corner_mute">Mute</string>
     <string name="tuna_corner_now_on">Corner sound on</string>
     <string name="tuna_corner_now_off">Corner muted</string>
+    <string name="tuna_adapter_mended">Your 8BitDo adapter had been left without a driver. It\'s fixed: the controller works again.</string>
+    <string name="tuna_adapter_unplug">Your 8BitDo adapter isn\'t working: unplug it from the TV and plug it back in once.</string>
 </resources>

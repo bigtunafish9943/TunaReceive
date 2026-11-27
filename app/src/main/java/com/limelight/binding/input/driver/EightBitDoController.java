@@ -93,6 +93,58 @@ public class EightBitDoController extends AbstractController {
     }
 
     @Override
+    /** How many adapters TunaReceive is driving right now (AdapterDoctor leaves those alone). */
+    public static final java.util.concurrent.atomic.AtomicInteger active = new java.util.concurrent.atomic.AtomicInteger();
+
+    /** Whether Android has the adapter as one of its own input devices (its driver is on it). */
+    public static boolean androidHasIt() {
+        for (int id : android.view.InputDevice.getDeviceIds()) {
+            android.view.InputDevice dev = android.view.InputDevice.getDevice(id);
+            if (dev != null && dev.getVendorId() == VENDOR_8BITDO && dev.getProductId() == PRODUCT_ULTIMATE2_WIRELESS) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Gives the adapter back to Android's own driver after TunaReceive let go of it, then checks
+     * Android really has it again; if not, the adapter is reset so Android sets it up from scratch.
+     * Closes the connection when done (on its own thread: it waits a moment for Android).
+     */
+    public static void giveBack(final UsbDeviceConnection connection, final int ifaceId) {
+        boolean connected = false;
+        try {
+            connected = com.limelight.nvstream.jni.MoonBridge.reconnectUsbKernelDriver(connection.getFileDescriptor(), ifaceId);
+        } catch (Throwable t) {
+            LimeLog.warning("8BitDo: couldn't ask for Android's driver: " + t);
+        }
+        LimeLog.info("8BitDo: Android's driver asked back" + (connected ? "" : " (refused)"));
+        final boolean asked = connected;
+        new Thread(() -> {
+            try {
+                long until = SystemClock.uptimeMillis() + 2500;
+                while (asked && !androidHasIt() && SystemClock.uptimeMillis() < until) {
+                    Thread.sleep(250);
+                }
+                if (!androidHasIt()) {
+                    boolean reset = false;
+                    try {
+                        reset = com.limelight.nvstream.jni.MoonBridge.resetUsbDevice(connection.getFileDescriptor());
+                    } catch (Throwable t) {
+                        LimeLog.warning("8BitDo: reset failed: " + t);
+                    }
+                    LimeLog.warning("8BitDo: Android didn't take the adapter back; " + (reset ? "reset it" : "reset refused"));
+                } else {
+                    LimeLog.info("8BitDo: Android has the adapter again");
+                }
+            } catch (InterruptedException ignored) {
+            } finally {
+                connection.close();
+            }
+        }, "8BitDo give back").start();
+    }
+
     public boolean start() {
         iface = device.getInterface(0);
         // Takes the gamepad away from Android's own HID driver, which can't rumble it
@@ -114,8 +166,15 @@ public class EightBitDoController extends AbstractController {
         if (inEndpt == null) {
             LimeLog.warning("8BitDo: no input endpoint");
             connection.releaseInterface(iface);
+            // Not ours after all: Android's driver goes back on (the caller closes the connection)
+            try {
+                com.limelight.nvstream.jni.MoonBridge.reattachUsbKernelDriver(connection.getFileDescriptor(), iface.getId());
+            } catch (Throwable t) {
+                LimeLog.warning("8BitDo: couldn't give the adapter back to Android: " + t);
+            }
             return false;
         }
+        active.incrementAndGet();
 
         inputThread = new Thread(this::readLoop, "8BitDo input");
         inputThread.start();
@@ -384,19 +443,16 @@ public class EightBitDoController extends AbstractController {
             inputThread.interrupt();
             inputThread = null;
         }
-        if (iface != null) {
+        if (iface != null && inEndpt != null) {
+            active.decrementAndGet();
             connection.releaseInterface(iface);
             // Give the adapter back to Android's own driver: letting go alone leaves it with
-            // none, and the controller then works nowhere (not even TunaHome) until unplugged
-            try {
-                if (!com.limelight.nvstream.jni.MoonBridge.reattachUsbKernelDriver(connection.getFileDescriptor(), iface.getId())) {
-                    LimeLog.warning("8BitDo: couldn't give the adapter back to Android");
-                }
-            } catch (Throwable t) {
-                LimeLog.warning("8BitDo: couldn't give the adapter back to Android: " + t);
-            }
+            // none, and the controller then works nowhere (not even TunaHome) until unplugged.
+            // giveBack closes the connection once Android has it.
+            giveBack(connection, iface.getId());
+        } else {
+            connection.close();
         }
-        connection.close();
         notifyDeviceRemoved();
     }
 }

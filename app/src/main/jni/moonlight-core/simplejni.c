@@ -299,3 +299,8 @@ Java_com_limelight_nvstream_jni_MoonBridge_reconnectUsbKernelDriver(JNIEnv *env,
     command.data = NULL;
     return ioctl(fd, USBDEVFS_IOCTL, &command) >= 0 ? JNI_TRUE : JNI_FALSE;
 }
+
+JNIEXPORT jboolean JNICALL
+Java_com_limelight_nvstream_jni_MoonBridge_resetUsbDevice(JNIEnv *env, jclass clazz, jint fd) {
+    return ioctl(fd, USBDEVFS_RESET, 0) >= 0 ? JNI_TRUE : JNI_FALSE;
+}

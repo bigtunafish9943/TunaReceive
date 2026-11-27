@@ -22,7 +22,6 @@ import com.limelight.utils.Dialog;
 import com.limelight.utils.ServerHelper;
 import com.limelight.utils.FileReceiver;
 import com.limelight.utils.ShortcutHelper;
-import com.limelight.utils.UsbMenuNavigation;
 import com.limelight.utils.SpinnerDialog;
 import com.limelight.utils.UiHelper;
 
@@ -59,7 +58,6 @@ import org.xmlpull.v1.XmlPullParserException;
 
 public class AppView extends AppCompatActivity implements AdapterFragmentCallbacks {
     // Lets a controller only TunaReceive's USB driver can read (8BitDo 2.4G adapter) move around this screen
-    private UsbMenuNavigation usbMenu;
 
     private AppGridAdapter appGridAdapter;
     private String uuidString;
@@ -309,7 +307,6 @@ public class AppView extends AppCompatActivity implements AdapterFragmentCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        usbMenu = new UsbMenuNavigation(this);
 
         // Assume we're in the foreground when created to avoid a race
         // between binding to CMS and onResume()
@@ -402,7 +399,6 @@ public class AppView extends AppCompatActivity implements AdapterFragmentCallbac
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        usbMenu.destroy();
 
         SpinnerDialog.closeDialogs(this);
         Dialog.closeDialogs();
@@ -461,7 +457,6 @@ public class AppView extends AppCompatActivity implements AdapterFragmentCallbac
         super.onResume();
         // After an update: what changed, once
         com.limelight.utils.WhatsNew.maybeShow(this);
-        usbMenu.resume();
 
         // Display a decoder crash notification if we've returned after a crash
         UiHelper.showDecoderCrashDialog(this);
@@ -495,7 +490,6 @@ public class AppView extends AppCompatActivity implements AdapterFragmentCallbac
     @Override
     protected void onPause() {
         super.onPause();
-        usbMenu.pause();
 
         inForeground = false;
         stopComputerUpdates();

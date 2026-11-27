@@ -29,8 +29,9 @@ import com.limelight.nvstream.input.ControllerPacket;
  * adapter is TunaReceive's, and its D-pad, left stick and buttons move around the screens like
  * a remote. A game screen takes the controller over from here as before.
  *
- * Settings > "Controllers in TunaReceive's menus" turns this off, leaving the adapter to
- * Android outside a game.
+ * Settings > "Controllers in TunaReceive's menus" turns this on; it's off unless chosen, which
+ * leaves the adapter to Android outside a game (Android runs it as a controller everywhere). The
+ * adapter is let go once no TunaReceive screen is in front, so Android has it back elsewhere.
  */
 public class MenuControllerBridge implements Application.ActivityLifecycleCallbacks, UsbDriverListener {
     public static final String PREF = "checkbox_usb_menus";
@@ -49,6 +50,7 @@ public class MenuControllerBridge implements Application.ActivityLifecycleCallba
     /** The TunaReceive screen in front, other than a game; null when none is. */
     private volatile Activity front;
     private boolean bound;
+    private UsbDriverService.UsbDriverBinder binder;
 
     private static final class Pad {
         int buttons;
@@ -66,7 +68,7 @@ public class MenuControllerBridge implements Application.ActivityLifecycleCallba
             if (!bound) {
                 return;
             }
-            UsbDriverService.UsbDriverBinder binder = (UsbDriverService.UsbDriverBinder) service;
+            binder = (UsbDriverService.UsbDriverBinder) service;
             binder.setListener(MenuControllerBridge.this);
             binder.setClaimForRumble(true);
             binder.start();
@@ -74,6 +76,7 @@ public class MenuControllerBridge implements Application.ActivityLifecycleCallba
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
+            binder = null;
         }
     };
 
@@ -87,12 +90,18 @@ public class MenuControllerBridge implements Application.ActivityLifecycleCallba
     }
 
     public static void install(Application app) {
+        // Off from now on unless chosen again: holding the adapter in the menus is what left it
+        // with no driver when TunaReceive was closed, and Android runs it fine outside a game
+        android.content.SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(app);
+        if (!prefs.getBoolean("tuna_usb_menus_reset", false)) {
+            prefs.edit().putBoolean(PREF, false).putBoolean("tuna_usb_menus_reset", true).apply();
+        }
         app.registerActivityLifecycleCallbacks(new MenuControllerBridge(app));
     }
 
     private boolean wanted() {
         android.content.SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(app);
-        return prefs.getBoolean("checkbox_usb_driver", true) && prefs.getBoolean(PREF, true);
+        return prefs.getBoolean("checkbox_usb_driver", true) && prefs.getBoolean(PREF, false);
     }
 
     private void bind() {
@@ -114,6 +123,7 @@ public class MenuControllerBridge implements Application.ActivityLifecycleCallba
             return;
         }
         bound = false;
+        binder = null;
         stopRepeat();
         synchronized (pads) {
             pads.clear();
@@ -142,6 +152,10 @@ public class MenuControllerBridge implements Application.ActivityLifecycleCallba
         }
         front = activity;
         bind();
+        // Back from a game, which had the controller: it's this screen's again
+        if (binder != null) {
+            binder.setListener(this);
+        }
     }
 
     @Override

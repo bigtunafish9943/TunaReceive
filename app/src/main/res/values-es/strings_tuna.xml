@@ -528,4 +528,6 @@
     <string name="tuna_corner_mute">Silenciar</string>
     <string name="tuna_corner_now_on">Sonido de la esquina activado</string>
     <string name="tuna_corner_now_off">Esquina silenciada</string>
+    <string name="tuna_adapter_mended">Tu adaptador 8BitDo se había quedado sin controlador. Ya está arreglado: el mando vuelve a funcionar.</string>
+    <string name="tuna_adapter_unplug">Tu adaptador 8BitDo no funciona: desconéctalo de la TV y vuelve a conectarlo una vez.</string>
 </resources>

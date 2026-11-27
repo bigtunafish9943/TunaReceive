@@ -34,7 +34,6 @@ import com.limelight.utils.FileReceiver;
 import com.limelight.utils.ScreenRepair;
 import com.limelight.utils.StreamReport;
 import com.limelight.utils.ShortcutHelper;
-import com.limelight.utils.UsbMenuNavigation;
 import com.limelight.utils.TunaUpdater;
 import com.limelight.utils.TunaTheme;
 import com.limelight.utils.UiHelper;
@@ -83,7 +82,6 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class PcView extends AppCompatActivity implements AdapterFragmentCallbacks {
     // Lets a controller only TunaReceive's USB driver can read (8BitDo 2.4G adapter) move around this screen
-    private UsbMenuNavigation usbMenu;
 
     private View noPcFoundLayout;
     private PcGridAdapter pcGridAdapter;
@@ -236,7 +234,6 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        usbMenu = new UsbMenuNavigation(this);
 
         // Assume we're in the foreground when created to avoid a race
         // between binding to CMS and onResume()
@@ -397,7 +394,6 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
     @Override
     public void onDestroy() {
         super.onDestroy();
-        usbMenu.destroy();
 
         if (managerBinder != null) {
             unbindService(serviceConnection);
@@ -409,7 +405,8 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
         super.onResume();
         // After an update: what changed, once
         com.limelight.utils.WhatsNew.maybeShow(this);
-        usbMenu.resume();
+        // An 8BitDo adapter left with no driver (by an older TunaReceive, or a crash) is mended
+        com.limelight.utils.AdapterDoctor.check(this);
 
         // Display a decoder crash notification if we've returned after a crash
         UiHelper.showDecoderCrashDialog(this);
@@ -426,7 +423,6 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
     @Override
     protected void onPause() {
         super.onPause();
-        usbMenu.pause();
 
         inForeground = false;
         stopWaking();

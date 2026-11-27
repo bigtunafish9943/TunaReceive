@@ -525,4 +525,6 @@
     <string name="tuna_corner_mute">Stumm</string>
     <string name="tuna_corner_now_on">Ton der Ecke an</string>
     <string name="tuna_corner_now_off">Ecke stumm</string>
+    <string name="tuna_adapter_mended">Dein 8BitDo-Adapter hatte keinen Treiber mehr. Behoben: Der Controller funktioniert wieder.</string>
+    <string name="tuna_adapter_unplug">Dein 8BitDo-Adapter funktioniert nicht: Zieh ihn einmal vom Fernseher ab und steck ihn wieder ein.</string>
 </resources>
